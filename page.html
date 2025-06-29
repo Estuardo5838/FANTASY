@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fantasy Outlier | Professional Fantasy Analytics</title>
+    <title>Fantasy Outlier | Elite Fantasy Analytics Platform</title>
     
     <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
         * {
             margin: 0;
@@ -25,7 +23,9 @@
             --bg-secondary: #111111;
             --bg-card: #1a1a1a;
             --bg-hover: #222222;
+            --bg-glass: rgba(26, 26, 26, 0.8);
             --border: #2a2a2a;
+            --border-hover: #3a3a3a;
             --text-primary: #ffffff;
             --text-secondary: #888888;
             --text-tertiary: #666666;
@@ -33,56 +33,62 @@
             --accent-red: #ff3366;
             --accent-blue: #0088ff;
             --accent-yellow: #ffcc00;
+            --accent-purple: #9333ea;
+            --accent-orange: #ff8800;
             --gradient-green: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
-            --gradient-red: linear-gradient(135deg, #ff3366 0%, #ff0044 100%);
+            --gradient-red: linear-gradient(135deg, #ff3366 0%, #cc1144 100%);
             --gradient-blue: linear-gradient(135deg, #0088ff 0%, #0066cc 100%);
+            --gradient-purple: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.3);
+            --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.4);
         }
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: hidden;
         }
         
-        /* Scrollbar */
+        /* Advanced Scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
         
         ::-webkit-scrollbar-track {
             background: var(--bg-secondary);
+            border-radius: 4px;
         }
         
         ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            border-radius: 4px;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: #444;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
         }
         
-        /* Header */
+        /* Header with Glass Effect */
         .header {
-            background: var(--bg-secondary);
+            background: var(--bg-glass);
             border-bottom: 1px solid var(--border);
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            background: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
         
         .header-content {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 0 20px;
-            height: 64px;
+            padding: 0 24px;
+            height: 72px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -91,212 +97,231 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 20px;
-            font-weight: 700;
+            gap: 16px;
+            font-size: 24px;
+            font-weight: 800;
             color: var(--text-primary);
             text-decoration: none;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: translateY(-2px);
         }
         
         .logo-icon {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             background: var(--gradient-green);
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
+            box-shadow: var(--shadow-lg);
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes logoGlow {
+            0% { box-shadow: var(--shadow-lg); }
+            100% { box-shadow: 0 20px 40px rgba(0, 255, 136, 0.3); }
         }
         
         /* Navigation */
         .nav {
             display: flex;
-            gap: 32px;
+            gap: 40px;
             align-items: center;
         }
         
         .nav-link {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
             position: relative;
             cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 8px;
         }
         
-        .nav-link:hover,
-        .nav-link.active {
+        .nav-link:hover {
             color: var(--text-primary);
+            background: var(--bg-hover);
+            transform: translateY(-2px);
         }
         
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -21px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent-green);
+        .nav-link.active {
+            color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.1);
         }
         
         /* Main Layout */
         .main {
-            margin-top: 64px;
-            min-height: calc(100vh - 64px);
+            margin-top: 72px;
+            min-height: calc(100vh - 72px);
             background: var(--bg-primary);
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 24px 20px;
+            padding: 32px 24px;
         }
         
-        /* Hero Section */
+        /* Hero Section with Parallax */
         .hero {
             position: relative;
             height: 600px;
-            margin: -24px -20px 48px;
+            margin: -32px -24px 64px;
             overflow: hidden;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .hero-bg {
+        .hero::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&h=1080&fit=crop');
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%2300ff88" stop-opacity="0.1"/><stop offset="100%" stop-color="%2300ff88" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23g)"/><circle cx="800" cy="300" r="150" fill="url(%23g)"/><circle cx="300" cy="800" r="120" fill="url(%23g)"/></svg>') no-repeat center;
             background-size: cover;
-            background-position: center;
-            opacity: 0.3;
-            filter: blur(2px);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
         
         .hero-content {
-            position: relative;
-            z-index: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
-            padding: 0 20px;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .hero-title {
-            font-size: 64px;
-            font-weight: 800;
-            margin-bottom: 16px;
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 24px;
             background: var(--gradient-green);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
         }
         
         .hero-subtitle {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 400;
             color: var(--text-secondary);
-            margin-bottom: 32px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .hero-stats {
             display: flex;
-            gap: 48px;
+            gap: 60px;
             margin-bottom: 48px;
+            justify-content: center;
         }
         
         .hero-stat {
             text-align: center;
+            animation: fadeInUp 1s ease-out;
         }
         
+        .hero-stat:nth-child(2) { animation-delay: 0.2s; }
+        .hero-stat:nth-child(3) { animation-delay: 0.4s; }
+        
         .hero-stat-value {
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--accent-green);
+            font-size: 56px;
+            font-weight: 800;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .hero-stat-label {
             font-size: 14px;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
         }
         
-        /* Feature Cards */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-bottom: 48px;
-        }
-        
-        .feature-card {
+        /* Enhanced Cards */
+        .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 32px;
-            text-align: center;
             transition: all 0.3s ease;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
         
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-green);
-            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
-        }
-        
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        .feature-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        
-        .feature-desc {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-        
-        /* Cards */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.2s;
-            margin-bottom: 24px;
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-green);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .card:hover {
-            border-color: #333;
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
         }
         
-        /* Stats Cards */
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Advanced Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
         }
         
         .stat-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 28px;
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
         
         .stat-card::before {
@@ -308,7 +333,13 @@
             height: 100%;
             background: var(--gradient-green);
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-green);
         }
         
         .stat-card:hover::before {
@@ -316,28 +347,28 @@
         }
         
         .stat-label {
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 13px;
+            font-weight: 600;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
         }
         
         .stat-value {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 36px;
+            font-weight: 800;
             color: var(--text-primary);
             line-height: 1;
             margin-bottom: 8px;
         }
         
         .stat-change {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
         
         .stat-change.positive {
@@ -348,42 +379,64 @@
             color: var(--accent-red);
         }
         
-        /* Buttons */
+        /* Premium Buttons */
         .btn {
             background: var(--bg-card);
             border: 1px solid var(--border);
             color: var(--text-primary);
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 12px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         
         .btn:hover {
             background: var(--bg-hover);
-            border-color: #444;
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
         
         .btn-primary {
             background: var(--gradient-green);
             border: none;
             color: #000;
+            font-weight: 700;
         }
         
         .btn-primary:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+            background: var(--gradient-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 136, 255, 0.3);
         }
         
         .btn-large {
-            padding: 16px 32px;
-            font-size: 16px;
+            padding: 20px 40px;
+            font-size: 18px;
+            border-radius: 16px;
         }
         
         .btn-danger {
@@ -393,134 +446,109 @@
         }
         
         .btn-icon {
-            width: 36px;
-            height: 36px;
+            width: 44px;
+            height: 44px;
             padding: 0;
             justify-content: center;
+            border-radius: 12px;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
             border-radius: 8px;
         }
         
-        /* Tables */
-        .table-container {
-            overflow-x: auto;
-            margin: -24px;
-            padding: 24px;
+        /* Premium Player Cards */
+        .top-players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
         }
         
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .table th {
-            text-align: left;
-            padding: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-        
-        .table td {
-            padding: 16px 12px;
-            font-size: 14px;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-        
-        .table tr:hover {
-            background: var(--bg-hover);
-        }
-        
-        /* Player Cells */
-        .player-cell {
+        .top-player-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 20px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
         
-        .player-avatar {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-blue);
+        .top-player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-green);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .top-player-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent-green);
+            box-shadow: 0 25px 50px rgba(0, 255, 136, 0.2);
+        }
+        
+        .top-player-card:hover::before {
+            opacity: 0.1;
+        }
+        
+        .rank-badge {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-green);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            color: #fff;
+            font-size: 24px;
+            font-weight: 900;
+            color: #000;
+            box-shadow: var(--shadow-lg);
         }
         
         .player-info {
-            display: flex;
-            flex-direction: column;
+            flex: 1;
         }
         
         .player-name {
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
             color: var(--text-primary);
         }
         
         .player-meta {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--text-secondary);
-        }
-        
-        /* Badges */
-        .badge {
-            display: inline-flex;
+            display: flex;
+            gap: 12px;
             align-items: center;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-bottom: 12px;
         }
         
-        .badge-green {
-            background: rgba(0, 255, 136, 0.1);
-            color: var(--accent-green);
-        }
-        
-        .badge-red {
-            background: rgba(255, 51, 102, 0.1);
-            color: var(--accent-red);
-        }
-        
-        .badge-blue {
-            background: rgba(0, 136, 255, 0.1);
-            color: var(--accent-blue);
-        }
-        
-        .badge-yellow {
-            background: rgba(255, 204, 0, 0.1);
-            color: var(--accent-yellow);
-        }
-        
-        /* Position Badges */
-        .badge-QB { background: rgba(255, 51, 102, 0.1); color: #ff3366; }
-        .badge-RB { background: rgba(0, 136, 255, 0.1); color: #0088ff; }
-        .badge-WR { background: rgba(255, 204, 0, 0.1); color: #ffcc00; }
-        .badge-TE { background: rgba(147, 51, 234, 0.1); color: #9333ea; }
-        .badge-DEF { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
-        
-        /* Forms */
+        /* Enhanced Forms */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         .form-label {
             display: block;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             margin-bottom: 8px;
         }
         
@@ -529,47 +557,267 @@
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             color: var(--text-primary);
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.2s;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
         }
         
         .form-control:focus {
             outline: none;
             border-color: var(--accent-green);
             background: var(--bg-card);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
         }
         
-        select.form-control {
+        /* Premium Search */
+        .search-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 16px 20px 16px 50px;
+            border-radius: 16px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            background: var(--bg-card);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        
+        /* Advanced Player List */
+        .player-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .player-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Charts */
+        .player-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-green);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .player-item:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-hover);
+            transform: translateX(8px);
+        }
+        
+        .player-item:hover::before {
+            opacity: 1;
+        }
+        
+        .player-item.selected {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.05);
+        }
+        
+        .player-item.selected::before {
+            opacity: 1;
+        }
+        
+        .player-cell {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+        
+        .player-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 136, 255, 0.3);
+        }
+        
+        .player-info {
+            flex: 1;
+        }
+        
+        .player-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .player-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        /* Premium Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-green {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .badge-red {
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+        }
+        
+        .badge-blue {
+            background: rgba(0, 136, 255, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(0, 136, 255, 0.3);
+        }
+        
+        .badge-yellow {
+            background: rgba(255, 204, 0, 0.15);
+            color: var(--accent-yellow);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+        }
+        
+        .badge-purple {
+            background: rgba(147, 51, 234, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+        }
+        
+        /* Position Badges */
+        .badge-QB { background: rgba(255, 51, 102, 0.15); color: #ff3366; border: 1px solid rgba(255, 51, 102, 0.3); }
+        .badge-RB { background: rgba(0, 136, 255, 0.15); color: #0088ff; border: 1px solid rgba(0, 136, 255, 0.3); }
+        .badge-WR { background: rgba(255, 204, 0, 0.15); color: #ffcc00; border: 1px solid rgba(255, 204, 0, 0.3); }
+        .badge-TE { background: rgba(147, 51, 234, 0.15); color: #9333ea; border: 1px solid rgba(147, 51, 234, 0.3); }
+        .badge-DEF { background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3); }
+        .badge-K { background: rgba(156, 163, 175, 0.15); color: #9ca3af; border: 1px solid rgba(156, 163, 175, 0.3); }
+        
+        /* Enhanced Charts */
         .chart-container {
             position: relative;
-            height: 300px;
-            margin-top: 20px;
+            height: 350px;
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
         
-        /* Loading */
+        /* Advanced Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: -32px;
+            padding: 32px;
+            border-radius: 16px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .table th {
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+        
+        .table td {
+            padding: 20px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .table tr:hover {
+            background: var(--bg-hover);
+        }
+        
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Loading Animation */
         .loading {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 80px 20px;
+            padding: 100px 20px;
             color: var(--text-secondary);
         }
         
         .spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid var(--border);
+            width: 64px;
+            height: 64px;
+            border: 4px solid var(--border);
             border-top-color: var(--accent-green);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         @keyframes spin {
@@ -579,7 +827,7 @@
         /* Grid Layouts */
         .grid {
             display: grid;
-            gap: 24px;
+            gap: 32px;
         }
         
         .grid-2 {
@@ -590,139 +838,145 @@
             grid-template-columns: repeat(3, 1fr);
         }
         
-        /* Player List */
-        .player-list {
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        /* Draft Board */
+        .draft-setup {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 32px;
+        }
+        
+        .team-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
         
-        .player-item {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        
-        .player-item:hover {
-            background: var(--bg-hover);
-            border-color: #333;
-            transform: translateX(4px);
-        }
-        
-        .player-item.selected {
-            border-color: var(--accent-green);
-            background: rgba(0, 255, 136, 0.05);
-        }
-        
-        /* Top Players Grid */
-        .top-players-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-        
-        .top-player-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+        .team-card {
+            background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 20px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 16px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
         
-        .top-player-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: var(--gradient-green);
-            border-radius: 12px;
-            opacity: 0;
-            z-index: -1;
-            transition: opacity 0.3s ease;
+        .team-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
         }
         
-        .top-player-card:hover::before {
-            opacity: 0.3;
+        .team-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
         
-        .top-player-card:hover {
-            transform: translateY(-4px);
+        /* Trade Analysis */
+        .trade-teams {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 32px;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        
+        .trade-vs {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-green);
+            text-align: center;
+        }
+        
+        .trade-zone {
+            min-height: 300px;
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            background: var(--bg-secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .trade-zone.has-players {
             border-color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.05);
         }
         
-        .rank-badge {
-            width: 48px;
-            height: 48px;
-            background: var(--gradient-green);
-            border-radius: 50%;
+        .trade-empty {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            font-weight: 800;
-            color: #000;
+            height: 100%;
+            color: var(--text-secondary);
+            text-align: center;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav {
-                display: none;
-            }
-            
-            .hero-title {
-                font-size: 40px;
-            }
-            
-            .hero-subtitle {
-                font-size: 18px;
-            }
-            
-            .hero-stats {
-                gap: 24px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            
-            .table-container {
-                margin: -16px;
-                padding: 16px;
-            }
+        /* Injury Status */
+        .injury-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
         
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.3s ease-out;
+        .injury-status.healthy {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-green);
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .injury-status.questionable {
+            background: rgba(255, 204, 0, 0.15);
+            color: var(--accent-yellow);
+        }
+        
+        .injury-status.doubtful {
+            background: rgba(255, 136, 0, 0.15);
+            color: var(--accent-orange);
+        }
+        
+        .injury-status.out {
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--accent-red);
+        }
+        
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-xl);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+            max-width: 350px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.05);
+        }
+        
+        .notification.error {
+            border-color: var(--accent-red);
+            background: rgba(255, 51, 102, 0.05);
         }
         
         /* Hide/Show utilities */
@@ -732,6 +986,58 @@
         
         .show {
             display: block !important;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .draft-setup { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .hero-title { font-size: 48px; }
+            .hero-subtitle { font-size: 20px; }
+            .hero-stats { 
+                gap: 32px; 
+                flex-direction: column;
+                align-items: center;
+            }
+            .stats-grid { grid-template-columns: 1fr; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .trade-teams { grid-template-columns: 1fr; }
+            .container { padding: 20px 16px; }
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
@@ -745,7 +1051,7 @@
             </div>
             <nav class="nav">
                 <a class="nav-link active" onclick="setActiveTab('home')">Home</a>
-                <a class="nav-link" onclick="setActiveTab('statistics')">Statistics</a>
+                <a class="nav-link" onclick="setActiveTab('analytics')">Analytics</a>
                 <a class="nav-link" onclick="setActiveTab('team')">My Team</a>
                 <a class="nav-link" onclick="setActiveTab('draft')">Draft</a>
                 <a class="nav-link" onclick="setActiveTab('trade')">Trade</a>
@@ -760,25 +1066,24 @@
             <!-- Loading Screen -->
             <div id="loading-screen" class="loading">
                 <div class="spinner"></div>
-                <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">Loading Fantasy Data</h3>
-                <p style="color: var(--text-secondary)">Fetching data from GitHub...</p>
+                <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 12px;">Loading Elite Fantasy Data</h3>
+                <p style="color: var(--text-secondary); font-size: 16px;">Fetching player analytics from multiple sources...</p>
             </div>
 
             <!-- Home Tab -->
             <div id="home-tab" class="tab-content hidden">
                 <!-- Hero Section -->
                 <div class="hero">
-                    <div class="hero-bg"></div>
                     <div class="hero-content">
                         <h1 class="hero-title">Fantasy Outlier</h1>
-                        <p class="hero-subtitle">Professional NFL Fantasy Analytics Platform</p>
+                        <p class="hero-subtitle">The Ultimate Fantasy Football Analytics Platform</p>
                         <div class="hero-stats">
                             <div class="hero-stat">
                                 <div class="hero-stat-value" id="total-players-count">0</div>
-                                <div class="hero-stat-label">Active Players</div>
+                                <div class="hero-stat-label">Elite Players</div>
                             </div>
                             <div class="hero-stat">
-                                <div class="hero-stat-value" id="total-seasons-count">0</div>
+                                <div class="hero-stat-value">3</div>
                                 <div class="hero-stat-label">Seasons Analyzed</div>
                             </div>
                             <div class="hero-stat">
@@ -786,49 +1091,62 @@
                                 <div class="hero-stat-label">Games Tracked</div>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-large" onclick="setActiveTab('statistics')">
-                            Start Analyzing <span style="margin-left: 8px;">→</span>
+                        <button class="btn btn-primary btn-large" onclick="setActiveTab('analytics')">
+                            🚀 Start Analyzing
                         </button>
                     </div>
                 </div>
 
-                <!-- Features -->
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3 class="feature-title">Advanced Analytics</h3>
-                        <p class="feature-desc">Deep dive into player performance with multi-season weighted analysis and predictive modeling</p>
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Top Performer</div>
+                        <div class="stat-value" id="top-performer">-</div>
+                        <div class="stat-change positive" id="top-performer-value">
+                            ⭐ Highest Value
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🎯</div>
-                        <h3 class="feature-title">Smart Predictions</h3>
-                        <p class="feature-desc">AI-powered value predictions based on historical performance and volatility metrics</p>
+                    <div class="stat-card">
+                        <div class="stat-label">Average Value</div>
+                        <div class="stat-value" id="avg-value">0.0</div>
+                        <div class="stat-change positive">
+                            📊 League Average
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3 class="feature-title">Real-Time Insights</h3>
-                        <p class="feature-desc">Live data processing with instant visualization of trends and opportunities</p>
+                    <div class="stat-card">
+                        <div class="stat-label">Best Position</div>
+                        <div class="stat-value" id="best-position">-</div>
+                        <div class="stat-change positive">
+                            🏆 Highest Scoring
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Available Players</div>
+                        <div class="stat-value" id="available-count">0</div>
+                        <div class="stat-change positive">
+                            ✅ Ready to Draft
+                        </div>
                     </div>
                 </div>
 
                 <!-- Top Players Section -->
                 <div class="card">
-                    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">🔥 Top Performers</h2>
+                    <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 32px; color: var(--accent-green);">🔥 Elite Performers</h2>
                     <div id="top-players-grid" class="top-players-grid">
                         <!-- Top players will be populated here -->
                     </div>
                 </div>
 
-                <!-- Position Distribution -->
+                <!-- Analytics Charts -->
                 <div class="grid grid-2">
                     <div class="card">
-                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Position Distribution</h3>
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">📈 Position Analysis</h3>
                         <div class="chart-container">
                             <canvas id="position-chart"></canvas>
                         </div>
                     </div>
                     <div class="card">
-                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Value Trends</h3>
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">💰 Value Distribution</h3>
                         <div class="chart-container">
                             <canvas id="value-chart"></canvas>
                         </div>
@@ -836,35 +1154,36 @@
                 </div>
             </div>
 
-            <!-- Statistics Tab -->
-            <div id="statistics-tab" class="tab-content hidden">
-                <div class="grid" style="grid-template-columns: 300px 1fr">
-                    <!-- Player Selection Sidebar -->
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" class="tab-content hidden">
+                <div class="grid" style="grid-template-columns: 350px 1fr;">
+                    <!-- Player Search Sidebar -->
                     <div class="card">
-                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Player Selection</h3>
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">🔍 Player Search</h3>
                         
-                        <div class="form-group">
-                            <input type="text" id="player-search" class="form-control" placeholder="Search players...">
+                        <div class="search-container">
+                            <div class="search-icon">🔍</div>
+                            <input type="text" id="player-search" class="search-input" placeholder="Search for players...">
                         </div>
                         
                         <div class="form-group">
+                            <label class="form-label">Position Filter</label>
                             <select id="position-filter" class="form-control">
                                 <option value="">All Positions</option>
-                                <option value="QB">Quarterback (QB)</option>
-                                <option value="RB">Running Back (RB)</option>
-                                <option value="WR">Wide Receiver (WR)</option>
-                                <option value="TE">Tight End (TE)</option>
-                                <option value="DEF">Defense (DEF)</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <select id="season-filter" class="form-control">
-                                <option value="">All Seasons</option>
+                            <label class="form-label">Sort By</label>
+                            <select id="sort-filter" class="form-control">
+                                <option value="value">Predicted Value</option>
+                                <option value="name">Name</option>
+                                <option value="position">Position</option>
+                                <option value="team">Team</option>
                             </select>
                         </div>
                         
-                        <div id="player-list" class="player-list" style="max-height: 500px; overflow-y: auto;">
+                        <div id="player-list" class="player-list">
                             <!-- Players will be populated here -->
                         </div>
                     </div>
@@ -873,9 +1192,9 @@
                     <div id="player-analytics">
                         <div class="card">
                             <div class="loading">
-                                <i style="font-size: 48px; margin-bottom: 16px;">📊</i>
-                                <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">Select a Player</h3>
-                                <p style="color: var(--text-secondary)">Choose a player from the sidebar to view detailed analytics</p>
+                                <div style="font-size: 64px; margin-bottom: 24px;">📊</div>
+                                <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 12px;">Advanced Player Analytics</h3>
+                                <p style="color: var(--text-secondary); font-size: 16px;">Select a player from the sidebar to view detailed performance metrics</p>
                             </div>
                         </div>
                     </div>
@@ -888,35 +1207,43 @@
                     <div class="stat-card">
                         <div class="stat-label">Team Size</div>
                         <div class="stat-value" id="team-size">0</div>
+                        <div class="stat-change positive">👥 Players</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">Total Value</div>
                         <div class="stat-value" id="team-value">0.0</div>
+                        <div class="stat-change positive">💰 Combined</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Avg Fantasy Points</div>
-                        <div class="stat-value" id="team-points">0.0</div>
+                        <div class="stat-label">Avg Per Player</div>
+                        <div class="stat-value" id="team-avg">0.0</div>
+                        <div class="stat-change positive">📈 Average</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Avg Volatility</div>
-                        <div class="stat-value" id="team-volatility">0.00</div>
+                        <div class="stat-label">Team Rank</div>
+                        <div class="stat-value" id="team-rank">-</div>
+                        <div class="stat-change positive">🏆 Position</div>
                     </div>
                 </div>
                 
-                <div class="grid grid-2" style="grid-template-columns: 1fr 350px">
+                <div class="grid" style="grid-template-columns: 1fr 400px;">
                     <div class="card">
-                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Team Roster</h3>
-                        <div id="team-roster" class="table-container">
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">👥 My Roster</h3>
+                        <div id="team-roster">
                             <div class="loading">
-                                <i style="font-size: 48px; margin-bottom: 16px;">👥</i>
-                                <p>No players in your team yet</p>
+                                <div style="font-size: 48px; margin-bottom: 16px;">👥</div>
+                                <p>Build your championship team</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="card">
-                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Add Players</h3>
-                        <div id="available-players-list" class="player-list" style="max-height: 600px; overflow-y: auto;">
+                        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">➕ Add Players</h3>
+                        <div class="search-container">
+                            <div class="search-icon">🔍</div>
+                            <input type="text" id="team-search" class="search-input" placeholder="Search players...">
+                        </div>
+                        <div id="available-players-list" class="player-list">
                             <!-- Available players will be populated here -->
                         </div>
                     </div>
@@ -925,228 +1252,1175 @@
 
             <!-- Draft Tab -->
             <div id="draft-tab" class="tab-content hidden">
-                <div class="card">
-                    <h2>Draft Board</h2>
-                    <p>Draft functionality coming soon...</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Current Pick</div>
+                        <div class="stat-value" id="current-pick">1</div>
+                        <div class="stat-change positive">🎯 Pick Number</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Round</div>
+                        <div class="stat-value" id="current-round">1</div>
+                        <div class="stat-change positive">🔄 Current</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Teams</div>
+                        <div class="stat-value" id="draft-teams">0</div>
+                        <div class="stat-change positive">👥 Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Drafted</div>
+                        <div class="stat-value" id="drafted-count">0</div>
+                        <div class="stat-change positive">✅ Complete</div>
+                    </div>
+                </div>
+                
+                <div class="draft-setup">
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">⚙️ Draft Setup</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">League Name</label>
+                            <input type="text" id="league-name" class="form-control" placeholder="Enter league name" value="Elite Fantasy League">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Draft Type</label>
+                            <select id="draft-type" class="form-control">
+                                <option value="snake">Snake Draft</option>
+                                <option value="linear">Linear Draft</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Add Team</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="team-input" class="form-control" placeholder="Team name">
+                                <button class="btn btn-primary" onclick="addTeam()">Add</button>
+                            </div>
+                        </div>
+                        
+                        <div id="teams-list" class="team-list">
+                            <!-- Teams will be listed here -->
+                        </div>
+                        
+                        <div style="margin-top: 24px; display: flex; gap: 12px;">
+                            <button class="btn btn-primary" onclick="startDraft()">🚀 Start Draft</button>
+                            <button class="btn" onclick="resetDraft()">🔄 Reset</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">🏈 Draft Board</h3>
+                        <div id="draft-status" class="loading">
+                            <div style="font-size: 48px; margin-bottom: 16px;">🏈</div>
+                            <p>Set up teams to begin drafting</p>
+                        </div>
+                        
+                        <div id="draft-board-container" class="hidden">
+                            <div id="current-pick-info" style="margin-bottom: 24px; padding: 20px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--accent-green);">
+                                <h4 style="margin-bottom: 8px; color: var(--accent-green);">Current Pick</h4>
+                                <div id="pick-details"></div>
+                            </div>
+                            
+                            <div class="grid grid-2">
+                                <div>
+                                    <h4 style="margin-bottom: 16px;">Available Players</h4>
+                                    <div class="search-container">
+                                        <div class="search-icon">🔍</div>
+                                        <input type="text" id="draft-search" class="search-input" placeholder="Search players...">
+                                    </div>
+                                    <div id="draft-available-players" class="player-list">
+                                        <!-- Available players for draft -->
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 style="margin-bottom: 16px;">Recent Picks</h4>
+                                    <div id="draft-results">
+                                        <!-- Draft picks will be shown here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Trade Tab -->
             <div id="trade-tab" class="tab-content hidden">
                 <div class="card">
-                    <h2>Trade Analyzer</h2>
-                    <p>Trade analysis coming soon...</p>
+                    <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 32px; color: var(--accent-blue);">⚖️ Trade Analyzer</h2>
+                    
+                    <div class="trade-teams">
+                        <div class="card" style="margin: 0;">
+                            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--accent-green);">Team A</h3>
+                            <div id="trade-team-a" class="trade-zone">
+                                <div class="trade-empty">
+                                    <div style="font-size: 32px; margin-bottom: 8px;">👤</div>
+                                    <p>Drag players here</p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 16px; text-align: center;">
+                                <div class="stat-label">Total Value</div>
+                                <div class="stat-value" id="trade-value-a">0.0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="trade-vs">VS</div>
+                        
+                        <div class="card" style="margin: 0;">
+                            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--accent-red);">Team B</h3>
+                            <div id="trade-team-b" class="trade-zone">
+                                <div class="trade-empty">
+                                    <div style="font-size: 32px; margin-bottom: 8px;">👤</div>
+                                    <p>Drag players here</p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 16px; text-align: center;">
+                                <div class="stat-label">Total Value</div>
+                                <div class="stat-value" id="trade-value-b">0.0</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="trade-analysis">
+                        <div class="loading">
+                            <div style="font-size: 48px; margin-bottom: 16px;">⚖️</div>
+                            <p>Add players to both teams to analyze the trade</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">🎯 Player Pool</h3>
+                    <div class="search-container">
+                        <div class="search-icon">🔍</div>
+                        <input type="text" id="trade-search" class="search-input" placeholder="Search for players to trade...">
+                    </div>
+                    <div id="trade-player-pool" class="player-list">
+                        <!-- Available players for trading -->
+                    </div>
                 </div>
             </div>
 
             <!-- Market Tab -->
             <div id="market-tab" class="tab-content hidden">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Market Leaders</div>
+                        <div class="stat-value" id="market-leaders">0</div>
+                        <div class="stat-change positive">🔥 Hot Players</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Best Values</div>
+                        <div class="stat-value" id="best-values">0</div>
+                        <div class="stat-change positive">💎 Sleepers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Overvalued</div>
+                        <div class="stat-value" id="overvalued">0</div>
+                        <div class="stat-change negative">📉 Trending Down</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Watch List</div>
+                        <div class="stat-value" id="watch-list">0</div>
+                        <div class="stat-change positive">👀 Monitor</div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">📈 Market Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="market-trends-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">💰 Value Analysis</h3>
+                        <div class="chart-container">
+                            <canvas id="value-performance-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="card">
-                    <h2>Market Analysis</h2>
-                    <p>Market trends coming soon...</p>
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">🎯 Market Intelligence</h3>
+                    <div id="market-recommendations">
+                        <!-- Market recommendations will be populated here -->
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- Notification System -->
+    <div id="notification" class="notification">
+        <div id="notification-content"></div>
+    </div>
+
     <script>
-        // Global variables
-        let rawData = [];
-        let uniquePlayers = [];
-        let myTeam = [];
-        let selectedPlayer = null;
-        let charts = {};
+        // Global State Management
+        const AppState = {
+            players: [],
+            myTeam: [],
+            selectedPlayer: null,
+            draftState: {
+                teams: [],
+                currentPick: 1,
+                currentRound: 1,
+                picks: [],
+                teamRosters: {},
+                isActive: false
+            },
+            tradeState: {
+                teamA: [],
+                teamB: []
+            },
+            charts: {},
+            filters: {
+                search: '',
+                position: '',
+                sort: 'value'
+            }
+        };
 
-        // GitHub raw content URL
-        const GITHUB_URL = 'https://raw.githubusercontent.com/Estuardo5838/FANTASY/main/player_trade_value.csv';
+        // Data URLs
+        const DATA_URLS = {
+            tradeValue: 'https://raw.githubusercontent.com/Estuardo5838/FANTASY/main/player_trade_value.csv',
+            injured: 'https://raw.githubusercontent.com/Estuardo5838/FANTASY/main/injured.csv',
+            season2023: 'https://raw.githubusercontent.com/Estuardo5838/FANTASY/main/player_2023.csv',
+            season2024: 'https://raw.githubusercontent.com/Estuardo5838/FANTASY/main/player_2024.csv'
+        };
 
-        // Initialize app
-        async function init() {
-            console.log('Initializing app...');
-            await loadDataFromGitHub();
-            setupEventListeners();
-            setActiveTab('home');
-        }
+        // Utility Functions
+        const Utils = {
+            formatNumber: (num) => {
+                if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+                return num.toFixed(1);
+            },
+            
+            getPositionColor: (position) => {
+                const colors = {
+                    'QB': '#ff3366', 'RB': '#0088ff', 'WR': '#ffcc00',
+                    'TE': '#9333ea', 'DEF': '#00ff88', 'K': '#9ca3af'
+                };
+                return colors[position] || '#888888';
+            },
+            
+            generateAvatar: (name) => {
+                return name.split(' ').map(n => n[0]).join('').toUpperCase();
+            },
+            
+            delay: (ms) => new Promise(resolve => setTimeout(resolve, ms)),
+            
+            showNotification: (message, type = 'success') => {
+                const notification = document.getElementById('notification');
+                const content = document.getElementById('notification-content');
+                
+                content.textContent = message;
+                notification.className = `notification ${type} show`;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        };
 
-        // Load data from GitHub
-        async function loadDataFromGitHub() {
-            try {
-                console.log('Loading data from GitHub...');
+        // Data Loading and Processing
+        const DataManager = {
+            async loadData() {
+                try {
+                    console.log('🚀 Loading fantasy data...');
+                    
+                    // Load main trade value data (active players)
+                    const tradeResponse = await fetch(DATA_URLS.tradeValue);
+                    if (!tradeResponse.ok) throw new Error(`HTTP error! status: ${tradeResponse.status}`);
+                    
+                    const csvText = await tradeResponse.text();
+                    const parsed = Papa.parse(csvText, { 
+                        header: true, 
+                        dynamicTyping: true,
+                        skipEmptyLines: true
+                    });
+                    
+                    // Process active players
+                    AppState.players = parsed.data
+                        .filter(row => row.name && row.name.trim() !== '')
+                        .map(player => ({
+                            ...player,
+                            predicted_value: player.predicted_value || 0,
+                            volatility: player.volatility || 0,
+                            position: player.position || 'N/A',
+                            team: player.team || 'FA',
+                            season: player.season || 2024,
+                            weeklyStats: [] // Will be populated from season files
+                        }))
+                        .sort((a, b) => (b.predicted_value || 0) - (a.predicted_value || 0));
+                    
+                    console.log(`✅ Loaded ${AppState.players.length} active players`);
+                    
+                    // Load season stats and match with active players
+                    await this.loadSeasonStats();
+                    
+                    // Load injury data
+                    try {
+                        const injuryResponse = await fetch(DATA_URLS.injured);
+                        const injuryText = await injuryResponse.text();
+                        const injuryParsed = Papa.parse(injuryText, { header: true, skipEmptyLines: true });
+                        AppState.injuredPlayers = injuryParsed.data;
+                        console.log(`✅ Loaded ${AppState.injuredPlayers.length} injury reports`);
+                    } catch (error) {
+                        console.warn('⚠️ Could not load injury data:', error);
+                        AppState.injuredPlayers = [];
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('❌ Error loading data:', error);
+                    throw error;
+                }
+            },
+
+            async loadSeasonStats() {
+                try {
+                    // Load 2023 season stats
+                    const response2023 = await fetch(DATA_URLS.season2023);
+                    const csvText2023 = await response2023.text();
+                    const parsed2023 = Papa.parse(csvText2023, { 
+                        header: true, 
+                        dynamicTyping: true,
+                        skipEmptyLines: true 
+                    });
+                    
+                    // Load 2024 season stats
+                    const response2024 = await fetch(DATA_URLS.season2024);
+                    const csvText2024 = await response2024.text();
+                    const parsed2024 = Papa.parse(csvText2024, { 
+                        header: true, 
+                        dynamicTyping: true,
+                        skipEmptyLines: true 
+                    });
+                    
+                    console.log(`✅ Loaded ${parsed2023.data.length} records from 2023 season`);
+                    console.log(`✅ Loaded ${parsed2024.data.length} records from 2024 season`);
+                    
+                    // Match season stats with active players
+                    AppState.players.forEach(player => {
+                        // Match 2023 stats
+                        const stats2023 = parsed2023.data.filter(stat => 
+                            this.fuzzyNameMatch(stat.name, player.name)
+                        );
+                        
+                        // Match 2024 stats
+                        const stats2024 = parsed2024.data.filter(stat => 
+                            this.fuzzyNameMatch(stat.name, player.name)
+                        );
+                        
+                        // Combine all weekly stats
+                        player.weeklyStats = [
+                            ...stats2023.map(stat => ({ ...stat, season: 2023 })),
+                            ...stats2024.map(stat => ({ ...stat, season: 2024 }))
+                        ];
+                        
+                        // Calculate aggregate stats
+                        if (player.weeklyStats.length > 0) {
+                            player.totalFantasyPoints = player.weeklyStats.reduce((sum, week) => 
+                                sum + (week.fantasy_points || 0), 0);
+                            player.avgFantasyPoints = player.totalFantasyPoints / player.weeklyStats.length;
+                            player.gamesPlayed = player.weeklyStats.length;
+                        } else {
+                            player.totalFantasyPoints = 0;
+                            player.avgFantasyPoints = 0;
+                            player.gamesPlayed = 0;
+                        }
+                    });
+                    
+                    console.log('✅ Successfully matched season stats with active players');
+                } catch (error) {
+                    console.warn('⚠️ Error loading season stats:', error);
+                }
+            },
+
+            fuzzyNameMatch(name1, name2) {
+                if (!name1 || !name2) return false;
                 
-                const response = await fetch(GITHUB_URL);
-                const csvText = await response.text();
-                const parsed = Papa.parse(csvText, { 
-                    header: true, 
-                    dynamicTyping: true,
-                    skipEmptyLines: true
-                });
+                // Normalize names
+                const normalize = (str) => str.toLowerCase().trim().replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ');
                 
-                rawData = parsed.data.filter(row => row.name && row.name.trim() !== '');
-                console.log('Data loaded:', rawData.length, 'records');
+                const n1 = normalize(name1);
+                const n2 = normalize(name2);
                 
-                // Process unique players
-                processUniquePlayers();
+                // Exact match
+                if (n1 === n2) return true;
                 
-                // Update home stats
-                updateHomeStats();
+                // Check if one contains the other
+                if (n1.includes(n2) || n2.includes(n1)) return true;
                 
-                // Create home page charts
-                createHomeCharts();
+                // Check first and last name match
+                const parts1 = n1.split(' ');
+                const parts2 = n2.split(' ');
                 
-                // Hide loading screen
-                document.getElementById('loading-screen').classList.add('hidden');
+                if (parts1.length >= 2 && parts2.length >= 2) {
+                    const first1 = parts1[0];
+                    const last1 = parts1[parts1.length - 1];
+                    const first2 = parts2[0];
+                    const last2 = parts2[parts2.length - 1];
+                    
+                    // First and last name match
+                    if (first1 === first2 && last1 === last2) return true;
+                    
+                    // First initial and last name match
+                    if (first1[0] === first2[0] && last1 === last2) return true;
+                }
                 
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('loading-screen').innerHTML = `
-                    <div class="loading">
-                        <i style="font-size: 48px; margin-bottom: 16px; color: var(--accent-red);">⚠️</i>
-                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">Error Loading Data</h3>
-                        <p style="color: var(--text-secondary)">${error.message}</p>
-                        <button class="btn btn-primary" onclick="location.reload()" style="margin-top: 20px;">
-                            <i>🔄</i> Retry
-                        </button>
+                return false;
+            },
+            
+            getTopPlayers(count = 6) {
+                return AppState.players.slice(0, count);
+            },
+            
+            getPlayersByPosition() {
+                return AppState.players.reduce((acc, player) => {
+                    const pos = player.position || 'N/A';
+                    if (!acc[pos]) acc[pos] = [];
+                    acc[pos].push(player);
+                    return acc;
+                }, {});
+            },
+            
+            searchPlayers(query, filters = {}) {
+                let filtered = AppState.players;
+                
+                if (query) {
+                    filtered = filtered.filter(p => 
+                        p.name.toLowerCase().includes(query.toLowerCase()) ||
+                        p.team.toLowerCase().includes(query.toLowerCase())
+                    );
+                }
+                
+                if (filters.position) {
+                    filtered = filtered.filter(p => p.position === filters.position);
+                }
+                
+                if (filters.sort) {
+                    filtered.sort((a, b) => {
+                        switch (filters.sort) {
+                            case 'name': return a.name.localeCompare(b.name);
+                            case 'position': return a.position.localeCompare(b.position);
+                            case 'team': return a.team.localeCompare(b.team);
+                            default: return (b.predicted_value || 0) - (a.predicted_value || 0);
+                        }
+                    });
+                }
+                
+                return filtered;
+            },
+            
+            getInjuryStatus(playerName) {
+                if (!AppState.injuredPlayers) return null;
+                const injury = AppState.injuredPlayers.find(i => 
+                    i.name && this.fuzzyNameMatch(i.name, playerName)
+                );
+                return injury ? { status: injury.status || 'questionable' } : null;
+            }
+        };
+
+        // UI Management
+        const UI = {
+            updateHomeStats() {
+                const players = AppState.players;
+                const topPlayer = players[0];
+                const avgValue = players.reduce((sum, p) => sum + (p.predicted_value || 0), 0) / players.length;
+                
+                // Position analysis
+                const positions = DataManager.getPlayersByPosition();
+                const bestPosition = Object.entries(positions)
+                    .map(([pos, players]) => ({
+                        position: pos,
+                        avgValue: players.reduce((sum, p) => sum + (p.predicted_value || 0), 0) / players.length
+                    }))
+                    .sort((a, b) => b.avgValue - a.avgValue)[0];
+                
+                document.getElementById('total-players-count').textContent = players.length;
+                document.getElementById('total-games-count').textContent = Utils.formatNumber(players.length * 17);
+                document.getElementById('top-performer').textContent = topPlayer?.name || '-';
+                document.getElementById('top-performer-value').textContent = `⭐ ${(topPlayer?.predicted_value || 0).toFixed(1)} pts`;
+                document.getElementById('avg-value').textContent = avgValue.toFixed(1);
+                document.getElementById('best-position').textContent = bestPosition?.position || '-';
+                document.getElementById('available-count').textContent = players.length;
+            },
+            
+            displayTopPlayers() {
+                const topPlayers = DataManager.getTopPlayers(6);
+                const container = document.getElementById('top-players-grid');
+                
+                const html = topPlayers.map((player, index) => {
+                    const injury = DataManager.getInjuryStatus(player.name);
+                    return `
+                        <div class="top-player-card fade-in" style="animation-delay: ${index * 0.1}s">
+                            <div class="rank-badge">${index + 1}</div>
+                            <div class="player-info">
+                                <div class="player-name">${player.name}</div>
+                                <div class="player-meta">
+                                    <span class="badge badge-${player.position}">${player.position}</span>
+                                    <span>${player.team}</span>
+                                    ${injury ? `<span class="injury-status ${injury.status}">${injury.status}</span>` : ''}
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 28px; font-weight: 800; color: var(--accent-green);">
+                                    ${(player.predicted_value || 0).toFixed(1)}
+                                </div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Predicted Value</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                container.innerHTML = html;
+            },
+            
+            updatePlayerList() {
+                const container = document.getElementById('player-list');
+                if (!container) return;
+                
+                const filteredPlayers = DataManager.searchPlayers(AppState.filters.search, AppState.filters);
+                
+                const html = filteredPlayers.slice(0, 50).map(player => {
+                    const injury = DataManager.getInjuryStatus(player.name);
+                    const isSelected = AppState.selectedPlayer === player.name;
+                    
+                    return `
+                        <div class="player-item ${isSelected ? 'selected' : ''}" onclick="selectPlayer('${player.name}')">
+                            <div class="player-cell">
+                                <div class="player-avatar" style="background: ${Utils.getPositionColor(player.position)}">
+                                    ${Utils.generateAvatar(player.name)}
+                                </div>
+                                <div class="player-info">
+                                    <div class="player-name">${player.name}</div>
+                                    <div class="player-meta">
+                                        <span class="badge badge-${player.position}">${player.position}</span>
+                                        <span>${player.team}</span>
+                                        ${injury ? `<span class="injury-status ${injury.status}">${injury.status}</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="font-weight: 700; color: var(--accent-green); font-size: 16px;">
+                                ${(player.predicted_value || 0).toFixed(1)}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                container.innerHTML = html;
+            },
+            
+            updateAvailablePlayersList() {
+                const container = document.getElementById('available-players-list');
+                if (!container) return;
+                
+                const available = AppState.players
+                    .filter(p => !AppState.myTeam.includes(p.name))
+                    .slice(0, 20);
+                
+                const html = available.map(player => {
+                    const injury = DataManager.getInjuryStatus(player.name);
+                    return `
+                        <div class="player-item">
+                            <div class="player-cell">
+                                <div class="player-avatar" style="background: ${Utils.getPositionColor(player.position)}; width: 32px; height: 32px; font-size: 12px;">
+                                    ${Utils.generateAvatar(player.name)}
+                                </div>
+                                <div class="player-info">
+                                    <div class="player-name" style="font-size: 14px;">${player.name}</div>
+                                    <div class="player-meta">
+                                        <span class="badge badge-${player.position}">${player.position}</span>
+                                        <span>${(player.predicted_value || 0).toFixed(1)} pts</span>
+                                        ${injury ? `<span class="injury-status ${injury.status}">${injury.status}</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-icon btn-primary" onclick="addToTeam('${player.name}')">
+                                ➕
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+                
+                container.innerHTML = html;
+            },
+            
+            displayPlayerAnalytics(playerName) {
+                const player = AppState.players.find(p => p.name === playerName);
+                if (!player) return;
+                
+                const injury = DataManager.getInjuryStatus(player.name);
+                const rank = AppState.players.indexOf(player) + 1;
+                
+                const html = `
+                    <div class="card fade-in">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;">
+                            <div style="display: flex; align-items: center; gap: 24px;">
+                                <div class="player-avatar" style="width: 80px; height: 80px; font-size: 28px; background: ${Utils.getPositionColor(player.position)};">
+                                    ${Utils.generateAvatar(player.name)}
+                                </div>
+                                <div>
+                                    <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">${player.name}</h2>
+                                    <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+                                        <span class="badge badge-${player.position}">${player.position}</span>
+                                        <span style="color: var(--text-secondary);">${player.team}</span>
+                                        ${injury ? `<span class="injury-status ${injury.status}">🏥 ${injury.status}</span>` : ''}
+                                    </div>
+                                    <div style="color: var(--text-secondary);">Rank #${rank} Overall • ${player.gamesPlayed} games played</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-large" onclick="addToTeam('${player.name}')">
+                                ⭐ Add to Team
+                            </button>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Predicted Value</div>
+                                <div class="stat-value">${(player.predicted_value || 0).toFixed(1)}</div>
+                                <div class="stat-change positive">📈 Elite Tier</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Volatility</div>
+                                <div class="stat-value">${(player.volatility || 0).toFixed(2)}</div>
+                                <div class="stat-change ${(player.volatility || 0) < 5 ? 'positive' : 'negative'}">
+                                    ${(player.volatility || 0) < 5 ? '✅ Stable' : '⚠️ Risky'}
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Avg Fantasy Points</div>
+                                <div class="stat-value">${(player.avgFantasyPoints || 0).toFixed(1)}</div>
+                                <div class="stat-change positive">📅 Per Game</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Total Points</div>
+                                <div class="stat-value">${(player.totalFantasyPoints || 0).toFixed(1)}</div>
+                                <div class="stat-change positive">🏆 Career</div>
+                            </div>
+                        </div>
+                        
+                        ${player.weeklyStats && player.weeklyStats.length > 0 ? `
+                        <div style="margin-top: 32px;">
+                            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">📊 Recent Performance</h3>
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Season</th>
+                                            <th>Week</th>
+                                            <th>Fantasy Points</th>
+                                            <th>Passing Yds</th>
+                                            <th>Passing TDs</th>
+                                            <th>Rushing Yds</th>
+                                            <th>Rushing TDs</th>
+                                            <th>Receiving Yds</th>
+                                            <th>Receiving TDs</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${player.weeklyStats.slice(-10).map(week => `
+                                            <tr>
+                                                <td>${week.season}</td>
+                                                <td>${week.week || '-'}</td>
+                                                <td style="font-weight: 700; color: var(--accent-green);">${(week.fantasy_points || 0).toFixed(1)}</td>
+                                                <td>${week.passing_yds || 0}</td>
+                                                <td>${week.passing_td || 0}</td>
+                                                <td>${week.rushing_yds || 0}</td>
+                                                <td>${week.rushing_td || 0}</td>
+                                                <td>${week.receiving_yds || 0}</td>
+                                                <td>${week.receiving_td || 0}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <div style="margin-top: 32px;">
+                            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">🎯 Analysis</h3>
+                            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 24px;">
+                                <p style="color: var(--text-secondary); line-height: 1.6;">
+                                    ${player.name} is ranked #${rank} overall with a predicted value of ${(player.predicted_value || 0).toFixed(1)} points. 
+                                    As a ${player.position} for the ${player.team}, they have played ${player.gamesPlayed} games and averaged 
+                                    ${(player.avgFantasyPoints || 0).toFixed(1)} fantasy points per game. With a volatility of ${(player.volatility || 0).toFixed(2)}, 
+                                    they represent ${(player.volatility || 0) < 5 ? 'a stable' : 'a high-risk'} fantasy option.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 `;
-            }
-        }
-
-        // Process unique players
-        function processUniquePlayers() {
-            const playerMap = {};
-            
-            rawData.forEach(row => {
-                const key = `${row.name}_${row.season}`;
                 
-                if (!playerMap[key]) {
-                    playerMap[key] = {
-                        name: row.name,
-                        team: row.team,
-                        position: row.position || 'Unknown',
-                        season: row.season,
-                        totalFantasyPoints: parseFloat(row.total_fantasy_points) || 0,
-                        avgFantasyPoints: parseFloat(row.avg_fantasy_points) || 0,
-                        volatility: parseFloat(row.volatility) || 0,
-                        predictedValue: parseFloat(row.predicted_value) || 0,
-                        gamesPlayed: parseInt(row.games_played) || 0,
-                        // Offensive stats
-                        passingYds: parseFloat(row.passing_yds_sum) || 0,
-                        passingTd: parseFloat(row.passing_td_sum) || 0,
-                        rushingYds: parseFloat(row.rushing_yds_sum) || 0,
-                        rushingTd: parseFloat(row.rushing_td_sum) || 0,
-                        receivingYds: parseFloat(row.receiving_yds_sum) || 0,
-                        receivingTd: parseFloat(row.receiving_td_sum) || 0,
-                        // Defensive stats
-                        defSacks: parseFloat(row.def_sacks_sum) || 0
-                    };
-                }
-            });
+                document.getElementById('player-analytics').innerHTML = html;
+            },
             
-            // Get unique players (combine seasons)
-            const playerStats = {};
-            
-            Object.values(playerMap).forEach(player => {
-                if (!playerStats[player.name]) {
-                    playerStats[player.name] = {
-                        name: player.name,
-                        team: player.team,
-                        position: player.position,
-                        seasons: [],
-                        totalFantasyPoints: 0,
-                        avgFantasyPoints: 0,
-                        volatility: 0,
-                        predictedValue: 0,
-                        gamesPlayed: 0
-                    };
-                }
+            updateTeamStats() {
+                const teamPlayers = AppState.myTeam.map(name => 
+                    AppState.players.find(p => p.name === name)
+                ).filter(Boolean);
                 
-                playerStats[player.name].seasons.push(player.season);
-                playerStats[player.name].totalFantasyPoints += player.totalFantasyPoints;
-                playerStats[player.name].avgFantasyPoints = 
-                    (playerStats[player.name].avgFantasyPoints + player.avgFantasyPoints) / 2;
-                playerStats[player.name].volatility = 
-                    (playerStats[player.name].volatility + player.volatility) / 2;
-                playerStats[player.name].predictedValue = Math.max(
-                    playerStats[player.name].predictedValue, 
-                    player.predictedValue
-                );
-                playerStats[player.name].gamesPlayed += player.gamesPlayed;
-            });
+                const totalValue = teamPlayers.reduce((sum, p) => sum + (p.predicted_value || 0), 0);
+                const avgValue = teamPlayers.length > 0 ? totalValue / teamPlayers.length : 0;
+                
+                document.getElementById('team-size').textContent = teamPlayers.length;
+                document.getElementById('team-value').textContent = totalValue.toFixed(1);
+                document.getElementById('team-avg').textContent = avgValue.toFixed(1);
+                document.getElementById('team-rank').textContent = teamPlayers.length > 0 ? 'Elite' : '-';
+                
+                // Update roster display
+                const rosterContainer = document.getElementById('team-roster');
+                if (teamPlayers.length > 0) {
+                    const rosterHtml = `
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Player</th>
+                                        <th>Position</th>
+                                        <th>Team</th>
+                                        <th>Value</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${teamPlayers.map(player => {
+                                        const injury = DataManager.getInjuryStatus(player.name);
+                                        return `
+                                            <tr>
+                                                <td>
+                                                    <div class="player-cell">
+                                                        <div class="player-avatar" style="width: 32px; height: 32px; font-size: 12px; background: ${Utils.getPositionColor(player.position)}">
+                                                            ${Utils.generateAvatar(player.name)}
+                                                        </div>
+                                                        <div class="player-name">${player.name}</div>
+                                                    </div>
+                                                </td>
+                                                <td><span class="badge badge-${player.position}">${player.position}</span></td>
+                                                <td>${player.team}</td>
+                                                <td style="font-weight: 700; color: var(--accent-green);">${(player.predicted_value || 0).toFixed(1)}</td>
+                                                <td>
+                                                    ${injury ? 
+                                                        `<span class="injury-status ${injury.status}">${injury.status}</span>` : 
+                                                        '<span class="injury-status healthy">healthy</span>'
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-icon btn-danger" onclick="removeFromTeam('${player.name}')">
+                                                        🗑️
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    rosterContainer.innerHTML = rosterHtml;
+                } else {
+                    rosterContainer.innerHTML = `
+                        <div class="loading">
+                            <div style="font-size: 48px; margin-bottom: 16px;">👥</div>
+                            <p>Build your championship team</p>
+                        </div>
+                    `;
+                }
+            },
             
-            uniquePlayers = Object.values(playerStats);
-            uniquePlayers.sort((a, b) => b.predictedValue - a.predictedValue);
-            
-            console.log('Unique players:', uniquePlayers.length);
-            
-            // Populate player list and filters
-            updatePlayerList();
-            updateSeasonFilter();
-            updateAvailablePlayersList();
-            displayTopPlayers();
-        }
-
-        // Update home stats
-        function updateHomeStats() {
-            const seasons = [...new Set(rawData.map(r => r.season))];
-            document.getElementById('total-players-count').textContent = uniquePlayers.length;
-            document.getElementById('total-seasons-count').textContent = seasons.length;
-            document.getElementById('total-games-count').textContent = 
-                uniquePlayers.reduce((sum, p) => sum + p.gamesPlayed, 0);
-        }
-
-        // Display top players on home page
-        function displayTopPlayers() {
-            const topPlayers = uniquePlayers.slice(0, 6);
-            
-            const topPlayersHTML = topPlayers.map((player, index) => `
-                <div class="top-player-card">
-                    <div class="rank-badge">${index + 1}</div>
-                    <div class="player-info" style="flex: 1;">
-                        <div class="player-name">${player.name}</div>
-                        <div class="player-meta">${player.position} • ${player.team}</div>
-                        <div style="margin-top: 8px;">
-                            <span class="badge badge-${player.position}">${player.position}</span>
+            updateDraftBoard() {
+                const state = AppState.draftState;
+                if (!state.isActive) return;
+                
+                const currentTeamIndex = DraftManager.getCurrentTeamIndex();
+                const currentTeam = state.teams[currentTeamIndex];
+                
+                document.getElementById('pick-details').innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 18px; font-weight: 700;">
+                            Pick ${state.currentPick} - Round ${state.currentRound}
+                        </div>
+                        <div style="font-size: 16px; color: var(--accent-green);">
+                            <strong>${currentTeam}</strong> is on the clock
                         </div>
                     </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 24px; font-weight: 700; color: var(--accent-green);">
-                            ${player.predictedValue.toFixed(1)}
+                `;
+                
+                this.updateDraftAvailablePlayers();
+                this.updateDraftResults();
+            },
+            
+            updateDraftAvailablePlayers() {
+                const container = document.getElementById('draft-available-players');
+                if (!container) return;
+                
+                const search = document.getElementById('draft-search')?.value.toLowerCase() || '';
+                const draftedNames = AppState.draftState.picks.map(p => p.player);
+                const available = AppState.players
+                    .filter(p => !draftedNames.includes(p.name) && 
+                                p.name.toLowerCase().includes(search))
+                    .slice(0, 30);
+                
+                const html = available.map(player => {
+                    const injury = DataManager.getInjuryStatus(player.name);
+                    const rank = AppState.players.indexOf(player) + 1;
+                    
+                    return `
+                        <div class="player-item" onclick="draftPlayer('${player.name}')">
+                            <div class="player-cell">
+                                <div class="player-avatar" style="width: 32px; height: 32px; font-size: 12px; background: ${Utils.getPositionColor(player.position)}">
+                                    ${Utils.generateAvatar(player.name)}
+                                </div>
+                                <div class="player-info">
+                                    <div class="player-name" style="font-size: 14px;">${player.name}</div>
+                                    <div class="player-meta">
+                                        <span class="badge badge-${player.position}">${player.position}</span>
+                                        <span>${(player.predicted_value || 0).toFixed(1)}</span>
+                                        ${injury ? `<span class="injury-status ${injury.status}">${injury.status}</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">
+                                #${rank}
+                            </div>
                         </div>
-                        <div style="font-size: 12px; color: var(--text-secondary);">Predicted Value</div>
+                    `;
+                }).join('');
+                
+                container.innerHTML = html;
+            },
+            
+            updateDraftResults() {
+                const container = document.getElementById('draft-results');
+                if (!container) return;
+                
+                const recentPicks = AppState.draftState.picks.slice(-10).reverse();
+                
+                const html = recentPicks.map(pick => {
+                    const player = AppState.players.find(p => p.name === pick.player);
+                    return `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border);">
+                            <div>
+                                <div style="font-weight: 600; font-size: 14px;">${pick.player}</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Pick ${pick.pick} • ${pick.team}</div>
+                            </div>
+                            <div>
+                                <span class="badge badge-${player?.position || 'blue'}">${player?.position || 'N/A'}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                container.innerHTML = html;
+            },
+            
+            updateTradeAnalysis() {
+                const { teamA, teamB } = AppState.tradeState;
+                
+                // Update team displays
+                this.updateTradeTeamDisplay('A', teamA);
+                this.updateTradeTeamDisplay('B', teamB);
+                
+                // Calculate values
+                const valueA = TradeManager.calculateTeamValue(teamA);
+                const valueB = TradeManager.calculateTeamValue(teamB);
+                
+                document.getElementById('trade-value-a').textContent = valueA.toFixed(1);
+                document.getElementById('trade-value-b').textContent = valueB.toFixed(1);
+                
+                // Show analysis
+                if (teamA.length > 0 && teamB.length > 0) {
+                    const analysis = TradeManager.analyzeTradeValues(valueA, valueB);
+                    
+                    document.getElementById('trade-analysis').innerHTML = `
+                        <div class="card" style="margin: 0;">
+                            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px; color: var(--accent-purple);">📊 Trade Analysis</h3>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-label">Trade Fairness</div>
+                                    <div class="stat-value">${analysis.fairness}</div>
+                                    <div class="badge ${analysis.fairnessClass}">
+                                        ${analysis.percentDiff}% difference
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-label">Value Gap</div>
+                                    <div class="stat-value">${analysis.difference.toFixed(1)}</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">points</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-label">Trade Winner</div>
+                                    <div class="stat-value">${analysis.winner}</div>
+                                    <div class="badge ${analysis.winnerClass}">
+                                        ${analysis.winnerText}
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-label">Recommendation</div>
+                                    <div class="stat-value" style="font-size: 32px;">
+                                        ${analysis.recommendation}
+                                    </div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">
+                                        ${analysis.recommendationText}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('trade-analysis').innerHTML = `
+                        <div class="loading">
+                            <div style="font-size: 48px; margin-bottom: 16px;">⚖️</div>
+                            <p>Add players to both teams to analyze the trade</p>
+                        </div>
+                    `;
+                }
+            },
+            
+            updateTradeTeamDisplay(team, players) {
+                const teamPlayers = players.map(name => 
+                    AppState.players.find(p => p.name === name)
+                ).filter(Boolean);
+                
+                const containerId = `trade-team-${team.toLowerCase()}`;
+                const container = document.getElementById(containerId);
+                
+                if (teamPlayers.length > 0) {
+                    container.classList.add('has-players');
+                    const html = teamPlayers.map(player => `
+                        <div class="player-item" style="margin-bottom: 8px;">
+                            <div class="player-cell">
+                                <div class="player-avatar" style="width: 32px; height: 32px; font-size: 12px; background: ${Utils.getPositionColor(player.position)}">
+                                    ${Utils.generateAvatar(player.name)}
+                                </div>
+                                <div class="player-info">
+                                    <div class="player-name" style="font-size: 14px;">${player.name}</div>
+                                    <div class="player-meta">
+                                        <span class="badge badge-${player.position}">${player.position}</span>
+                                        <span>${(player.predicted_value || 0).toFixed(1)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-icon btn-danger" onclick="removeFromTrade('${team}', '${player.name}')">
+                                ❌
+                            </button>
+                        </div>
+                    `).join('');
+                    container.innerHTML = html;
+                } else {
+                    container.classList.remove('has-players');
+                    container.innerHTML = `
+                        <div class="trade-empty">
+                            <div style="font-size: 32px; margin-bottom: 8px;">👤</div>
+                            <p>Add players to Team ${team}</p>
+                        </div>
+                    `;
+                }
+            },
+            
+            updateTradePlayerPool() {
+                const container = document.getElementById('trade-player-pool');
+                if (!container) return;
+                
+                const search = document.getElementById('trade-search')?.value.toLowerCase() || '';
+                const filtered = AppState.players
+                    .filter(p => p.name.toLowerCase().includes(search))
+                    .slice(0, 50);
+                
+                const html = filtered.map(player => {
+                    const injury = DataManager.getInjuryStatus(player.name);
+                    const inTeamA = AppState.tradeState.teamA.includes(player.name);
+                    const inTeamB = AppState.tradeState.teamB.includes(player.name);
+                    
+                    return `
+                        <div class="player-item">
+                            <div class="player-cell">
+                                <div class="player-avatar" style="width: 32px; height: 32px; font-size: 12px; background: ${Utils.getPositionColor(player.position)}">
+                                    ${Utils.generateAvatar(player.name)}
+                                </div>
+                                <div class="player-info">
+                                    <div class="player-name" style="font-size: 14px;">${player.name}</div>
+                                    <div class="player-meta">
+                                        <span class="badge badge-${player.position}">${player.position}</span>
+                                        <span>${(player.predicted_value || 0).toFixed(1)}</span>
+                                        ${injury ? `<span class="injury-status ${injury.status}">${injury.status}</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-small ${inTeamA ? 'btn-danger' : 'btn-primary'}" 
+                                        onclick="${inTeamA ? `removeFromTrade('A', '${player.name}')` : `addToTrade('A', '${player.name}')`}">
+                                    ${inTeamA ? 'Remove A' : 'Add to A'}
+                                </button>
+                                <button class="btn btn-small ${inTeamB ? 'btn-danger' : 'btn-primary'}" 
+                                        onclick="${inTeamB ? `removeFromTrade('B', '${player.name}')` : `addToTrade('B', '${player.name}')`}">
+                                    ${inTeamB ? 'Remove B' : 'Add to B'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                container.innerHTML = html;
+            },
+            
+            updateMarketAnalysis() {
+                const players = AppState.players;
+                
+                // Market segments
+                const marketLeaders = players.slice(0, 10);
+                const bestValues = players.filter(p => (p.predicted_value || 0) < 10 && (p.predicted_value || 0) > 5).slice(0, 10);
+                const overvalued = players.filter(p => (p.volatility || 0) > 10).slice(0, 10);
+                const watchList = players.filter(p => DataManager.getInjuryStatus(p.name)).slice(0, 10);
+                
+                document.getElementById('market-leaders').textContent = marketLeaders.length;
+                document.getElementById('best-values').textContent = bestValues.length;
+                document.getElementById('overvalued').textContent = overvalued.length;
+                document.getElementById('watch-list').textContent = watchList.length;
+                
+                // Market recommendations
+                const recommendations = `
+                    <div class="grid grid-3">
+                        <div class="card" style="margin: 0;">
+                            <h4 style="color: var(--accent-green); margin-bottom: 16px;">🔥 Market Leaders</h4>
+                            ${marketLeaders.slice(0, 5).map(p => `
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 12px; background: var(--bg-secondary); border-radius: 8px;">
+                                    <div>
+                                        <div style="font-weight: 600; font-size: 14px;">${p.name}</div>
+                                        <div style="font-size: 12px; color: var(--text-secondary);">${p.position} • ${p.team}</div>
+                                    </div>
+                                    <span style="font-weight: 700; color: var(--accent-green);">${(p.predicted_value || 0).toFixed(1)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="card" style="margin: 0;">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 16px;">💎 Best Values</h4>
+                            ${bestValues.slice(0, 5).map(p => `
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 12px; background: var(--bg-secondary); border-radius: 8px;">
+                                    <div>
+                                        <div style="font-weight: 600; font-size: 14px;">${p.name}</div>
+                                        <div style="font-size: 12px; color: var(--text-secondary);">${p.position} • ${p.team}</div>
+                                    </div>
+                                    <span style="font-weight: 700; color: var(--accent-blue);">${(p.predicted_value || 0).toFixed(1)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="card" style="margin: 0;">
+                            <h4 style="color: var(--accent-yellow); margin-bottom: 16px;">⚠️ Watch List</h4>
+                            ${watchList.slice(0, 5).map(p => {
+                                const injury = DataManager.getInjuryStatus(p.name);
+                                return `
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 12px; background: var(--bg-secondary); border-radius: 8px;">
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 14px;">${p.name}</div>
+                                            <div style="font-size: 12px; color: var(--text-secondary);">${p.position} • ${p.team}</div>
+                                        </div>
+                                        <span class="injury-status ${injury?.status || 'questionable'}">${injury?.status || 'monitor'}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
                     </div>
-                </div>
-            `).join('');
-            
-            const container = document.getElementById('top-players-grid');
-            if (container) {
-                container.innerHTML = topPlayersHTML;
+                `;
+                
+                document.getElementById('market-recommendations').innerHTML = recommendations;
+                
+                // Create market charts
+                ChartManager.createMarketCharts();
             }
-        }
+        };
 
-        // Create home page charts
-        function createHomeCharts() {
-            // Position Distribution Chart
-            const positions = uniquePlayers.reduce((acc, player) => {
-                acc[player.position] = (acc[player.position] || 0) + 1;
-                return acc;
-            }, {});
-            
-            const positionCtx = document.getElementById('position-chart');
-            if (positionCtx) {
-                new Chart(positionCtx.getContext('2d'), {
+        // Chart Management
+        const ChartManager = {
+            createPositionChart() {
+                const ctx = document.getElementById('position-chart');
+                if (!ctx) return;
+
+                const positions = DataManager.getPlayersByPosition();
+                const positionData = Object.entries(positions)
+                    .map(([pos, players]) => ({
+                        position: pos,
+                        topValue: Math.max(...players.map(p => p.predicted_value || 0)),
+                        count: players.length
+                    }))
+                    .sort((a, b) => b.topValue - a.topValue);
+
+                const colors = ['#ff3366', '#0088ff', '#ffcc00', '#9333ea', '#00ff88', '#9ca3af'];
+
+                if (AppState.charts.position) AppState.charts.position.destroy();
+
+                AppState.charts.position = new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: positionData.map(p => `${p.position} (${p.count})`),
+                        datasets: [{
+                            label: 'Top Player Value',
+                            data: positionData.map(p => p.topValue),
+                            backgroundColor: colors.slice(0, positionData.length),
+                            borderWidth: 0,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: '#888', font: { size: 12 } }
+                            },
+                            x: {
+                                grid: { color: '#2a2a2a' },
+                                ticks: { color: '#888', font: { size: 12 } }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            },
+
+            createValueDistributionChart() {
+                const ctx = document.getElementById('value-chart');
+                if (!ctx) return;
+
+                const valueRanges = {
+                    '0-5': 0, '5-10': 0, '10-15': 0, '15-20': 0, '20+': 0
+                };
+
+                AppState.players.forEach(player => {
+                    const value = player.predicted_value || 0;
+                    if (value < 5) valueRanges['0-5']++;
+                    else if (value < 10) valueRanges['5-10']++;
+                    else if (value < 15) valueRanges['10-15']++;
+                    else if (value < 20) valueRanges['15-20']++;
+                    else valueRanges['20+']++;
+                });
+
+                if (AppState.charts.value) AppState.charts.value.destroy();
+
+                AppState.charts.value = new Chart(ctx.getContext('2d'), {
                     type: 'doughnut',
                     data: {
-                        labels: Object.keys(positions),
+                        labels: Object.keys(valueRanges),
                         datasets: [{
-                            data: Object.values(positions),
+                            data: Object.values(valueRanges),
                             backgroundColor: [
-                                '#ff3366',
-                                '#0088ff',
-                                '#ffcc00',
-                                '#9333ea',
-                                '#00ff88'
+                                '#ff3366', '#ff8800', '#ffcc00', '#00ff88', '#0088ff'
                             ],
-                            borderWidth: 0
+                            borderWidth: 3,
+                            borderColor: '#1a1a1a'
                         }]
                     },
                     options: {
@@ -1157,228 +2431,48 @@
                                 position: 'bottom',
                                 labels: {
                                     padding: 20,
-                                    color: '#888'
+                                    color: '#888',
+                                    font: { size: 12 }
                                 }
                             }
                         }
                     }
                 });
-            }
-            
-            // Value Trends Chart
-            const topValuePlayers = uniquePlayers.slice(0, 10);
-            const valueCtx = document.getElementById('value-chart');
-            if (valueCtx) {
-                new Chart(valueCtx.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: topValuePlayers.map(p => p.name.split(' ').slice(-1)[0]),
-                        datasets: [{
-                            label: 'Predicted Value',
-                            data: topValuePlayers.map(p => p.predictedValue),
-                            backgroundColor: 'rgba(0, 255, 136, 0.6)',
-                            borderColor: '#00ff88',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                grid: {
-                                    color: '#2a2a2a'
-                                },
-                                ticks: {
-                                    color: '#888'
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    color: '#888'
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
-                });
-            }
-        }
+            },
 
-        // Update season filter
-        function updateSeasonFilter() {
-            const seasons = [...new Set(rawData.map(r => r.season))].sort();
-            const seasonFilter = document.getElementById('season-filter');
-            
-            seasons.forEach(season => {
-                const option = document.createElement('option');
-                option.value = season;
-                option.textContent = `Season ${season}`;
-                seasonFilter.appendChild(option);
-            });
-        }
+            createMarketCharts() {
+                this.createMarketTrendsChart();
+                this.createValuePerformanceChart();
+            },
 
-        // Update player list
-        function updatePlayerList() {
-            const searchTerm = document.getElementById('player-search').value.toLowerCase();
-            const positionFilter = document.getElementById('position-filter').value;
-            const seasonFilter = document.getElementById('season-filter').value;
-            
-            let filteredPlayers = uniquePlayers.filter(player => {
-                const matchesSearch = player.name.toLowerCase().includes(searchTerm);
-                const matchesPosition = !positionFilter || player.position === positionFilter;
-                const matchesSeason = !seasonFilter || player.seasons.includes(parseInt(seasonFilter));
-                return matchesSearch && matchesPosition && matchesSeason;
-            });
-            
-            const playerListHTML = filteredPlayers.slice(0, 50).map(player => `
-                <div class="player-item ${selectedPlayer === player.name ? 'selected' : ''}" onclick="selectPlayer('${player.name}')">
-                    <div class="player-cell">
-                        <div class="player-avatar" style="width: 32px; height: 32px; font-size: 14px;">
-                            ${player.name.split(' ').map(n => n[0]).join('')}
-                        </div>
-                        <div class="player-info">
-                            <div class="player-name" style="font-size: 14px;">${player.name}</div>
-                            <div class="player-meta">${player.position} • ${player.team}</div>
-                        </div>
-                    </div>
-                    <div style="font-size: 14px; font-weight: 600;">${player.predictedValue.toFixed(1)}</div>
-                </div>
-            `).join('');
-            
-            document.getElementById('player-list').innerHTML = playerListHTML;
-        }
+            createMarketTrendsChart() {
+                const ctx = document.getElementById('market-trends-chart');
+                if (!ctx) return;
 
-        // Select player
-        function selectPlayer(playerName) {
-            selectedPlayer = playerName;
-            updatePlayerList();
-            displayPlayerAnalytics();
-        }
+                const topPlayers = AppState.players.slice(0, 5);
+                const weeks = ['W1', 'W2', 'W3', 'W4', 'W5'];
+                const colors = ['#00ff88', '#0088ff', '#ff3366', '#ffcc00', '#9333ea'];
 
-        // Display player analytics
-        function displayPlayerAnalytics() {
-            const player = uniquePlayers.find(p => p.name === selectedPlayer);
-            if (!player) return;
-            
-            // Get all records for this player
-            const playerRecords = rawData.filter(r => r.name === selectedPlayer);
-            
-            const analyticsHTML = `
-                <!-- Player Header -->
-                <div class="card">
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <div style="display: flex; align-items: center; gap: 20px;">
-                            <div class="player-avatar" style="width: 64px; height: 64px; font-size: 24px;">
-                                ${player.name.split(' ').map(n => n[0]).join('')}
-                            </div>
-                            <div>
-                                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">${player.name}</h2>
-                                <div style="display: flex; gap: 16px; color: var(--text-secondary);">
-                                    <span><i>🛡️</i> ${player.team}</span>
-                                    <span><i>👤</i> ${player.position}</span>
-                                    <span><i>📅</i> ${player.seasons.join(', ')}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" onclick="addToTeam('${player.name}')">
-                            <i>➕</i> Add to Team
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Predicted Value</div>
-                        <div class="stat-value">${player.predictedValue.toFixed(1)}</div>
-                        <div class="badge badge-blue">Top ${Math.round((uniquePlayers.indexOf(player) + 1) / uniquePlayers.length * 100)}%</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Total Fantasy Points</div>
-                        <div class="stat-value">${player.totalFantasyPoints.toFixed(1)}</div>
-                        <div class="stat-change positive">
-                            <i>⬆️</i>
-                            <span>${player.avgFantasyPoints.toFixed(1)} avg</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Games Played</div>
-                        <div class="stat-value">${player.gamesPlayed}</div>
-                        <div class="badge badge-green">${player.seasons.length} seasons</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Volatility</div>
-                        <div class="stat-value">${player.volatility.toFixed(2)}</div>
-                        <div class="badge ${player.volatility < 5 ? 'badge-green' : player.volatility < 10 ? 'badge-yellow' : 'badge-red'}">
-                            ${player.volatility < 5 ? 'Low Risk' : player.volatility < 10 ? 'Medium Risk' : 'High Risk'}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Charts -->
-                <div class="grid grid-2">
-                    <div class="card">
-                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Season Performance</h3>
-                        <div class="chart-container">
-                            <canvas id="season-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Stats Breakdown</h3>
-                        <div class="chart-container">
-                            <canvas id="stats-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('player-analytics').innerHTML = analyticsHTML;
-            
-            // Create charts
-            setTimeout(() => {
-                createPlayerCharts(playerRecords);
-            }, 100);
-        }
-
-        // Create player charts
-        function createPlayerCharts(playerRecords) {
-            // Season Performance Chart
-            const seasonData = {};
-            playerRecords.forEach(record => {
-                if (!seasonData[record.season]) {
-                    seasonData[record.season] = {
-                        totalPoints: 0,
-                        games: 0
+                const datasets = topPlayers.map((player, index) => {
+                    const data = weeks.map(() => 
+                        (player.predicted_value || 0) + (Math.random() - 0.5) * 4
+                    );
+                    
+                    return {
+                        label: player.name.split(' ').pop(),
+                        data: data,
+                        borderColor: colors[index],
+                        backgroundColor: colors[index] + '20',
+                        tension: 0.4,
+                        borderWidth: 3
                     };
-                }
-                seasonData[record.season].totalPoints += parseFloat(record.total_fantasy_points) || 0;
-                seasonData[record.season].games += parseInt(record.games_played) || 0;
-            });
-            
-            const seasonCtx = document.getElementById('season-chart');
-            if (seasonCtx) {
-                if (charts.season) charts.season.destroy();
-                
-                charts.season = new Chart(seasonCtx.getContext('2d'), {
+                });
+
+                if (AppState.charts.marketTrends) AppState.charts.marketTrends.destroy();
+
+                AppState.charts.marketTrends = new Chart(ctx.getContext('2d'), {
                     type: 'line',
-                    data: {
-                        labels: Object.keys(seasonData),
-                        datasets: [{
-                            label: 'Total Fantasy Points',
-                            data: Object.values(seasonData).map(s => s.totalPoints),
-                            borderColor: '#00ff88',
-                            backgroundColor: 'rgba(0, 255, 136, 0.1)',
-                            tension: 0.3
-                        }]
-                    },
+                    data: { labels: weeks, datasets },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
@@ -1393,71 +2487,58 @@
                             }
                         },
                         plugins: {
-                            legend: { display: false }
+                            legend: {
+                                labels: { color: '#888' }
+                            }
                         }
                     }
                 });
-            }
-            
-            // Stats Breakdown Chart (latest season)
-            const latestRecord = playerRecords[playerRecords.length - 1];
-            const statsData = [];
-            const statsLabels = [];
-            
-            if (latestRecord.position === 'QB') {
-                statsLabels.push('Passing Yards', 'Passing TDs', 'Rushing Yards');
-                statsData.push(
-                    (parseFloat(latestRecord.passing_yds_sum) || 0) / 100,
-                    parseFloat(latestRecord.passing_td_sum) || 0,
-                    (parseFloat(latestRecord.rushing_yds_sum) || 0) / 10
-                );
-            } else if (latestRecord.position === 'RB') {
-                statsLabels.push('Rushing Yards', 'Rushing TDs', 'Receiving Yards');
-                statsData.push(
-                    (parseFloat(latestRecord.rushing_yds_sum) || 0) / 10,
-                    parseFloat(latestRecord.rushing_td_sum) || 0,
-                    (parseFloat(latestRecord.receiving_yds_sum) || 0) / 10
-                );
-            } else if (latestRecord.position === 'WR' || latestRecord.position === 'TE') {
-                statsLabels.push('Receiving Yards', 'Receiving TDs', 'Targets');
-                statsData.push(
-                    (parseFloat(latestRecord.receiving_yds_sum) || 0) / 10,
-                    parseFloat(latestRecord.receiving_td_sum) || 0,
-                    (parseFloat(latestRecord.receiving_tgt_sum) || 0) / 10
-                );
-            } else if (latestRecord.position === 'DEF') {
-                statsLabels.push('Sacks', 'Turnovers', 'Points Allowed');
-                statsData.push(
-                    parseFloat(latestRecord.def_sacks_sum) || 0,
-                    10, // Placeholder
-                    5   // Placeholder
-                );
-            }
-            
-            const statsCtx = document.getElementById('stats-chart');
-            if (statsCtx) {
-                if (charts.stats) charts.stats.destroy();
-                
-                charts.stats = new Chart(statsCtx.getContext('2d'), {
-                    type: 'radar',
+            },
+
+            createValuePerformanceChart() {
+                const ctx = document.getElementById('value-performance-chart');
+                if (!ctx) return;
+
+                const scatterData = AppState.players.slice(0, 100).map(player => ({
+                    x: (player.predicted_value || 0) + Math.random() * 5,
+                    y: player.predicted_value || 0,
+                    backgroundColor: Utils.getPositionColor(player.position)
+                }));
+
+                if (AppState.charts.valuePerformance) AppState.charts.valuePerformance.destroy();
+
+                AppState.charts.valuePerformance = new Chart(ctx.getContext('2d'), {
+                    type: 'scatter',
                     data: {
-                        labels: statsLabels,
                         datasets: [{
-                            label: 'Player Stats',
-                            data: statsData,
-                            borderColor: '#00ff88',
-                            backgroundColor: 'rgba(0, 255, 136, 0.2)',
-                            pointBackgroundColor: '#00ff88'
+                            label: 'Players',
+                            data: scatterData,
+                            backgroundColor: scatterData.map(d => d.backgroundColor),
+                            pointRadius: 6,
+                            pointHoverRadius: 8
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            r: {
-                                beginAtZero: true,
+                            y: {
                                 grid: { color: '#2a2a2a' },
-                                ticks: { display: false }
+                                ticks: { color: '#888' },
+                                title: {
+                                    display: true,
+                                    text: 'Fantasy Value',
+                                    color: '#888'
+                                }
+                            },
+                            x: {
+                                grid: { color: '#2a2a2a' },
+                                ticks: { color: '#888' },
+                                title: {
+                                    display: true,
+                                    text: 'Performance Score',
+                                    color: '#888'
+                                }
                             }
                         },
                         plugins: {
@@ -1466,173 +2547,437 @@
                     }
                 });
             }
+        };
+
+        // Team Management
+        const TeamManager = {
+            addPlayer(playerName) {
+                if (!AppState.myTeam.includes(playerName)) {
+                    AppState.myTeam.push(playerName);
+                    UI.updateTeamStats();
+                    UI.updateAvailablePlayersList();
+                    Utils.showNotification(`${playerName} added to your team! 🎉`);
+                }
+            },
+
+            removePlayer(playerName) {
+                AppState.myTeam = AppState.myTeam.filter(p => p !== playerName);
+                UI.updateTeamStats();
+                UI.updateAvailablePlayersList();
+                Utils.showNotification(`${playerName} removed from team`);
+            }
+        };
+
+        // Draft Management
+        const DraftManager = {
+            addTeam() {
+                const input = document.getElementById('team-input');
+                const teamName = input.value.trim();
+                
+                if (teamName && !AppState.draftState.teams.includes(teamName)) {
+                    AppState.draftState.teams.push(teamName);
+                    input.value = '';
+                    this.updateTeamsList();
+                    this.updateDraftStats();
+                    Utils.showNotification(`Team "${teamName}" added!`);
+                }
+            },
+
+            removeTeam(teamName) {
+                AppState.draftState.teams = AppState.draftState.teams.filter(t => t !== teamName);
+                this.updateTeamsList();
+                this.updateDraftStats();
+                
+                if (AppState.draftState.isActive) {
+                    this.resetDraft();
+                }
+            },
+
+            updateTeamsList() {
+                const container = document.getElementById('teams-list');
+                const html = AppState.draftState.teams.map(team => `
+                    <div class="team-card">
+                        <span class="team-name">${team}</span>
+                        <button class="btn btn-icon btn-danger" onclick="removeTeam('${team}')">
+                            🗑️
+                        </button>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = html;
+            },
+
+            startDraft() {
+                const state = AppState.draftState;
+                if (state.teams.length < 2) {
+                    Utils.showNotification('Need at least 2 teams to start draft', 'error');
+                    return;
+                }
+                
+                state.isActive = true;
+                state.currentPick = 1;
+                state.currentRound = 1;
+                state.picks = [];
+                state.teamRosters = {};
+                
+                state.teams.forEach(team => {
+                    state.teamRosters[team] = [];
+                });
+                
+                UI.updateDraftBoard();
+                this.updateDraftStats();
+                
+                document.getElementById('draft-status').classList.add('hidden');
+                document.getElementById('draft-board-container').classList.remove('hidden');
+                
+                Utils.showNotification('Draft started! 🚀');
+            },
+
+            resetDraft() {
+                const state = AppState.draftState;
+                state.isActive = false;
+                state.currentPick = 1;
+                state.currentRound = 1;
+                state.picks = [];
+                state.teamRosters = {};
+                
+                this.updateDraftStats();
+                
+                document.getElementById('draft-status').classList.remove('hidden');
+                document.getElementById('draft-board-container').classList.add('hidden');
+                
+                Utils.showNotification('Draft reset');
+            },
+
+            getCurrentTeamIndex() {
+                const state = AppState.draftState;
+                const teamsCount = state.teams.length;
+                const pickInRound = ((state.currentPick - 1) % teamsCount) + 1;
+                
+                if (document.getElementById('draft-type').value === 'snake' && state.currentRound % 2 === 0) {
+                    return teamsCount - pickInRound;
+                } else {
+                    return pickInRound - 1;
+                }
+            },
+
+            draftPlayer(playerName) {
+                const state = AppState.draftState;
+                if (!state.isActive) return;
+                
+                const currentTeamIndex = this.getCurrentTeamIndex();
+                const currentTeam = state.teams[currentTeamIndex];
+                
+                state.picks.push({
+                    pick: state.currentPick,
+                    round: state.currentRound,
+                    team: currentTeam,
+                    player: playerName
+                });
+                
+                state.teamRosters[currentTeam].push(playerName);
+                state.currentPick++;
+                state.currentRound = Math.ceil(state.currentPick / state.teams.length);
+                
+                UI.updateDraftBoard();
+                this.updateDraftStats();
+                
+                Utils.showNotification(`${playerName} drafted by ${currentTeam}!`);
+            },
+
+            updateDraftStats() {
+                const state = AppState.draftState;
+                document.getElementById('current-pick').textContent = state.currentPick;
+                document.getElementById('current-round').textContent = state.currentRound;
+                document.getElementById('draft-teams').textContent = state.teams.length;
+                document.getElementById('drafted-count').textContent = state.picks.length;
+            }
+        };
+
+        // Trade Management
+        const TradeManager = {
+            addToTrade(team, playerName) {
+                const state = AppState.tradeState;
+                if (team === 'A' && !state.teamA.includes(playerName)) {
+                    state.teamA.push(playerName);
+                } else if (team === 'B' && !state.teamB.includes(playerName)) {
+                    state.teamB.push(playerName);
+                }
+                UI.updateTradeAnalysis();
+                UI.updateTradePlayerPool();
+            },
+
+            removeFromTrade(team, playerName) {
+                const state = AppState.tradeState;
+                if (team === 'A') {
+                    state.teamA = state.teamA.filter(p => p !== playerName);
+                } else {
+                    state.teamB = state.teamB.filter(p => p !== playerName);
+                }
+                UI.updateTradeAnalysis();
+                UI.updateTradePlayerPool();
+            },
+
+            calculateTeamValue(playerNames) {
+                return playerNames.reduce((sum, name) => {
+                    const player = AppState.players.find(p => p.name === name);
+                    return sum + (player ? (player.predicted_value || 0) : 0);
+                }, 0);
+            },
+
+            analyzeTradeValues(valueA, valueB) {
+                const difference = Math.abs(valueA - valueB);
+                const percentDiff = ((difference / Math.max(valueA, valueB)) * 100).toFixed(1);
+                const fairness = difference < 3 ? 'Very Fair' : 
+                                difference < 6 ? 'Fair' : 
+                                difference < 12 ? 'Somewhat Unfair' : 'Very Unfair';
+                const winner = valueA > valueB ? 'Team A' : valueB > valueA ? 'Team B' : 'Tie';
+                
+                return {
+                    difference,
+                    percentDiff,
+                    fairness,
+                    fairnessClass: fairness.includes('Very Fair') ? 'badge-green' : 
+                                  fairness.includes('Fair') ? 'badge-yellow' : 'badge-red',
+                    winner,
+                    winnerClass: winner === 'Team A' ? 'badge-blue' : 
+                                winner === 'Team B' ? 'badge-purple' : 'badge-green',
+                    winnerText: winner === 'Tie' ? 'Even trade' : `+${difference.toFixed(1)} value`,
+                    recommendation: fairness.includes('Very Fair') ? '✅' : 
+                                   fairness.includes('Fair') ? '⚖️' : '❌',
+                    recommendationText: fairness.includes('Very Fair') ? 'Great trade' : 
+                                       fairness.includes('Fair') ? 'Acceptable' : 'Reconsider'
+                };
+            }
+        };
+
+        // Event Listeners and Global Functions
+        function setupEventListeners() {
+            // Search inputs
+            const playerSearch = document.getElementById('player-search');
+            if (playerSearch) {
+                playerSearch.addEventListener('input', (e) => {
+                    AppState.filters.search = e.target.value;
+                    UI.updatePlayerList();
+                });
+            }
+
+            const positionFilter = document.getElementById('position-filter');
+            if (positionFilter) {
+                positionFilter.addEventListener('change', (e) => {
+                    AppState.filters.position = e.target.value;
+                    UI.updatePlayerList();
+                });
+            }
+
+            const sortFilter = document.getElementById('sort-filter');
+            if (sortFilter) {
+                sortFilter.addEventListener('change', (e) => {
+                    AppState.filters.sort = e.target.value;
+                    UI.updatePlayerList();
+                });
+            }
+
+            // Team search
+            const teamSearch = document.getElementById('team-search');
+            if (teamSearch) {
+                teamSearch.addEventListener('input', UI.updateAvailablePlayersList);
+            }
+
+            // Draft search
+            const draftSearch = document.getElementById('draft-search');
+            if (draftSearch) {
+                draftSearch.addEventListener('input', UI.updateDraftAvailablePlayers);
+            }
+
+            // Trade search
+            const tradeSearch = document.getElementById('trade-search');
+            if (tradeSearch) {
+                tradeSearch.addEventListener('input', UI.updateTradePlayerPool);
+            }
+
+            // Team input enter key
+            const teamInput = document.getElementById('team-input');
+            if (teamInput) {
+                teamInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        DraftManager.addTeam();
+                    }
+                });
+            }
         }
 
-        // Set active tab
+        function updatePositionFilter() {
+            const positions = [...new Set(AppState.players.map(p => p.position))].filter(Boolean).sort();
+            const positionFilter = document.getElementById('position-filter');
+            
+            if (positionFilter) {
+                positionFilter.innerHTML = '<option value="">All Positions</option>';
+                positions.forEach(position => {
+                    const option = document.createElement('option');
+                    option.value = position;
+                    option.textContent = position;
+                    positionFilter.appendChild(option);
+                });
+            }
+        }
+
+        // Navigation
         function setActiveTab(tabName) {
-            // Update nav links
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
-                if (link.textContent.toLowerCase().includes(tabName)) {
-                    link.classList.add('active');
-                }
             });
             
-            // Hide all tabs
+            const activeLink = Array.from(document.querySelectorAll('.nav-link'))
+                .find(link => link.textContent.toLowerCase().includes(tabName.toLowerCase()));
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.add('hidden');
             });
             
-            // Show selected tab
             const tab = document.getElementById(`${tabName}-tab`);
             if (tab) {
                 tab.classList.remove('hidden');
+                tab.classList.add('fade-in');
             }
             
-            // Update team stats if team tab
-            if (tabName === 'team') {
-                updateTeamStats();
+            // Tab-specific updates
+            switch (tabName) {
+                case 'analytics':
+                    UI.updatePlayerList();
+                    break;
+                case 'team':
+                    UI.updateTeamStats();
+                    UI.updateAvailablePlayersList();
+                    break;
+                case 'draft':
+                    DraftManager.updateTeamsList();
+                    DraftManager.updateDraftStats();
+                    if (AppState.draftState.isActive) {
+                        UI.updateDraftBoard();
+                    }
+                    break;
+                case 'trade':
+                    UI.updateTradeAnalysis();
+                    UI.updateTradePlayerPool();
+                    break;
+                case 'market':
+                    UI.updateMarketAnalysis();
+                    break;
             }
         }
 
-        // Add to team
+        function selectPlayer(playerName) {
+            AppState.selectedPlayer = playerName;
+            UI.updatePlayerList();
+            UI.displayPlayerAnalytics(playerName);
+        }
+
         function addToTeam(playerName) {
-            if (!myTeam.includes(playerName)) {
-                myTeam.push(playerName);
-                updateTeamStats();
-                updateAvailablePlayersList();
-                alert(`${playerName} added to your team!`);
-            }
+            TeamManager.addPlayer(playerName);
         }
 
-        // Remove from team
         function removeFromTeam(playerName) {
-            myTeam = myTeam.filter(p => p !== playerName);
-            updateTeamStats();
-            updateAvailablePlayersList();
+            TeamManager.removePlayer(playerName);
         }
 
-        // Update team stats
-        function updateTeamStats() {
-            const teamPlayers = myTeam.map(name => uniquePlayers.find(p => p.name === name)).filter(Boolean);
-            
-            const totalValue = teamPlayers.reduce((sum, p) => sum + p.predictedValue, 0);
-            const avgPoints = teamPlayers.length > 0
-                ? teamPlayers.reduce((sum, p) => sum + p.avgFantasyPoints, 0) / teamPlayers.length
-                : 0;
-            const avgVolatility = teamPlayers.length > 0 
-                ? teamPlayers.reduce((sum, p) => sum + p.volatility, 0) / teamPlayers.length 
-                : 0;
-            
-            document.getElementById('team-size').textContent = teamPlayers.length;
-            document.getElementById('team-value').textContent = totalValue.toFixed(1);
-            document.getElementById('team-points').textContent = avgPoints.toFixed(1);
-            document.getElementById('team-volatility').textContent = avgVolatility.toFixed(2);
-            
-            // Update roster table
-            if (teamPlayers.length > 0) {
-                const rosterHTML = `
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Player</th>
-                                <th>Position</th>
-                                <th>Team</th>
-                                <th>Value</th>
-                                <th>Avg Points</th>
-                                <th>Volatility</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${teamPlayers.map(player => `
-                                <tr>
-                                    <td>
-                                        <div class="player-cell">
-                                            <div class="player-avatar">
-                                                ${player.name.split(' ').map(n => n[0]).join('')}
-                                            </div>
-                                            <div class="player-info">
-                                                <div class="player-name">${player.name}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-${player.position}">${player.position}</span></td>
-                                    <td>${player.team}</td>
-                                    <td style="font-weight: 700;">${player.predictedValue.toFixed(1)}</td>
-                                    <td>${player.avgFantasyPoints.toFixed(1)}</td>
-                                    <td>${player.volatility.toFixed(2)}</td>
-                                    <td>
-                                        <button class="btn btn-icon btn-danger" onclick="removeFromTeam('${player.name}')">
-                                            <i>🗑️</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
-                document.getElementById('team-roster').innerHTML = rosterHTML;
-            } else {
-                document.getElementById('team-roster').innerHTML = `
-                    <div class="loading">
-                        <i style="font-size: 48px; margin-bottom: 16px;">👥</i>
-                        <p>No players in your team yet</p>
-                    </div>
-                `;
-            }
+        function addTeam() {
+            DraftManager.addTeam();
         }
 
-        // Update available players list
-        function updateAvailablePlayersList() {
-            const availableForTeam = uniquePlayers.filter(p => !myTeam.includes(p.name));
-            
-            const listHTML = availableForTeam.slice(0, 20).map(player => `
-                <div class="player-item">
-                    <div class="player-cell">
-                        <div class="player-avatar" style="width: 32px; height: 32px; font-size: 14px;">
-                            ${player.name.split(' ').map(n => n[0]).join('')}
-                        </div>
-                        <div class="player-info">
-                            <div class="player-name" style="font-size: 14px;">${player.name}</div>
-                            <div class="player-meta">${player.position} • ${player.predictedValue.toFixed(1)} pts</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-icon btn-primary" onclick="addToTeam('${player.name}')">
-                        <i>➕</i>
+        function removeTeam(teamName) {
+            DraftManager.removeTeam(teamName);
+        }
+
+        function startDraft() {
+            DraftManager.startDraft();
+        }
+
+        function resetDraft() {
+            DraftManager.resetDraft();
+        }
+
+        function draftPlayer(playerName) {
+            DraftManager.draftPlayer(playerName);
+        }
+
+        function addToTrade(team, playerName) {
+            TradeManager.addToTrade(team, playerName);
+        }
+
+        function removeFromTrade(team, playerName) {
+            TradeManager.removeFromTrade(team, playerName);
+        }
+
+        function showError(message) {
+            document.getElementById('loading-screen').innerHTML = `
+                <div class="loading">
+                    <div style="font-size: 64px; margin-bottom: 24px; color: var(--accent-red);">⚠️</div>
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 12px;">Error Loading Data</h3>
+                    <p style="color: var(--text-secondary); font-size: 16px; margin-bottom: 24px;">${message}</p>
+                    <button class="btn btn-primary" onclick="location.reload()">
+                        🔄 Try Again
                     </button>
                 </div>
-            `).join('');
+            `;
+        }
+
+        // Application Initialization
+        async function init() {
+            console.log('🚀 Initializing Fantasy Outlier Elite Platform...');
             
-            const container = document.getElementById('available-players-list');
-            if (container) {
-                container.innerHTML = listHTML;
+            try {
+                await DataManager.loadData();
+                
+                // Setup UI
+                UI.updateHomeStats();
+                UI.displayTopPlayers();
+                updatePositionFilter();
+                
+                // Create charts
+                ChartManager.createPositionChart();
+                ChartManager.createValueDistributionChart();
+                
+                // Setup event listeners
+                setupEventListeners();
+                
+                // Initialize other managers
+                UI.updatePlayerList();
+                UI.updateAvailablePlayersList();
+                UI.updateTradePlayerPool();
+                UI.updateMarketAnalysis();
+                
+                // Hide loading screen and show home
+                document.getElementById('loading-screen').classList.add('hidden');
+                setActiveTab('home');
+                
+                console.log('✅ Fantasy Outlier Elite Platform initialized successfully!');
+                Utils.showNotification('Welcome to Fantasy Outlier Elite! 🏈');
+                
+            } catch (error) {
+                console.error('❌ Initialization failed:', error);
+                showError(`Failed to load fantasy data: ${error.message}`);
             }
         }
 
-        // Setup event listeners
-        function setupEventListeners() {
-            // Player search
-            const searchInput = document.getElementById('player-search');
-            if (searchInput) {
-                searchInput.addEventListener('input', updatePlayerList);
-            }
-            
-            // Position filter
-            const positionFilter = document.getElementById('position-filter');
-            if (positionFilter) {
-                positionFilter.addEventListener('change', updatePlayerList);
-            }
-            
-            // Season filter
-            const seasonFilter = document.getElementById('season-filter');
-            if (seasonFilter) {
-                seasonFilter.addEventListener('change', updatePlayerList);
-            }
-        }
-
-        // Initialize app when page loads
+        // Start the application
         window.addEventListener('DOMContentLoaded', init);
+
+        // Global exports
+        window.setActiveTab = setActiveTab;
+        window.selectPlayer = selectPlayer;
+        window.addToTeam = addToTeam;
+        window.removeFromTeam = removeFromTeam;
+        window.addTeam = addTeam;
+        window.removeTeam = removeTeam;
+        window.startDraft = startDraft;
+        window.resetDraft = resetDraft;
+        window.draftPlayer = draftPlayer;
+        window.addToTrade = addToTrade;
+        window.removeFromTrade = removeFromTrade;
     </script>
 </body>
 </html>
