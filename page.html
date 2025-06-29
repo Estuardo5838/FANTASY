@@ -155,6 +155,119 @@
             padding: 24px 20px;
         }
         
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 600px;
+            margin: -24px -20px 48px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&h=1080&fit=crop');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            filter: blur(2px);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .hero-title {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: var(--gradient-green);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        
+        .hero-stat {
+            text-align: center;
+        }
+        
+        .hero-stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+        
+        .hero-stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-green);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
         /* Cards */
         .card {
             background: var(--bg-card);
@@ -266,6 +379,11 @@
         .btn-primary:hover {
             opacity: 0.9;
             transform: translateY(-1px);
+        }
+        
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 16px;
         }
         
         .btn-danger {
@@ -384,6 +502,13 @@
             color: var(--accent-yellow);
         }
         
+        /* Position Badges */
+        .badge-QB { background: rgba(255, 51, 102, 0.1); color: #ff3366; }
+        .badge-RB { background: rgba(0, 136, 255, 0.1); color: #0088ff; }
+        .badge-WR { background: rgba(255, 204, 0, 0.1); color: #ffcc00; }
+        .badge-TE { background: rgba(147, 51, 234, 0.1); color: #9333ea; }
+        .badge-DEF { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
+        
         /* Forms */
         .form-group {
             margin-bottom: 20px;
@@ -495,31 +620,79 @@
             background: rgba(0, 255, 136, 0.05);
         }
         
-        /* Range Slider */
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 6px;
-            border-radius: 3px;
-            background: var(--bg-secondary);
-            outline: none;
-            margin: 10px 0;
+        /* Top Players Grid */
+        .top-players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
         }
         
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
+        .top-player-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .top-player-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-green);
+            border-radius: 12px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .top-player-card:hover::before {
+            opacity: 0.3;
+        }
+        
+        .top-player-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-green);
+        }
+        
+        .rank-badge {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-green);
             border-radius: 50%;
-            background: var(--accent-green);
-            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: #000;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
             .nav {
                 display: none;
+            }
+            
+            .hero-title {
+                font-size: 40px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .hero-stats {
+                gap: 24px;
             }
             
             .stats-grid {
@@ -566,18 +739,17 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="logo" onclick="setActiveTab('statistics')">
+            <div class="logo" onclick="setActiveTab('home')">
                 <div class="logo-icon">🏈</div>
                 <span>Fantasy Outlier</span>
             </div>
             <nav class="nav">
-                <a class="nav-link active" onclick="setActiveTab('statistics')">Statistics</a>
-                <a class="nav-link" onclick="setActiveTab('team')">Team</a>
+                <a class="nav-link active" onclick="setActiveTab('home')">Home</a>
+                <a class="nav-link" onclick="setActiveTab('statistics')">Statistics</a>
+                <a class="nav-link" onclick="setActiveTab('team')">My Team</a>
                 <a class="nav-link" onclick="setActiveTab('draft')">Draft</a>
                 <a class="nav-link" onclick="setActiveTab('trade')">Trade</a>
-                <a class="nav-link" onclick="setActiveTab('competition')">Competition</a>
                 <a class="nav-link" onclick="setActiveTab('market')">Market</a>
-                <a class="nav-link" onclick="setActiveTab('updates')">Updates</a>
             </nav>
         </div>
     </header>
@@ -590,6 +762,78 @@
                 <div class="spinner"></div>
                 <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">Loading Fantasy Data</h3>
                 <p style="color: var(--text-secondary)">Fetching data from GitHub...</p>
+            </div>
+
+            <!-- Home Tab -->
+            <div id="home-tab" class="tab-content hidden">
+                <!-- Hero Section -->
+                <div class="hero">
+                    <div class="hero-bg"></div>
+                    <div class="hero-content">
+                        <h1 class="hero-title">Fantasy Outlier</h1>
+                        <p class="hero-subtitle">Professional NFL Fantasy Analytics Platform</p>
+                        <div class="hero-stats">
+                            <div class="hero-stat">
+                                <div class="hero-stat-value" id="total-players-count">0</div>
+                                <div class="hero-stat-label">Active Players</div>
+                            </div>
+                            <div class="hero-stat">
+                                <div class="hero-stat-value" id="total-seasons-count">0</div>
+                                <div class="hero-stat-label">Seasons Analyzed</div>
+                            </div>
+                            <div class="hero-stat">
+                                <div class="hero-stat-value" id="total-games-count">0</div>
+                                <div class="hero-stat-label">Games Tracked</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-large" onclick="setActiveTab('statistics')">
+                            Start Analyzing <span style="margin-left: 8px;">→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">Advanced Analytics</h3>
+                        <p class="feature-desc">Deep dive into player performance with multi-season weighted analysis and predictive modeling</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">Smart Predictions</h3>
+                        <p class="feature-desc">AI-powered value predictions based on historical performance and volatility metrics</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="feature-title">Real-Time Insights</h3>
+                        <p class="feature-desc">Live data processing with instant visualization of trends and opportunities</p>
+                    </div>
+                </div>
+
+                <!-- Top Players Section -->
+                <div class="card">
+                    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">🔥 Top Performers</h2>
+                    <div id="top-players-grid" class="top-players-grid">
+                        <!-- Top players will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Position Distribution -->
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Position Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="position-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Value Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="value-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Statistics Tab -->
@@ -606,42 +850,22 @@
                         <div class="form-group">
                             <select id="position-filter" class="form-control">
                                 <option value="">All Positions</option>
-                                <option value="QB">Quarterback</option>
-                                <option value="RB">Running Back</option>
-                                <option value="WR/TE">Wide Receiver/TE</option>
-                                <option value="Defense">Defense</option>
+                                <option value="QB">Quarterback (QB)</option>
+                                <option value="RB">Running Back (RB)</option>
+                                <option value="WR">Wide Receiver (WR)</option>
+                                <option value="TE">Tight End (TE)</option>
+                                <option value="DEF">Defense (DEF)</option>
                             </select>
                         </div>
                         
-                        <div id="player-list" class="player-list" style="max-height: 400px; overflow-y: auto;">
-                            <!-- Players will be populated here -->
+                        <div class="form-group">
+                            <select id="season-filter" class="form-control">
+                                <option value="">All Seasons</option>
+                            </select>
                         </div>
                         
-                        <!-- Season Weights -->
-                        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border)">
-                            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">Season Weights</h4>
-                            
-                            <div class="form-group">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <label class="form-label">2023 Season</label>
-                                    <span id="weight-2023-value" style="font-size: 14px; font-weight: 600;">30%</span>
-                                </div>
-                                <input type="range" id="weight-2023" min="0" max="200" step="5" value="30">
-                            </div>
-                            
-                            <div class="form-group">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <label class="form-label">2024 Season</label>
-                                    <span id="weight-2024-value" style="font-size: 14px; font-weight: 600;">100%</span>
-                                </div>
-                                <input type="range" id="weight-2024" min="0" max="200" step="5" value="100">
-                            </div>
-                            
-                            <div style="margin-top: 12px; padding: 12px; background: var(--bg-secondary); border-radius: 8px;">
-                                <p id="active-weights" style="font-size: 12px; color: var(--text-secondary);">
-                                    Active weights: 2023: 30% + 2024: 100%
-                                </p>
-                            </div>
+                        <div id="player-list" class="player-list" style="max-height: 500px; overflow-y: auto;">
+                            <!-- Players will be populated here -->
                         </div>
                     </div>
                     
@@ -670,7 +894,7 @@
                         <div class="stat-value" id="team-value">0.0</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Projected Points</div>
+                        <div class="stat-label">Avg Fantasy Points</div>
                         <div class="stat-value" id="team-points">0.0</div>
                     </div>
                     <div class="stat-card">
@@ -703,7 +927,7 @@
             <div id="draft-tab" class="tab-content hidden">
                 <div class="card">
                     <h2>Draft Board</h2>
-                    <p>Draft functionality will be implemented here.</p>
+                    <p>Draft functionality coming soon...</p>
                 </div>
             </div>
 
@@ -711,15 +935,7 @@
             <div id="trade-tab" class="tab-content hidden">
                 <div class="card">
                     <h2>Trade Analyzer</h2>
-                    <p>Trade analysis functionality will be implemented here.</p>
-                </div>
-            </div>
-
-            <!-- Competition Tab -->
-            <div id="competition-tab" class="tab-content hidden">
-                <div class="card">
-                    <h2>League Competition</h2>
-                    <p>Competition standings will be implemented here.</p>
+                    <p>Trade analysis coming soon...</p>
                 </div>
             </div>
 
@@ -727,15 +943,7 @@
             <div id="market-tab" class="tab-content hidden">
                 <div class="card">
                     <h2>Market Analysis</h2>
-                    <p>Market trends and opportunities will be implemented here.</p>
-                </div>
-            </div>
-
-            <!-- Updates Tab -->
-            <div id="updates-tab" class="tab-content hidden">
-                <div class="card">
-                    <h2>Market Updates</h2>
-                    <p>Transaction log will be implemented here.</p>
+                    <p>Market trends coming soon...</p>
                 </div>
             </div>
         </div>
@@ -743,28 +951,21 @@
 
     <script>
         // Global variables
-        let tradeData = [];
-        let historicalData = [];
-        let availablePlayers = [];
+        let rawData = [];
+        let uniquePlayers = [];
         let myTeam = [];
         let selectedPlayer = null;
-        let seasonWeights = { 2023: 30, 2024: 100 };
         let charts = {};
 
-        // GitHub raw content URLs
-        const GITHUB_BASE = 'https://raw.githubusercontent.com/Estuardo5838/FANTASY/main/';
-        const CSV_FILES = {
-            trade: GITHUB_BASE + 'player_trade_value.csv',
-            season2023: GITHUB_BASE + 'player_2023.csv',
-            season2024: GITHUB_BASE + 'player_2024.csv'
-        };
+        // GitHub raw content URL
+        const GITHUB_URL = 'https://raw.githubusercontent.com/Estuardo5838/FANTASY/main/player_trade_value.csv';
 
         // Initialize app
         async function init() {
             console.log('Initializing app...');
             await loadDataFromGitHub();
             setupEventListeners();
-            setActiveTab('statistics');
+            setActiveTab('home');
         }
 
         // Load data from GitHub
@@ -772,35 +973,25 @@
             try {
                 console.log('Loading data from GitHub...');
                 
-                // Load trade value data
-                const tradeResponse = await fetch(CSV_FILES.trade);
-                const tradeText = await tradeResponse.text();
-                const tradeParsed = Papa.parse(tradeText, { header: true, dynamicTyping: true });
-                tradeData = tradeParsed.data.filter(row => row.name); // Filter out empty rows
+                const response = await fetch(GITHUB_URL);
+                const csvText = await response.text();
+                const parsed = Papa.parse(csvText, { 
+                    header: true, 
+                    dynamicTyping: true,
+                    skipEmptyLines: true
+                });
                 
-                console.log('Trade data loaded:', tradeData.length, 'players');
+                rawData = parsed.data.filter(row => row.name && row.name.trim() !== '');
+                console.log('Data loaded:', rawData.length, 'records');
                 
-                // Load 2023 season data
-                const season2023Response = await fetch(CSV_FILES.season2023);
-                const season2023Text = await season2023Response.text();
-                const season2023Parsed = Papa.parse(season2023Text, { header: true, dynamicTyping: true });
-                const season2023Data = season2023Parsed.data.filter(row => row.name).map(row => ({ ...row, season: 2023 }));
+                // Process unique players
+                processUniquePlayers();
                 
-                console.log('2023 data loaded:', season2023Data.length, 'records');
+                // Update home stats
+                updateHomeStats();
                 
-                // Load 2024 season data
-                const season2024Response = await fetch(CSV_FILES.season2024);
-                const season2024Text = await season2024Response.text();
-                const season2024Parsed = Papa.parse(season2024Text, { header: true, dynamicTyping: true });
-                const season2024Data = season2024Parsed.data.filter(row => row.name).map(row => ({ ...row, season: 2024 }));
-                
-                console.log('2024 data loaded:', season2024Data.length, 'records');
-                
-                // Combine historical data
-                historicalData = [...season2023Data, ...season2024Data];
-                
-                // Process available players
-                processAvailablePlayers();
+                // Create home page charts
+                createHomeCharts();
                 
                 // Hide loading screen
                 document.getElementById('loading-screen').classList.add('hidden');
@@ -820,174 +1011,231 @@
             }
         }
 
-        // Process available players
-        function processAvailablePlayers() {
-            availablePlayers = tradeData.map(player => {
-                const playerHistorical = historicalData.filter(d => d.name === player.name);
-                const position = detectPlayerType(playerHistorical);
-                const stats = calculateWeightedStats(player.name);
+        // Process unique players
+        function processUniquePlayers() {
+            const playerMap = {};
+            
+            rawData.forEach(row => {
+                const key = `${row.name}_${row.season}`;
                 
-                return {
-                    name: player.name,
-                    team: player.team,
-                    predictedValue: player.predicted_value || 0,
-                    volatility: player.volatility || 0,
-                    position: position,
-                    fantasyPoints: stats ? stats.fantasyPointsSum : 0,
-                    consistency: stats ? stats.consistency : 0
-                };
+                if (!playerMap[key]) {
+                    playerMap[key] = {
+                        name: row.name,
+                        team: row.team,
+                        position: row.position || 'Unknown',
+                        season: row.season,
+                        totalFantasyPoints: parseFloat(row.total_fantasy_points) || 0,
+                        avgFantasyPoints: parseFloat(row.avg_fantasy_points) || 0,
+                        volatility: parseFloat(row.volatility) || 0,
+                        predictedValue: parseFloat(row.predicted_value) || 0,
+                        gamesPlayed: parseInt(row.games_played) || 0,
+                        // Offensive stats
+                        passingYds: parseFloat(row.passing_yds_sum) || 0,
+                        passingTd: parseFloat(row.passing_td_sum) || 0,
+                        rushingYds: parseFloat(row.rushing_yds_sum) || 0,
+                        rushingTd: parseFloat(row.rushing_td_sum) || 0,
+                        receivingYds: parseFloat(row.receiving_yds_sum) || 0,
+                        receivingTd: parseFloat(row.receiving_td_sum) || 0,
+                        // Defensive stats
+                        defSacks: parseFloat(row.def_sacks_sum) || 0
+                    };
+                }
             });
             
-            // Sort by predicted value
-            availablePlayers.sort((a, b) => b.predictedValue - a.predictedValue);
+            // Get unique players (combine seasons)
+            const playerStats = {};
             
-            // Populate player list
-            updatePlayerList();
-            updateAvailablePlayersList();
-        }
-
-        // Detect player type
-        function detectPlayerType(playerData) {
-            if (playerData.length === 0) return 'Unknown';
-            
-            const totals = playerData.reduce((acc, curr) => {
-                acc.passingYds += curr.passing_yds || 0;
-                acc.rushingYds += curr.rushing_yds || 0;
-                acc.receivingYds += curr.receiving_yds || 0;
-                acc.defStats += (curr.def_interceptions_int || 0) + (curr.tackles_comb || 0) + (curr.def_sacks || 0);
-                return acc;
-            }, { passingYds: 0, rushingYds: 0, receivingYds: 0, defStats: 0 });
-            
-            if (totals.defStats > 0 && totals.passingYds === 0 && totals.rushingYds === 0 && totals.receivingYds === 0) return 'Defense';
-            if (totals.passingYds > totals.rushingYds + totals.receivingYds) return 'QB';
-            if (totals.rushingYds > totals.receivingYds) return 'RB';
-            if (totals.receivingYds > 0) return 'WR/TE';
-            return 'Special';
-        }
-
-        // Calculate fantasy points
-        function calculateFantasyPoints(game) {
-            return (
-                (game.passing_yds || 0) * 0.04 +
-                (game.passing_td || 0) * 4 +
-                (game.passing_int || 0) * -2 +
-                (game.rushing_yds || 0) * 0.1 +
-                (game.rushing_td || 0) * 6 +
-                (game.receiving_yds || 0) * 0.1 +
-                (game.receiving_td || 0) * 6 +
-                (game.fumbles_fl || 0) * -2 +
-                (game.def_interceptions_int || 0) * 2 +
-                (game.def_interceptions_td || 0) * 6 +
-                (game.def_sacks || 0) * 1 +
-                (game.fumbles_fr || 0) * 2 +
-                (game.fumbles_td || 0) * 6 +
-                (game.tackles_solo || 0) * 0.5 +
-                (game.tackles_ast || 0) * 0.25
-            );
-        }
-
-        // Calculate weighted stats
-        function calculateWeightedStats(playerName) {
-            const playerData = historicalData.filter(d => d.name === playerName);
-            if (playerData.length === 0) return null;
-            
-            // Add fantasy points to each game
-            const dataWithPoints = playerData.map(game => ({
-                ...game,
-                fantasyPoints: calculateFantasyPoints(game)
-            }));
-            
-            // Group by season
-            const seasonStats = {};
-            dataWithPoints.forEach(game => {
-                if (!seasonStats[game.season]) {
-                    seasonStats[game.season] = {
-                        games: 0,
-                        fantasyPoints: 0,
-                        passingYds: 0,
-                        passingTd: 0,
-                        rushingYds: 0,
-                        rushingTd: 0,
-                        receivingYds: 0,
-                        receivingTd: 0,
-                        defInt: 0,
-                        defSacks: 0,
-                        tackles: 0
+            Object.values(playerMap).forEach(player => {
+                if (!playerStats[player.name]) {
+                    playerStats[player.name] = {
+                        name: player.name,
+                        team: player.team,
+                        position: player.position,
+                        seasons: [],
+                        totalFantasyPoints: 0,
+                        avgFantasyPoints: 0,
+                        volatility: 0,
+                        predictedValue: 0,
+                        gamesPlayed: 0
                     };
                 }
                 
-                const s = seasonStats[game.season];
-                s.games++;
-                s.fantasyPoints += game.fantasyPoints;
-                s.passingYds += game.passing_yds || 0;
-                s.passingTd += game.passing_td || 0;
-                s.rushingYds += game.rushing_yds || 0;
-                s.rushingTd += game.rushing_td || 0;
-                s.receivingYds += game.receiving_yds || 0;
-                s.receivingTd += game.receiving_td || 0;
-                s.defInt += game.def_interceptions_int || 0;
-                s.defSacks += game.def_sacks || 0;
-                s.tackles += game.tackles_comb || 0;
+                playerStats[player.name].seasons.push(player.season);
+                playerStats[player.name].totalFantasyPoints += player.totalFantasyPoints;
+                playerStats[player.name].avgFantasyPoints = 
+                    (playerStats[player.name].avgFantasyPoints + player.avgFantasyPoints) / 2;
+                playerStats[player.name].volatility = 
+                    (playerStats[player.name].volatility + player.volatility) / 2;
+                playerStats[player.name].predictedValue = Math.max(
+                    playerStats[player.name].predictedValue, 
+                    player.predictedValue
+                );
+                playerStats[player.name].gamesPlayed += player.gamesPlayed;
             });
             
-            // Calculate weighted totals
-            const weighted = {
-                fantasyPointsSum: 0,
-                fantasyPointsMean: 0,
-                passingYdsSum: 0,
-                passingTdSum: 0,
-                rushingYdsSum: 0,
-                rushingTdSum: 0,
-                receivingYdsSum: 0,
-                receivingTdSum: 0,
-                defIntSum: 0,
-                defSacksSum: 0,
-                tacklesSum: 0,
-                games: 0,
-                consistency: 0
-            };
+            uniquePlayers = Object.values(playerStats);
+            uniquePlayers.sort((a, b) => b.predictedValue - a.predictedValue);
             
-            Object.entries(seasonStats).forEach(([season, stats]) => {
-                const weight = (seasonWeights[season] || 0) / 100;
-                weighted.fantasyPointsSum += stats.fantasyPoints * weight;
-                weighted.passingYdsSum += stats.passingYds * weight;
-                weighted.passingTdSum += stats.passingTd * weight;
-                weighted.rushingYdsSum += stats.rushingYds * weight;
-                weighted.rushingTdSum += stats.rushingTd * weight;
-                weighted.receivingYdsSum += stats.receivingYds * weight;
-                weighted.receivingTdSum += stats.receivingTd * weight;
-                weighted.defIntSum += stats.defInt * weight;
-                weighted.defSacksSum += stats.defSacks * weight;
-                weighted.tacklesSum += stats.tackles * weight;
-                weighted.games += stats.games * weight;
+            console.log('Unique players:', uniquePlayers.length);
+            
+            // Populate player list and filters
+            updatePlayerList();
+            updateSeasonFilter();
+            updateAvailablePlayersList();
+            displayTopPlayers();
+        }
+
+        // Update home stats
+        function updateHomeStats() {
+            const seasons = [...new Set(rawData.map(r => r.season))];
+            document.getElementById('total-players-count').textContent = uniquePlayers.length;
+            document.getElementById('total-seasons-count').textContent = seasons.length;
+            document.getElementById('total-games-count').textContent = 
+                uniquePlayers.reduce((sum, p) => sum + p.gamesPlayed, 0);
+        }
+
+        // Display top players on home page
+        function displayTopPlayers() {
+            const topPlayers = uniquePlayers.slice(0, 6);
+            
+            const topPlayersHTML = topPlayers.map((player, index) => `
+                <div class="top-player-card">
+                    <div class="rank-badge">${index + 1}</div>
+                    <div class="player-info" style="flex: 1;">
+                        <div class="player-name">${player.name}</div>
+                        <div class="player-meta">${player.position} • ${player.team}</div>
+                        <div style="margin-top: 8px;">
+                            <span class="badge badge-${player.position}">${player.position}</span>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--accent-green);">
+                            ${player.predictedValue.toFixed(1)}
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Predicted Value</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            const container = document.getElementById('top-players-grid');
+            if (container) {
+                container.innerHTML = topPlayersHTML;
+            }
+        }
+
+        // Create home page charts
+        function createHomeCharts() {
+            // Position Distribution Chart
+            const positions = uniquePlayers.reduce((acc, player) => {
+                acc[player.position] = (acc[player.position] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const positionCtx = document.getElementById('position-chart');
+            if (positionCtx) {
+                new Chart(positionCtx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(positions),
+                        datasets: [{
+                            data: Object.values(positions),
+                            backgroundColor: [
+                                '#ff3366',
+                                '#0088ff',
+                                '#ffcc00',
+                                '#9333ea',
+                                '#00ff88'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    color: '#888'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Value Trends Chart
+            const topValuePlayers = uniquePlayers.slice(0, 10);
+            const valueCtx = document.getElementById('value-chart');
+            if (valueCtx) {
+                new Chart(valueCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: topValuePlayers.map(p => p.name.split(' ').slice(-1)[0]),
+                        datasets: [{
+                            label: 'Predicted Value',
+                            data: topValuePlayers.map(p => p.predictedValue),
+                            backgroundColor: 'rgba(0, 255, 136, 0.6)',
+                            borderColor: '#00ff88',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                grid: {
+                                    color: '#2a2a2a'
+                                },
+                                ticks: {
+                                    color: '#888'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#888'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Update season filter
+        function updateSeasonFilter() {
+            const seasons = [...new Set(rawData.map(r => r.season))].sort();
+            const seasonFilter = document.getElementById('season-filter');
+            
+            seasons.forEach(season => {
+                const option = document.createElement('option');
+                option.value = season;
+                option.textContent = `Season ${season}`;
+                seasonFilter.appendChild(option);
             });
-            
-            // Calculate mean
-            if (weighted.games > 0) {
-                weighted.fantasyPointsMean = weighted.fantasyPointsSum / weighted.games;
-            }
-            
-            // Calculate consistency (simplified)
-            const allPoints = dataWithPoints.map(g => g.fantasyPoints);
-            if (allPoints.length > 0) {
-                const mean = allPoints.reduce((a, b) => a + b, 0) / allPoints.length;
-                const variance = allPoints.reduce((sq, n) => sq + Math.pow(n - mean, 2), 0) / allPoints.length;
-                const std = Math.sqrt(variance);
-                weighted.consistency = mean > 0 ? 100 - (std / mean * 100) : 0;
-            }
-            
-            return weighted;
         }
 
         // Update player list
         function updatePlayerList() {
             const searchTerm = document.getElementById('player-search').value.toLowerCase();
             const positionFilter = document.getElementById('position-filter').value;
+            const seasonFilter = document.getElementById('season-filter').value;
             
-            const filteredPlayers = availablePlayers.filter(player => {
+            let filteredPlayers = uniquePlayers.filter(player => {
                 const matchesSearch = player.name.toLowerCase().includes(searchTerm);
                 const matchesPosition = !positionFilter || player.position === positionFilter;
-                return matchesSearch && matchesPosition;
+                const matchesSeason = !seasonFilter || player.seasons.includes(parseInt(seasonFilter));
+                return matchesSearch && matchesPosition && matchesSeason;
             });
             
             const playerListHTML = filteredPlayers.slice(0, 50).map(player => `
@@ -1017,11 +1265,11 @@
 
         // Display player analytics
         function displayPlayerAnalytics() {
-            const player = availablePlayers.find(p => p.name === selectedPlayer);
+            const player = uniquePlayers.find(p => p.name === selectedPlayer);
             if (!player) return;
             
-            const stats = calculateWeightedStats(selectedPlayer);
-            if (!stats) return;
+            // Get all records for this player
+            const playerRecords = rawData.filter(r => r.name === selectedPlayer);
             
             const analyticsHTML = `
                 <!-- Player Header -->
@@ -1036,6 +1284,7 @@
                                 <div style="display: flex; gap: 16px; color: var(--text-secondary);">
                                     <span><i>🛡️</i> ${player.team}</span>
                                     <span><i>👤</i> ${player.position}</span>
+                                    <span><i>📅</i> ${player.seasons.join(', ')}</span>
                                 </div>
                             </div>
                         </div>
@@ -1050,40 +1299,42 @@
                     <div class="stat-card">
                         <div class="stat-label">Predicted Value</div>
                         <div class="stat-value">${player.predictedValue.toFixed(1)}</div>
-                        <div class="badge badge-blue">Top 15%</div>
+                        <div class="badge badge-blue">Top ${Math.round((uniquePlayers.indexOf(player) + 1) / uniquePlayers.length * 100)}%</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Fantasy Points</div>
-                        <div class="stat-value">${stats.fantasyPointsSum.toFixed(1)}</div>
+                        <div class="stat-label">Total Fantasy Points</div>
+                        <div class="stat-value">${player.totalFantasyPoints.toFixed(1)}</div>
                         <div class="stat-change positive">
                             <i>⬆️</i>
-                            <span>8.2%</span>
+                            <span>${player.avgFantasyPoints.toFixed(1)} avg</span>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Consistency</div>
-                        <div class="stat-value">${stats.consistency.toFixed(0)}%</div>
-                        <div class="badge badge-green">Reliable</div>
+                        <div class="stat-label">Games Played</div>
+                        <div class="stat-value">${player.gamesPlayed}</div>
+                        <div class="badge badge-green">${player.seasons.length} seasons</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">Volatility</div>
                         <div class="stat-value">${player.volatility.toFixed(2)}</div>
-                        <div class="badge badge-red">High Risk</div>
+                        <div class="badge ${player.volatility < 5 ? 'badge-green' : player.volatility < 10 ? 'badge-yellow' : 'badge-red'}">
+                            ${player.volatility < 5 ? 'Low Risk' : player.volatility < 10 ? 'Medium Risk' : 'High Risk'}
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Charts -->
                 <div class="grid grid-2">
                     <div class="card">
-                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Performance Timeline</h3>
+                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Season Performance</h3>
                         <div class="chart-container">
-                            <canvas id="performance-chart"></canvas>
+                            <canvas id="season-chart"></canvas>
                         </div>
                     </div>
                     <div class="card">
-                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Skills Breakdown</h3>
+                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Stats Breakdown</h3>
                         <div class="chart-container">
-                            <canvas id="radar-chart"></canvas>
+                            <canvas id="stats-chart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -1093,144 +1344,128 @@
             
             // Create charts
             setTimeout(() => {
-                createPerformanceChart(player.name);
-                createRadarChart(player.name, stats);
+                createPlayerCharts(playerRecords);
             }, 100);
         }
 
-        // Create performance chart
-        function createPerformanceChart(playerName) {
-            const playerData = historicalData.filter(d => d.name === playerName);
-            
-            // Group by season
+        // Create player charts
+        function createPlayerCharts(playerRecords) {
+            // Season Performance Chart
             const seasonData = {};
-            playerData.forEach(game => {
-                if (!seasonData[game.season]) {
-                    seasonData[game.season] = [];
+            playerRecords.forEach(record => {
+                if (!seasonData[record.season]) {
+                    seasonData[record.season] = {
+                        totalPoints: 0,
+                        games: 0
+                    };
                 }
+                seasonData[record.season].totalPoints += parseFloat(record.total_fantasy_points) || 0;
+                seasonData[record.season].games += parseInt(record.games_played) || 0;
+            });
+            
+            const seasonCtx = document.getElementById('season-chart');
+            if (seasonCtx) {
+                if (charts.season) charts.season.destroy();
                 
-                if (game.game_date) {
-                    seasonData[game.season].push({
-                        x: new Date(game.game_date),
-                        y: calculateFantasyPoints(game)
-                    });
-                }
-            });
-            
-            const datasets = Object.entries(seasonData).map(([season, data], idx) => ({
-                label: `Season ${season}`,
-                data: data.sort((a, b) => a.x - b.x).filter(d => d.y > 0),
-                borderColor: idx === 0 ? '#ff3366' : '#00ff88',
-                backgroundColor: idx === 0 ? 'rgba(255, 51, 102, 0.1)' : 'rgba(0, 255, 136, 0.1)',
-                tension: 0.3,
-                pointRadius: 4,
-                pointHoverRadius: 6
-            }));
-            
-            const ctx = document.getElementById('performance-chart').getContext('2d');
-            
-            // Destroy existing chart if exists
-            if (charts.performance) {
-                charts.performance.destroy();
-            }
-            
-            charts.performance = new Chart(ctx, {
-                type: 'line',
-                data: { datasets },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'week'
-                            },
-                            grid: {
-                                color: '#2a2a2a'
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: '#2a2a2a'
-                            },
-                            title: {
-                                display: true,
-                                text: 'Fantasy Points'
-                            }
-                        }
+                charts.season = new Chart(seasonCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: Object.keys(seasonData),
+                        datasets: [{
+                            label: 'Total Fantasy Points',
+                            data: Object.values(seasonData).map(s => s.totalPoints),
+                            borderColor: '#00ff88',
+                            backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                            tension: 0.3
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    }
-                }
-            });
-        }
-
-        // Create radar chart
-        function createRadarChart(playerName, stats) {
-            const player = availablePlayers.find(p => p.name === playerName);
-            
-            let labels, data;
-            if (player.position === 'Defense') {
-                labels = ['Interceptions', 'Sacks', 'Tackles', 'Turnovers'];
-                data = [
-                    stats.defIntSum || 0,
-                    stats.defSacksSum || 0,
-                    (stats.tacklesSum || 0) / 10,
-                    stats.defIntSum + (stats.defSacksSum || 0)
-                ];
-            } else {
-                labels = ['Passing', 'Rushing', 'Receiving'];
-                data = [
-                    (stats.passingYdsSum || 0) / 100,
-                    (stats.rushingYdsSum || 0) / 10,
-                    (stats.receivingYdsSum || 0) / 10
-                ];
-            }
-            
-            const ctx = document.getElementById('radar-chart').getContext('2d');
-            
-            // Destroy existing chart if exists
-            if (charts.radar) {
-                charts.radar.destroy();
-            }
-            
-            charts.radar = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: 'Player Profile',
-                        data,
-                        borderColor: '#00ff88',
-                        backgroundColor: 'rgba(0, 255, 136, 0.2)',
-                        pointBackgroundColor: '#00ff88',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#00ff88'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#2a2a2a'
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                grid: { color: '#2a2a2a' },
+                                ticks: { color: '#888' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#888' }
                             }
+                        },
+                        plugins: {
+                            legend: { display: false }
                         }
                     }
-                }
-            });
+                });
+            }
+            
+            // Stats Breakdown Chart (latest season)
+            const latestRecord = playerRecords[playerRecords.length - 1];
+            const statsData = [];
+            const statsLabels = [];
+            
+            if (latestRecord.position === 'QB') {
+                statsLabels.push('Passing Yards', 'Passing TDs', 'Rushing Yards');
+                statsData.push(
+                    (parseFloat(latestRecord.passing_yds_sum) || 0) / 100,
+                    parseFloat(latestRecord.passing_td_sum) || 0,
+                    (parseFloat(latestRecord.rushing_yds_sum) || 0) / 10
+                );
+            } else if (latestRecord.position === 'RB') {
+                statsLabels.push('Rushing Yards', 'Rushing TDs', 'Receiving Yards');
+                statsData.push(
+                    (parseFloat(latestRecord.rushing_yds_sum) || 0) / 10,
+                    parseFloat(latestRecord.rushing_td_sum) || 0,
+                    (parseFloat(latestRecord.receiving_yds_sum) || 0) / 10
+                );
+            } else if (latestRecord.position === 'WR' || latestRecord.position === 'TE') {
+                statsLabels.push('Receiving Yards', 'Receiving TDs', 'Targets');
+                statsData.push(
+                    (parseFloat(latestRecord.receiving_yds_sum) || 0) / 10,
+                    parseFloat(latestRecord.receiving_td_sum) || 0,
+                    (parseFloat(latestRecord.receiving_tgt_sum) || 0) / 10
+                );
+            } else if (latestRecord.position === 'DEF') {
+                statsLabels.push('Sacks', 'Turnovers', 'Points Allowed');
+                statsData.push(
+                    parseFloat(latestRecord.def_sacks_sum) || 0,
+                    10, // Placeholder
+                    5   // Placeholder
+                );
+            }
+            
+            const statsCtx = document.getElementById('stats-chart');
+            if (statsCtx) {
+                if (charts.stats) charts.stats.destroy();
+                
+                charts.stats = new Chart(statsCtx.getContext('2d'), {
+                    type: 'radar',
+                    data: {
+                        labels: statsLabels,
+                        datasets: [{
+                            label: 'Player Stats',
+                            data: statsData,
+                            borderColor: '#00ff88',
+                            backgroundColor: 'rgba(0, 255, 136, 0.2)',
+                            pointBackgroundColor: '#00ff88'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                grid: { color: '#2a2a2a' },
+                                ticks: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
         }
 
         // Set active tab
@@ -1238,8 +1473,10 @@
             // Update nav links
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
+                if (link.textContent.toLowerCase().includes(tabName)) {
+                    link.classList.add('active');
+                }
             });
-            event.target.classList.add('active');
             
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
@@ -1247,7 +1484,10 @@
             });
             
             // Show selected tab
-            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+            const tab = document.getElementById(`${tabName}-tab`);
+            if (tab) {
+                tab.classList.remove('hidden');
+            }
             
             // Update team stats if team tab
             if (tabName === 'team') {
@@ -1274,17 +1514,19 @@
 
         // Update team stats
         function updateTeamStats() {
-            const teamPlayers = myTeam.map(name => availablePlayers.find(p => p.name === name)).filter(Boolean);
+            const teamPlayers = myTeam.map(name => uniquePlayers.find(p => p.name === name)).filter(Boolean);
             
             const totalValue = teamPlayers.reduce((sum, p) => sum + p.predictedValue, 0);
-            const totalPoints = teamPlayers.reduce((sum, p) => sum + p.fantasyPoints, 0);
+            const avgPoints = teamPlayers.length > 0
+                ? teamPlayers.reduce((sum, p) => sum + p.avgFantasyPoints, 0) / teamPlayers.length
+                : 0;
             const avgVolatility = teamPlayers.length > 0 
                 ? teamPlayers.reduce((sum, p) => sum + p.volatility, 0) / teamPlayers.length 
                 : 0;
             
             document.getElementById('team-size').textContent = teamPlayers.length;
             document.getElementById('team-value').textContent = totalValue.toFixed(1);
-            document.getElementById('team-points').textContent = totalPoints.toFixed(1);
+            document.getElementById('team-points').textContent = avgPoints.toFixed(1);
             document.getElementById('team-volatility').textContent = avgVolatility.toFixed(2);
             
             // Update roster table
@@ -1297,7 +1539,8 @@
                                 <th>Position</th>
                                 <th>Team</th>
                                 <th>Value</th>
-                                <th>Points</th>
+                                <th>Avg Points</th>
+                                <th>Volatility</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -1314,12 +1557,13 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><span class="badge badge-blue">${player.position}</span></td>
+                                    <td><span class="badge badge-${player.position}">${player.position}</span></td>
                                     <td>${player.team}</td>
                                     <td style="font-weight: 700;">${player.predictedValue.toFixed(1)}</td>
-                                    <td>${player.fantasyPoints.toFixed(1)}</td>
+                                    <td>${player.avgFantasyPoints.toFixed(1)}</td>
+                                    <td>${player.volatility.toFixed(2)}</td>
                                     <td>
-                                        <button class="btn btn-icon" onclick="removeFromTeam('${player.name}')">
+                                        <button class="btn btn-icon btn-danger" onclick="removeFromTeam('${player.name}')">
                                             <i>🗑️</i>
                                         </button>
                                     </td>
@@ -1341,7 +1585,7 @@
 
         // Update available players list
         function updateAvailablePlayersList() {
-            const availableForTeam = availablePlayers.filter(p => !myTeam.includes(p.name));
+            const availableForTeam = uniquePlayers.filter(p => !myTeam.includes(p.name));
             
             const listHTML = availableForTeam.slice(0, 20).map(player => `
                 <div class="player-item">
@@ -1369,39 +1613,26 @@
         // Setup event listeners
         function setupEventListeners() {
             // Player search
-            document.getElementById('player-search').addEventListener('input', updatePlayerList);
+            const searchInput = document.getElementById('player-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', updatePlayerList);
+            }
             
             // Position filter
-            document.getElementById('position-filter').addEventListener('change', updatePlayerList);
+            const positionFilter = document.getElementById('position-filter');
+            if (positionFilter) {
+                positionFilter.addEventListener('change', updatePlayerList);
+            }
             
-            // Season weight sliders
-            document.getElementById('weight-2023').addEventListener('input', function(e) {
-                seasonWeights[2023] = parseInt(e.target.value);
-                document.getElementById('weight-2023-value').textContent = e.target.value + '%';
-                updateActiveWeights();
-                if (selectedPlayer) displayPlayerAnalytics();
-            });
-            
-            document.getElementById('weight-2024').addEventListener('input', function(e) {
-                seasonWeights[2024] = parseInt(e.target.value);
-                document.getElementById('weight-2024-value').textContent = e.target.value + '%';
-                updateActiveWeights();
-                if (selectedPlayer) displayPlayerAnalytics();
-            });
-        }
-
-        // Update active weights display
-        function updateActiveWeights() {
-            const weightsText = Object.entries(seasonWeights)
-                .filter(([season, weight]) => weight > 0)
-                .map(([season, weight]) => `${season}: ${weight}%`)
-                .join(' + ');
-            
-            document.getElementById('active-weights').textContent = `Active weights: ${weightsText}`;
+            // Season filter
+            const seasonFilter = document.getElementById('season-filter');
+            if (seasonFilter) {
+                seasonFilter.addEventListener('change', updatePlayerList);
+            }
         }
 
         // Initialize app when page loads
         window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
-</html> 
+</html>

@@ -1,0 +1,705 @@
+Name,Team,POS
+Kyler Murray,Arizona Cardinals,QB
+James Conner,Arizona Cardinals,RB
+Marvin Harrison Jr.,Arizona Cardinals,WR
+Michael Wilson,Arizona Cardinals,WR
+Trey McBride*,Arizona Cardinals,TE
+Tip Reiman,Arizona Cardinals,TE
+Paris Johnson,Arizona Cardinals,LT
+Evan Brown,Arizona Cardinals,LG
+Hjalte Froholdt,Arizona Cardinals,C
+Trystan Colon-Castillo,Arizona Cardinals,RG
+Kelvin Beachum,Arizona Cardinals,RT
+L.J. Collier,Arizona Cardinals,LDE
+Dante Stills,Arizona Cardinals,DT
+Roy Lopez,Arizona Cardinals,NT
+Zaven Collins,Arizona Cardinals,LOLB
+Mack Wilson,Arizona Cardinals,LILB
+Kyzir White,Arizona Cardinals,RILB
+Garrett Williams,Arizona Cardinals,LCB
+Starling Thomas,Arizona Cardinals,RCB
+Jalen Thompson,Arizona Cardinals,SS
+Budda Baker*,Arizona Cardinals,FS
+Sean Murphy-Bunting,Arizona Cardinals,DB
+Kirk Cousins,Atlanta Falcons,QB
+Bijan Robinson*,Atlanta Falcons,RB
+Drake London,Atlanta Falcons,WR
+Ray-Ray McCloud,Atlanta Falcons,WR
+Darnell Mooney,Atlanta Falcons,WR
+Kyle Pitts,Atlanta Falcons,TE
+Jake Matthews,Atlanta Falcons,LT
+Matthew Bergeron,Atlanta Falcons,LG
+Drew Dalman,Atlanta Falcons,C
+Chris Lindstrom*,Atlanta Falcons,RG
+Kaleb McGary,Atlanta Falcons,RT
+Grady Jarrett,Atlanta Falcons,LDE
+Eddie Goldman,Atlanta Falcons,NT
+David Onyemata,Atlanta Falcons,RDE
+Lorenzo Carter,Atlanta Falcons,LOLB
+Kaden Elliss,Atlanta Falcons,RILB
+Matt Judon,Atlanta Falcons,ROLB
+AJ Terrell,Atlanta Falcons,LCB
+Mike Hughes,Atlanta Falcons,RCB
+Jessie Bates III,Atlanta Falcons,SS
+Justin Simmons,Atlanta Falcons,FS
+DeAundre Alford,Atlanta Falcons,DB
+Lamar Jackson*+,Baltimore Ravens,QB
+Derrick Henry*,Baltimore Ravens,RB
+Rashod Bateman,Baltimore Ravens,WR
+Zay Flowers*,Baltimore Ravens,WR
+Mark Andrews,Baltimore Ravens,TE
+Isaiah Likely,Baltimore Ravens,TE
+Ronnie Stanley*,Baltimore Ravens,LT
+Patrick Mekari,Baltimore Ravens,LG
+Tyler Linderbaum*,Baltimore Ravens,C
+Daniel Faalele,Baltimore Ravens,RG
+Roger Rosengarten,Baltimore Ravens,RT
+Nnamdi Madubuike*,Baltimore Ravens,DT
+Travis Jones,Baltimore Ravens,NT
+Odafe Oweh,Baltimore Ravens,LOLB
+Roquan Smith*+,Baltimore Ravens,LILB
+Trenton Simpson,Baltimore Ravens,RLB
+Kyle Van Noy*,Baltimore Ravens,ROLB
+Marlon Humphrey*+,Baltimore Ravens,LCB
+Brandon Stephens,Baltimore Ravens,RCB
+Kyle Hamilton*,Baltimore Ravens,SS
+Marcus Williams,Baltimore Ravens,FS
+Nate Wiggins,Baltimore Ravens,DB
+Josh Allen*,Buffalo Bills,QB
+James Cook*,Buffalo Bills,RB
+Keon Coleman,Buffalo Bills,WR
+Mack Hollins,Buffalo Bills,WR
+Khalil Shakir,Buffalo Bills,WR
+Dawson Knox,Buffalo Bills,TE
+Dion Dawkins*,Buffalo Bills,LT
+David Edwards,Buffalo Bills,LG
+Connor McGovern*,Buffalo Bills,C
+O'Cyrus Torrence,Buffalo Bills,RG
+Spencer Brown,Buffalo Bills,RT
+A.J. Epenesa,Buffalo Bills,LDE
+Ed Oliver,Buffalo Bills,LDT
+DaQuan Jones,Buffalo Bills,RDT
+Gregory Rousseau,Buffalo Bills,RDE
+Terrel Bernard,Buffalo Bills,MLB
+Dorian Williams,Buffalo Bills,RLB
+Rasul Douglas,Buffalo Bills,LCB
+Christian Benford,Buffalo Bills,RCB
+Damar Hamlin,Buffalo Bills,SS
+Taylor Rapp,Buffalo Bills,FS
+Taron Johnson,Buffalo Bills,DB
+Bryce Young,Carolina Panthers,QB
+Chuba Hubbard,Carolina Panthers,RB
+Xavier Legette,Carolina Panthers,WR
+Adam Thielen,Carolina Panthers,WR
+Ja'Tavion Sanders,Carolina Panthers,TE
+Tommy Tremble,Carolina Panthers,TE
+Ikem Ekwonu,Carolina Panthers,LT
+Damien Lewis,Carolina Panthers,LG
+Cade Mays,Carolina Panthers,C
+Robert Hunt*,Carolina Panthers,RG
+Taylor Moton,Carolina Panthers,RT
+LaBryan Ray,Carolina Panthers,LDE
+Shy Tuttle,Carolina Panthers,NT
+A'Shawn Robinson,Carolina Panthers,RDE
+D.J. Wonnum,Carolina Panthers,LOLB
+Trevin Wallace,Carolina Panthers,LILB
+Josey Jewell,Carolina Panthers,RILB
+Jadeveon Clowney,Carolina Panthers,ROLB
+Jaycee Horn*,Carolina Panthers,LCB
+Michael Jackson,Carolina Panthers,RCB
+Jordan Fuller,Carolina Panthers,SS
+Xavier Woods,Carolina Panthers,FS
+Caleb Williams,Chicago Bears,QB
+D'Andre Swift,Chicago Bears,RB
+Keenan Allen,Chicago Bears,WR
+D.J. Moore,Chicago Bears,WR
+Rome Odunze,Chicago Bears,WR
+Cole Kmet,Chicago Bears,TE
+Teven Jenkins,Chicago Bears,LT
+Braxton Jones,Chicago Bears,LT
+Coleman Shelton,Chicago Bears,C
+Matt Pryor,Chicago Bears,RG
+Darnell Wright,Chicago Bears,RT
+Montez Sweat,Chicago Bears,LDE
+Andrew Billings,Chicago Bears,LDT
+Gervon Dexter,Chicago Bears,RDT
+DeMarcus Walker,Chicago Bears,RDE
+T.J. Edwards,Chicago Bears,LLB
+Tremaine Edmunds,Chicago Bears,MLB
+Tyrique Stevenson,Chicago Bears,LCB
+Jaylon Johnson*,Chicago Bears,RCB
+Kevin Byard,Chicago Bears,SS
+Elijah Hicks,Chicago Bears,FS
+Kyler Gordon,Chicago Bears,DB
+Joe Burrow*,Cincinnati Bengals,QB
+Chase Brown,Cincinnati Bengals,RB
+Ja'Marr Chase*+,Cincinnati Bengals,WR
+Tee Higgins,Cincinnati Bengals,WR
+Cam Grandy,Cincinnati Bengals,TE
+Drew Sample,Cincinnati Bengals,TE
+Orlando Brown Jr.,Cincinnati Bengals,LT
+Cordell Volson,Cincinnati Bengals,LG
+Ted Karras,Cincinnati Bengals,C
+Alex Cappa,Cincinnati Bengals,RG
+Amarius Mims,Cincinnati Bengals,RT
+Sam Hubbard,Cincinnati Bengals,LDE
+Kris Jenkins,Cincinnati Bengals,LDT
+B.J. Hill,Cincinnati Bengals,RDT
+Trey Hendrickson*+,Cincinnati Bengals,RDE
+Logan Wilson,Cincinnati Bengals,LLB
+Germaine Pratt,Cincinnati Bengals,MLB
+Akeem Davis-Gaither,Cincinnati Bengals,RLB
+Cam Taylor-Britt,Cincinnati Bengals,LCB
+Josh Newton,Cincinnati Bengals,RCB
+Geno Stone,Cincinnati Bengals,SS
+Vonn Bell,Cincinnati Bengals,FS
+Jameis Winston,Cleveland Browns,QB
+Nick Chubb,Cleveland Browns,RB
+Jerry Jeudy*,Cleveland Browns,WR
+Elijah Moore,Cleveland Browns,WR
+Jordan Akins,Cleveland Browns,TE
+David Njoku,Cleveland Browns,TE
+Germain Ifedi,Cleveland Browns,LT
+Joel Bitonio*,Cleveland Browns,LG
+Ethan Pocic,Cleveland Browns,C
+Wyatt Teller,Cleveland Browns,RG
+Jack Conklin,Cleveland Browns,RT
+Za'Darius Smith,Cleveland Browns,LDE
+Dalvin Tomlinson,Cleveland Browns,LDT
+Shelby Harris,Cleveland Browns,RDT
+Myles Garrett*+,Cleveland Browns,RDE
+Devin Bush Jr.,Cleveland Browns,LLB
+Jeremiah Owusu-Koramoah,Cleveland Browns,MLB
+Mohamoud Diabate,Cleveland Browns,RLB
+Denzel Ward*,Cleveland Browns,LCB
+Martin Emerson,Cleveland Browns,RCB
+Grant Delpit,Cleveland Browns,SS
+Juan Thornhill,Cleveland Browns,FS
+Dak Prescott,Dallas Cowboys,QB
+Rico Dowdle,Dallas Cowboys,RB
+Brandin Cooks,Dallas Cowboys,WR
+CeeDee Lamb*,Dallas Cowboys,WR
+Jalen Tolbert,Dallas Cowboys,WR
+Jake Ferguson,Dallas Cowboys,TE
+Tyler Guyton,Dallas Cowboys,LT
+Tyler Smith*,Dallas Cowboys,LG
+Cooper Beebe,Dallas Cowboys,C
+Zack Martin,Dallas Cowboys,RG
+Terence Steele,Dallas Cowboys,RT
+Osa Odighizuwa,Dallas Cowboys,LDT
+Mazi Smith,Dallas Cowboys,RDT
+Chauncey Golston,Dallas Cowboys,RDE
+Micah Parsons*,Dallas Cowboys,LLB
+Eric Kendricks,Dallas Cowboys,MLB
+DeMarvion Overshown,Dallas Cowboys,RLB
+Jourdan Lewis,Dallas Cowboys,LCB
+Trevon Diggs,Dallas Cowboys,RCB
+Malik Hooker,Dallas Cowboys,SS
+Donovan Wilson,Dallas Cowboys,FS
+DaRon Bland,Dallas Cowboys,DB
+Bo Nix,Denver Broncos,QB
+Javonte Williams,Denver Broncos,RB
+Lil'Jordan Humphrey,Denver Broncos,WR
+Courtland Sutton,Denver Broncos,WR
+Nate Adkins,Denver Broncos,TE
+Adam Trautman,Denver Broncos,TE
+Garett Bolles,Denver Broncos,LT
+Ben Powers,Denver Broncos,LG
+Luke Wattenberg,Denver Broncos,C
+Quinn Meinerz+,Denver Broncos,RG
+Mike McGlinchey,Denver Broncos,RT
+Zach Allen,Denver Broncos,LDT
+D.J. Jones,Denver Broncos,NT
+John Franklin-Myers,Denver Broncos,RDE
+Jonathon Cooper,Denver Broncos,LOLB
+Cody Barton,Denver Broncos,LILB
+Justin Strnad,Denver Broncos,RILB
+Nik Bonitto*,Denver Broncos,ROLB
+Patrick Surtain II*+,Denver Broncos,LCB
+Riley Moss,Denver Broncos,RCB
+P.J. Locke,Denver Broncos,SS
+Brandon Jones,Denver Broncos,FS
+Jared Goff*,Detroit Lions,QB
+David Montgomery,Detroit Lions,RB
+Amon-Ra St. Brown*+,Detroit Lions,WR
+Jameson Williams,Detroit Lions,WR
+Sam LaPorta,Detroit Lions,TE
+Brock Wright,Detroit Lions,TE
+Taylor Decker*,Detroit Lions,LT
+Graham Glasgow,Detroit Lions,LG
+Frank Ragnow*,Detroit Lions,C
+Kevin Zeitler,Detroit Lions,RG
+Penei Sewell*+,Detroit Lions,RT
+Josh Paschal,Detroit Lions,LDE
+D.J. Reader,Detroit Lions,LDT
+Alim McNeill,Detroit Lions,RDT
+Za'Darius Smith,Detroit Lions,RDE
+Alex Anzalone,Detroit Lions,LLB
+Jack Campbell,Detroit Lions,MLB
+Malcolm Rodriguez,Detroit Lions,RLB
+Carlton Davis,Detroit Lions,LCB
+Terrion Arnold,Detroit Lions,RCB
+Brian Branch*,Detroit Lions,SS
+Kerby Joseph+,Detroit Lions,FS
+Jordan Love,Green Bay Packers,QB
+Josh Jacobs*,Green Bay Packers,RB
+Romeo Doubs,Green Bay Packers,WR
+Christian Watson,Green Bay Packers,WR
+Dontayvion Wicks,Green Bay Packers,WR
+Tucker Kraft,Green Bay Packers,TE
+Rasheed Walker,Green Bay Packers,LT
+Elgton Jenkins,Green Bay Packers,LG
+Josh Myers,Green Bay Packers,C
+Sean Rhyan,Green Bay Packers,RG
+Zach Tom,Green Bay Packers,RT
+Preston Smith,Green Bay Packers,LDE
+Tedarrell Slaton,Green Bay Packers,LDT
+Kenny Clark,Green Bay Packers,RDT
+Rashan Gary*,Green Bay Packers,RDE
+Quay Walker,Green Bay Packers,LLB
+Eric Wilson,Green Bay Packers,MLB
+Isaiah McDuffie,Green Bay Packers,RLB
+Keisean Nixon,Green Bay Packers,LCB
+Eric Stokes,Green Bay Packers,RCB
+Javon Bullard,Green Bay Packers,SS
+Xavier McKinney*+,Green Bay Packers,FS
+C.J. Stroud,Houston Texans,QB
+Joe Mixon*,Houston Texans,RB
+Nico Collins*,Houston Texans,WR
+Tank Dell,Houston Texans,WR
+Dalton Schultz,Houston Texans,TE
+Cade Stover,Houston Texans,TE
+Laremy Tunsil*,Houston Texans,LT
+Kenyon Green,Houston Texans,LG
+Jarrett Patterson,Houston Texans,C
+Shaq Mason,Houston Texans,RG
+Tytus Howard,Houston Texans,RT
+Will Anderson,Houston Texans,LDE
+Folorunso Fatukasi,Houston Texans,LDT
+Tim Settle,Houston Texans,RDT
+Danielle Hunter*,Houston Texans,RDE
+Henry To'oTo'o,Houston Texans,LLB
+Azeez Al-Shaair,Houston Texans,MLB
+Derek Stingley Jr.*+,Houston Texans,LCB
+Kamari Lassiter,Houston Texans,RCB
+Eric Murray,Houston Texans,SS
+Calen Bullock,Houston Texans,FS
+Jalen Pitre,Houston Texans,DB
+Anthony Richardson,Indianapolis Colts,QB
+Jonathan Taylor*,Indianapolis Colts,RB
+Adonai Mitchell,Indianapolis Colts,WR
+Alec Pierce,Indianapolis Colts,WR
+Michael Pittman Jr.,Indianapolis Colts,WR
+Mo Alie-Cox,Indianapolis Colts,TE
+Bernhard Raimann,Indianapolis Colts,LT
+Quenton Nelson*,Indianapolis Colts,LG
+Ryan Kelly,Indianapolis Colts,C
+Dalton Tucker,Indianapolis Colts,RG
+Braden Smith,Indianapolis Colts,RT
+Kwity Paye,Indianapolis Colts,LDE
+DeForest Buckner,Indianapolis Colts,DT
+Grover Stewart,Indianapolis Colts,NT
+Dayo Odeyingbo,Indianapolis Colts,RDE
+Zaire Franklin*,Indianapolis Colts,LLB
+E.J. Speed,Indianapolis Colts,MLB
+Jaylon Jones,Indianapolis Colts,LCB
+Kenny Moore,Indianapolis Colts,RCB
+Nick Cross,Indianapolis Colts,SS
+Julian Blackmon,Indianapolis Colts,FS
+Samuel Womack,Indianapolis Colts,DB
+Trevor Lawrence,Jacksonville Jaguars,QB
+Travis Etienne,Jacksonville Jaguars,RB
+Gabriel Davis,Jacksonville Jaguars,WR
+Brian Thomas*,Jacksonville Jaguars,WR
+Evan Engram,Jacksonville Jaguars,TE
+Brenton Strange,Jacksonville Jaguars,TE
+Walker Little,Jacksonville Jaguars,LT
+Ezra Cleveland,Jacksonville Jaguars,LG
+Mitch Morse,Jacksonville Jaguars,C
+Brandon Scherff,Jacksonville Jaguars,RG
+Anton Harrison,Jacksonville Jaguars,RT
+Josh Hines-Allen,Jacksonville Jaguars,LDE
+Tyler Lacy,Jacksonville Jaguars,LDT
+DaVon Hamilton,Jacksonville Jaguars,RDT
+Travon Walker,Jacksonville Jaguars,RDE
+Ventrell Miller,Jacksonville Jaguars,LLB
+Foyesade Oluokun,Jacksonville Jaguars,MLB
+Devin Lloyd,Jacksonville Jaguars,RLB
+Ronald Darby,Jacksonville Jaguars,LCB
+Tyson Campbell,Jacksonville Jaguars,RCB
+Andre Cisco,Jacksonville Jaguars,SS
+Darnell Savage Jr.,Jacksonville Jaguars,FS
+Patrick Mahomes,Kansas City Chiefs,QB
+Kareem Hunt,Kansas City Chiefs,RB
+Justin Watson,Kansas City Chiefs,WR
+Xavier Worthy,Kansas City Chiefs,WR
+Noah Gray,Kansas City Chiefs,TE
+Travis Kelce*,Kansas City Chiefs,TE
+Wanya Morris,Kansas City Chiefs,LT
+Joe Thuney*+,Kansas City Chiefs,LG
+Creed Humphrey*+,Kansas City Chiefs,C
+Trey Smith*,Kansas City Chiefs,RG
+Jawaan Taylor,Kansas City Chiefs,RT
+George Karlaftis III,Kansas City Chiefs,LDE
+Chris Jones*+,Kansas City Chiefs,LDT
+Tershawn Wharton,Kansas City Chiefs,RDT
+Michael Danna,Kansas City Chiefs,RDE
+Nick Bolton,Kansas City Chiefs,LLB
+Drue Tranquill,Kansas City Chiefs,MLB
+Leo Chenal,Kansas City Chiefs,RLB
+Trent McDuffie,Kansas City Chiefs,LCB
+Jaylen Watson,Kansas City Chiefs,RCB
+Justin Reid,Kansas City Chiefs,SS
+Bryan Cook,Kansas City Chiefs,FS
+Gardner Minshew II,Las Vegas Raiders,QB
+Alexander Mattison,Las Vegas Raiders,RB
+Jakobi Meyers,Las Vegas Raiders,WR
+Tre Tucker,Las Vegas Raiders,WR
+Brock Bowers*+,Las Vegas Raiders,TE
+Michael Mayer,Las Vegas Raiders,TE
+Kolton Miller,Las Vegas Raiders,LT
+Jackson Powers-Johnson,Las Vegas Raiders,LG
+Andre James,Las Vegas Raiders,C
+Dylan Parham,Las Vegas Raiders,RG
+Delmar Glaze,Las Vegas Raiders,RT
+Charles Snowden,Las Vegas Raiders,LDE
+John Jenkins,Las Vegas Raiders,LDT
+Christian Wilkins,Las Vegas Raiders,DT
+Adam Butler,Las Vegas Raiders,RDT
+Maxx Crosby*,Las Vegas Raiders,RDE
+Divine Deablo,Las Vegas Raiders,LLB
+Robert Spillane,Las Vegas Raiders,MLB
+Jack Jones,Las Vegas Raiders,LCB
+Decamerion Richardson,Las Vegas Raiders,RCB
+Tre'von Moehrig,Las Vegas Raiders,SS
+Isaiah Pola-Mao,Las Vegas Raiders,FS
+Justin Herbert,Los Angeles Chargers,QB
+J.K. Dobbins,Los Angeles Chargers,RB
+Scott Matlock,Los Angeles Chargers,FB
+Quentin Johnston,Los Angeles Chargers,WR
+Ladd McConkey,Los Angeles Chargers,WR
+Will Dissly,Los Angeles Chargers,TE
+Rashawn Slater*,Los Angeles Chargers,LT
+Zion Johnson,Los Angeles Chargers,LG
+Bradley Bozeman,Los Angeles Chargers,C
+Trey Pipkins,Los Angeles Chargers,RG
+Joe Alt,Los Angeles Chargers,RT
+Otito Ogbonnia,Los Angeles Chargers,NT
+Poona Ford,Los Angeles Chargers,RDT
+Khalil Mack*,Los Angeles Chargers,LOLB
+Daiyan Henley,Los Angeles Chargers,LILB
+Denzel Perryman,Los Angeles Chargers,RILB
+Joey Bosa*,Los Angeles Chargers,ROLB
+Kristian Fulton,Los Angeles Chargers,LCB
+Tarheeb Still,Los Angeles Chargers,RCB
+Derwin James*,Los Angeles Chargers,SS
+Alohi Gilman,Los Angeles Chargers,FS
+Elijah Molden,Los Angeles Chargers,DB
+Matthew Stafford,Los Angeles Rams,QB
+Kyren Williams,Los Angeles Rams,RB
+Cooper Kupp,Los Angeles Rams,WR
+Puka Nacua,Los Angeles Rams,WR
+Demarcus Robinson,Los Angeles Rams,WR
+Colby Parkinson,Los Angeles Rams,TE
+Alaric Jackson,Los Angeles Rams,LT
+Steve Avila,Los Angeles Rams,LG
+Beaux Limmer,Los Angeles Rams,C
+Kevin Dotson,Los Angeles Rams,RG
+Rob Havenstein,Los Angeles Rams,RT
+Kobie Turner,Los Angeles Rams,LDE
+Bobby Brown,Los Angeles Rams,NT
+Braden Fiske,Los Angeles Rams,RDE
+Byron Young,Los Angeles Rams,LOLB
+Omar Speights,Los Angeles Rams,LILB
+Christian Rozeboom,Los Angeles Rams,RLB
+Jared Verse*,Los Angeles Rams,ROLB
+Darious Williams,Los Angeles Rams,LCB
+Cobie Durant,Los Angeles Rams,RCB
+Quentin Lake,Los Angeles Rams,SS
+Kamren Curl,Los Angeles Rams,FS
+Tua Tagovailoa,Miami Dolphins,QB
+De'Von Achane,Miami Dolphins,RB
+Alec Ingold,Miami Dolphins,FB
+Tyreek Hill,Miami Dolphins,WR
+Jaylen Waddle,Miami Dolphins,WR
+Julian Hill,Miami Dolphins,TE
+Terron Armstead,Miami Dolphins,LT
+Robert Jones,Miami Dolphins,LG
+Aaron Brewer,Miami Dolphins,C
+Liam Eichenberg,Miami Dolphins,RG
+Austin Jackson,Miami Dolphins,RT
+Zach Sieler,Miami Dolphins,LDE
+Calais Campbell,Miami Dolphins,NT
+Benito Jones,Miami Dolphins,RDE
+Tyus Bowser,Miami Dolphins,LOLB
+David Long,Miami Dolphins,LILB
+Anthony Walker,Miami Dolphins,LILB
+Jordyn Brooks,Miami Dolphins,RILB
+Jalen Ramsey,Miami Dolphins,LCB
+Kendall Fuller,Miami Dolphins,RCB
+Jevon Holland,Miami Dolphins,SS
+Jordan Poyer,Miami Dolphins,FS
+Sam Darnold*,Minnesota Vikings,QB
+Aaron Jones,Minnesota Vikings,RB
+Jordan Addison,Minnesota Vikings,WR
+Justin Jefferson*+,Minnesota Vikings,WR
+T.J. Hockenson,Minnesota Vikings,TE
+Josh Oliver,Minnesota Vikings,TE
+Cam Robinson,Minnesota Vikings,LT
+Blake Brandel,Minnesota Vikings,LG
+Garrett Bradbury,Minnesota Vikings,C
+Ed Ingram,Minnesota Vikings,RG
+Brian O'Neill*,Minnesota Vikings,RT
+Jerry Tillery,Minnesota Vikings,LDE
+Harrison Phillips,Minnesota Vikings,NT
+Jonathan Bullard,Minnesota Vikings,RDE
+Ivan Pace,Minnesota Vikings,LILB
+Blake Cashman,Minnesota Vikings,RILB
+Andrew Van Ginkel*,Minnesota Vikings,RLB
+Jonathan Greenard*,Minnesota Vikings,ROLB
+Stephon Gilmore,Minnesota Vikings,LCB
+Byron Murphy*,Minnesota Vikings,RCB
+Harrison Smith,Minnesota Vikings,SS
+Camryn Bynum,Minnesota Vikings,FS
+Drake Maye*,New England Patriots,QB
+Rhamondre Stevenson,New England Patriots,RB
+Kendrick Bourne,New England Patriots,WR
+Kayshon Boutte,New England Patriots,WR
+Hunter Henry,New England Patriots,TE
+Austin Hooper,New England Patriots,TE
+Vederian Lowe,New England Patriots,LT
+Michael Jordan,New England Patriots,LG
+Ben Brown,New England Patriots,C
+Michael Onwenu,New England Patriots,RG
+Demontrey Jacobs,New England Patriots,RT
+Keion White,New England Patriots,LDE
+Davon Godchaux,New England Patriots,NT
+Daniel Ekuale,New England Patriots,RDE
+Christian Elliss,New England Patriots,LILB
+Jahlani Tavai,New England Patriots,RILB
+Anfernee Jennings,New England Patriots,ROLB
+Jonathan Jones,New England Patriots,LCB
+Christian Gonzalez,New England Patriots,RCB
+Marte Mapu,New England Patriots,SS
+Kyle Dugger,New England Patriots,FS
+Marcus Jones,New England Patriots,DB
+Derek Carr,New Orleans Saints,QB
+Alvin Kamara,New Orleans Saints,RB
+Chris Olave,New Orleans Saints,WR
+Taysom Hill,New Orleans Saints,TE
+Juwan Johnson,New Orleans Saints,TE
+Foster Moreau,New Orleans Saints,TE
+Taliese Fuaga,New Orleans Saints,LT
+Lucas Patrick,New Orleans Saints,LG
+Erik McCoy*,New Orleans Saints,C
+Cesar Ruiz,New Orleans Saints,RG
+Trevor Penning,New Orleans Saints,RT
+Cameron Jordan,New Orleans Saints,LDE
+Khalen Saunders,New Orleans Saints,LDT
+Nathan Shepherd,New Orleans Saints,RDT
+Carl Granderson,New Orleans Saints,RDE
+Pete Werner,New Orleans Saints,LLB
+Demario Davis,New Orleans Saints,MLB
+Willie Gay Jr.,New Orleans Saints,RLB
+Alontae Taylor,New Orleans Saints,LCB
+Kool-Aid McKinstry,New Orleans Saints,RCB
+Will Harris,New Orleans Saints,SS
+Tyrann Mathieu,New Orleans Saints,FS
+Daniel Jones,New York Giants,QB
+Tyrone Tracy Jr.,New York Giants,RB
+Malik Nabers*,New York Giants,WR
+Darius Slayton,New York Giants,WR
+Theo Johnson,New York Giants,TE
+Chris Manhertz,New York Giants,TE
+Andrew Thomas,New York Giants,LT
+Jon Runyan Jr.,New York Giants,LG
+John Michael Schmitz,New York Giants,C
+Greg Van Roten,New York Giants,RG
+Jermaine Eluemunor,New York Giants,RT
+Rakeem Nunez-Roches,New York Giants,LDE
+Dexter Lawrence*,New York Giants,LDT
+Brian Burns,New York Giants,LOLB
+Bobby Okereke,New York Giants,LILB
+Micah McFadden,New York Giants,RILB
+Kayvon Thibodeaux,New York Giants,ROLB
+Cordale Flott,New York Giants,LCB
+Deonte Banks,New York Giants,RCB
+Jason Pinnock,New York Giants,SS
+Tyler Nubin,New York Giants,FS
+Andru Phillips,New York Giants,DB
+Aaron Rodgers,New York Jets,QB
+Breece Hall,New York Jets,RB
+Davante Adams,New York Jets,WR
+Garrett Wilson,New York Jets,WR
+Tyler Conklin,New York Jets,TE
+Jeremy Ruckert,New York Jets,TE
+Tyron Smith,New York Jets,LT
+John Simpson,New York Jets,LG
+Joe Tippmann,New York Jets,C
+Alijah Vera-Tucker,New York Jets,RG
+Morgan Moses,New York Jets,RT
+Will McDonald,New York Jets,LDE
+Quinnen Williams*,New York Jets,NT
+Javon Kinlaw,New York Jets,RDT
+Micheal Clemons,New York Jets,LOLB
+Quincy Williams,New York Jets,LILB
+Jamien Sherwood,New York Jets,RILB
+Chazz Surratt,New York Jets,ROLB
+Sauce Gardner,New York Jets,LCB
+D.J. Reed,New York Jets,RCB
+Chuck Clark,New York Jets,SS
+Tony Adams,New York Jets,FS
+Jalen Hurts,Philadelphia Eagles,QB
+Saquon Barkley*+,Philadelphia Eagles,RB
+A.J. Brown,Philadelphia Eagles,WR
+DeVonta Smith,Philadelphia Eagles,WR
+Grant Calcaterra,Philadelphia Eagles,TE
+Dallas Goedert,Philadelphia Eagles,TE
+Jordan Mailata,Philadelphia Eagles,LT
+Landon Dickerson*,Philadelphia Eagles,LG
+Cam Jurgens*,Philadelphia Eagles,C
+Mekhi Becton,Philadelphia Eagles,RG
+Lane Johnson*,Philadelphia Eagles,RT
+Jalen Carter*,Philadelphia Eagles,LDT
+Jordan Davis,Philadelphia Eagles,RDT
+Nolan Smith,Philadelphia Eagles,LOLB
+Zack Baun*+,Philadelphia Eagles,LLB
+Nakobe Dean,Philadelphia Eagles,MLB
+Josh Sweat,Philadelphia Eagles,RLB
+Quinyon Mitchell,Philadelphia Eagles,LCB
+Darius Slay,Philadelphia Eagles,RCB
+C.J. Gardner-Johnson,Philadelphia Eagles,SS
+Reed Blankenship,Philadelphia Eagles,FS
+Cooper DeJean,Philadelphia Eagles,DB
+Russell Wilson*,Pittsburgh Steelers,QB
+Najee Harris,Pittsburgh Steelers,RB
+Van Jefferson,Pittsburgh Steelers,WR
+George Pickens,Pittsburgh Steelers,WR
+Pat Freiermuth,Pittsburgh Steelers,TE
+Darnell Washington,Pittsburgh Steelers,TE
+Dan Moore,Pittsburgh Steelers,LT
+Isaac Seumalo*,Pittsburgh Steelers,LG
+Zach Frazier,Pittsburgh Steelers,C
+Mason McCormick,Pittsburgh Steelers,RG
+Broderick Jones,Pittsburgh Steelers,RT
+Cameron Heyward*+,Pittsburgh Steelers,LDE
+Keeanu Benton,Pittsburgh Steelers,NT
+Larry Ogunjobi,Pittsburgh Steelers,RDE
+T.J. Watt*,Pittsburgh Steelers,LOLB
+Patrick Queen*,Pittsburgh Steelers,LILB
+Elandon Roberts,Pittsburgh Steelers,RILB
+Alex Highsmith,Pittsburgh Steelers,ROLB
+Donte Jackson,Pittsburgh Steelers,LCB
+Joey Porter Jr.,Pittsburgh Steelers,RCB
+Minkah Fitzpatrick*,Pittsburgh Steelers,SS
+DeShon Elliott,Pittsburgh Steelers,FS
+Brock Purdy,San Francisco 49ers,QB
+Jordan Mason,San Francisco 49ers,RB
+Kyle Juszczyk*,San Francisco 49ers,FB
+Jauan Jennings,San Francisco 49ers,WR
+Deebo Samuel,San Francisco 49ers,WR
+George Kittle*,San Francisco 49ers,TE
+Trent Williams,San Francisco 49ers,LT
+Aaron Banks,San Francisco 49ers,LG
+Jake Brendel,San Francisco 49ers,C
+Dominick Puni,San Francisco 49ers,RG
+Colton McKivitz,San Francisco 49ers,RT
+Nick Bosa*,San Francisco 49ers,LDE
+Maliek Collins,San Francisco 49ers,LDT
+Jordan Elliott,San Francisco 49ers,RDT
+Leonard Floyd,San Francisco 49ers,RDE
+De'Vondre Campbell,San Francisco 49ers,LLB
+Fred Warner*+,San Francisco 49ers,MLB
+Deommodore Lenoir,San Francisco 49ers,RLB
+Dee Winters,San Francisco 49ers,RLB
+Charvarius Ward,San Francisco 49ers,LCB
+Malik Mustapha,San Francisco 49ers,SS
+Ji'Ayir Brown,San Francisco 49ers,FS
+Geno Smith,Seattle Seahawks,QB
+Kenneth Walker III,Seattle Seahawks,RB
+Tyler Lockett,Seattle Seahawks,WR
+D.K. Metcalf,Seattle Seahawks,WR
+Jaxon Smith-Njigba*,Seattle Seahawks,WR
+Noah Fant,Seattle Seahawks,TE
+Charles Cross,Seattle Seahawks,LT
+Laken Tomlinson,Seattle Seahawks,LG
+Connor Williams,Seattle Seahawks,C
+Anthony Bradford,Seattle Seahawks,RG
+Abraham Lucas,Seattle Seahawks,RT
+Leonard Williams*,Seattle Seahawks,LDE
+Byron Murphy,Seattle Seahawks,NT
+Jarran Reed,Seattle Seahawks,RDE
+Boye Mafe,Seattle Seahawks,LOLB
+Tyrel Dodson,Seattle Seahawks,LILB
+Derick Hall,Seattle Seahawks,RILB
+Tyrice Knight,Seattle Seahawks,ROLB
+Devon Witherspoon*,Seattle Seahawks,LCB
+Riq Woolen,Seattle Seahawks,RCB
+Coby Bryant,Seattle Seahawks,SS
+Julian Love,Seattle Seahawks,FS
+Baker Mayfield*,Tampa Bay Buccaneers,QB
+Rachaad White,Tampa Bay Buccaneers,RB
+Mike Evans*,Tampa Bay Buccaneers,WR
+Jalen McMillan,Tampa Bay Buccaneers,WR
+Payne Durham,Tampa Bay Buccaneers,TE
+Cade Otton,Tampa Bay Buccaneers,TE
+Tristan Wirfs*+,Tampa Bay Buccaneers,LT
+Ben Bredeson,Tampa Bay Buccaneers,LG
+Graham Barton,Tampa Bay Buccaneers,C
+Cody Mauch,Tampa Bay Buccaneers,RG
+Luke Goedeke,Tampa Bay Buccaneers,RT
+Calijah Kancey,Tampa Bay Buccaneers,LDE
+Vita Vea*,Tampa Bay Buccaneers,NT
+Logan Hall,Tampa Bay Buccaneers,RDE
+Joe Tryon-Shoyinka,Tampa Bay Buccaneers,LOLB
+Lavonte David,Tampa Bay Buccaneers,LILB
+K.J. Britt,Tampa Bay Buccaneers,RILB
+Jamel Dean,Tampa Bay Buccaneers,LCB
+Zyon McCollum,Tampa Bay Buccaneers,RCB
+Christian Izien,Tampa Bay Buccaneers,SS
+Antoine Winfield Jr.,Tampa Bay Buccaneers,SS
+Jordan Whitehead,Tampa Bay Buccaneers,FS
+Will Levis,Tennessee Titans,QB
+Tony Pollard,Tennessee Titans,RB
+Tyler Boyd,Tennessee Titans,WR
+Calvin Ridley,Tennessee Titans,WR
+Nick Westbrook-Ikhine,Tennessee Titans,WR
+Nick Vannett,Tennessee Titans,TE
+JC Latham,Tennessee Titans,LT
+Peter Skoronski,Tennessee Titans,LG
+Daniel Brunskill,Tennessee Titans,C
+Dillon Radunz,Tennessee Titans,RG
+Nicholas Petit-Frere,Tennessee Titans,RT
+Jeffery Simmons*,Tennessee Titans,DT
+T'Vondre Sweat,Tennessee Titans,NT
+Sebastian Joseph-Day,Tennessee Titans,RDE
+Arden Key,Tennessee Titans,LOLB
+Kenneth Murray,Tennessee Titans,LILB
+Ernest Jones,Tennessee Titans,RILB
+Harold Landry,Tennessee Titans,ROLB
+Jarvis Brownlee,Tennessee Titans,LCB
+Darrell Baker,Tennessee Titans,RCB
+Quandre Diggs,Tennessee Titans,SS
+Amani Hooker,Tennessee Titans,FS
+Jayden Daniels*,Washington Commanders,QB
+Brian Robinson Jr.,Washington Commanders,RB
+Noah Brown,Washington Commanders,WR
+Terry McLaurin*,Washington Commanders,WR
+John Bates,Washington Commanders,TE
+Zach Ertz,Washington Commanders,TE
+Brandon Coleman,Washington Commanders,LT
+Nick Allegretti,Washington Commanders,LG
+Tyler Biadasz,Washington Commanders,C
+Samuel Cosmi,Washington Commanders,RG
+Andrew Wylie,Washington Commanders,RT
+Clelin Ferrell,Washington Commanders,LDE
+Jer'Zhan Newton,Washington Commanders,LDT
+Daron Payne,Washington Commanders,RDT
+Dorance Armstrong Jr.,Washington Commanders,RDE
+Dante Fowler,Washington Commanders,LLB
+Bobby Wagner*,Washington Commanders,MLB
+Frankie Luvu,Washington Commanders,RLB
+Benjamin St-Juste,Washington Commanders,LCB
+Mike Sainristil,Washington Commanders,RCB
+Quan Martin,Washington Commanders,SS
+Jeremy Chinn,Washington Commanders,FS

@@ -22,11 +22,24 @@ for file in all_files:
 
 data = pd.concat(all_stats, ignore_index=True)
 
-# === Step 2: Clean and Fill ===
+# === Step 2: Load and Clean Active Player List ===
+active_df = pd.read_csv("active_player_positions.csv")
+
+# Remove junk rows (where POS is empty)
+active_df = active_df.dropna(subset=["POS"])
+active_df = active_df[active_df["POS"].str.strip() != ""]
+
+# Normalize for matching
+active_df["name"] = active_df["Name"].str.strip()
+active_df["position"] = active_df["POS"].str.strip()
+active_players = active_df[["name", "position"]].copy()
+
+# === Step 3: Clean Data ===
 data = data.dropna(subset=['name'])
+data['name'] = data['name'].str.strip()
 data = data.fillna(0)
 
-# === Step 3: Fantasy Points Formula (offensive + defensive) ===
+# === Step 4: Fantasy Points Calculation ===
 def calc_fantasy(row):
     if row['stat_type'] == 'offense':
         return (
@@ -37,10 +50,9 @@ def calc_fantasy(row):
             row.get('rushing_td', 0) * 6 +
             row.get('receiving_yds', 0) * 0.1 +
             row.get('receiving_td', 0) * 6 +
-            row.get('receiving_rec', 0) * 1 +  # Sleeper es PPR (1 punto por recepción)
+            row.get('receiving_rec', 0) * 1 +
             row.get('fumbles_fl', 0) * -2
         )
-    
     elif row['stat_type'] == 'defense':
         return (
             row.get('tackles_solo', 0) * 1.5 +
@@ -53,14 +65,19 @@ def calc_fantasy(row):
             row.get('fumbles_td', 0) * 6 +
             row.get('def_interceptions_td', 0) * 6
         )
-    
     return 0
-
-
 
 data['fantasy_points'] = data.apply(calc_fantasy, axis=1)
 
-# === Step 4: Aggregate Stats per Player-Season ===
+# === Step 5: Filter to Active Players Only ===
+data_active = pd.merge(
+    data,
+    active_players,
+    on='name',
+    how='inner'
+)
+
+# === Step 6: Aggregate Stats per Player-Season ===
 aggs = {
     'fantasy_points': ['sum', 'mean', 'std'],
     'passing_cmp': 'sum', 'passing_att': 'sum', 'passing_yds': 'sum', 'passing_td': 'sum',
@@ -69,17 +86,16 @@ aggs = {
     'fumbles_fl': 'sum', 'game_url': pd.Series.nunique
 }
 
-# Add defensive features if present
 defensive_cols = [
     'def_tackles_solo', 'def_tackles_ast', 'def_sacks', 'def_int', 'def_passes_defended',
     'def_fumbles_rec', 'def_forced_fumbles', 'def_fumbles_td', 'def_int_td'
 ]
 
 for col in defensive_cols:
-    if col in data.columns:
+    if col in data_active.columns:
         aggs[col] = 'sum'
 
-df_agg = data.groupby(['name', 'team', 'season', 'stat_type']).agg(aggs)
+df_agg = data_active.groupby(['name', 'team', 'season', 'stat_type']).agg(aggs)
 df_agg.columns = ['_'.join(col) if isinstance(col, tuple) else col for col in df_agg.columns]
 df_agg = df_agg.reset_index()
 df_agg = df_agg.rename(columns={
@@ -89,7 +105,10 @@ df_agg = df_agg.rename(columns={
     'game_url_nunique': 'games_played'
 })
 
-# === Step 5: Model Training ===
+# Add back position
+df_agg = pd.merge(df_agg, active_players, on='name', how='left')
+
+# === Step 7: Model Training ===
 base_features = [
     'passing_yds_sum', 'passing_td_sum', 'passing_int_sum',
     'rushing_yds_sum', 'rushing_td_sum',
@@ -97,8 +116,8 @@ base_features = [
     'fumbles_fl_sum', 'games_played'
 ]
 def_features = [f + '_sum' for f in defensive_cols if f + '_sum' in df_agg.columns]
-
 features = base_features + def_features
+
 df_model = df_agg.dropna(subset=features + ['total_fantasy_points'])
 X = df_model[features]
 y = df_model['total_fantasy_points']
@@ -117,15 +136,7 @@ else:
 
 df_model['predicted_value'] = model.predict(X)
 
-# === Step 6: Merge and Export ===
-df_export = pd.merge(
-    data,
-    df_model[['name', 'team', 'season', 'stat_type', 'predicted_value', 'volatility']],
-    on=['name', 'team', 'season', 'stat_type'],
-    how='left'
-)
-
-# Save
-df_export.to_csv("player_trade_value.csv", index=False)
-print("\n📅 Trade values saved to player_trade_value.csv")
-time.sleep(10)
+# === Step 8: Export Final CSV (only active players) ===
+df_model.to_csv("player_trade_value.csv", index=False)
+print("✅ player_trade_value.csv saved with active players only")
+time.sleep(5)

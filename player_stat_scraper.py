@@ -2,10 +2,11 @@ import requests
 from bs4 import BeautifulSoup, Comment
 import pandas as pd
 import time
+import re
 
 BASE_URL = "https://www.pro-football-reference.com"
-YEAR = 2025
-WEEKS = range(1, 19)
+YEAR = 2023
+WEEKS = range(1, 2)  # Change this range to include more weeks
 
 def get_game_links(week):
     url = f"{BASE_URL}/years/{YEAR}/week_{week}.htm"
@@ -93,7 +94,7 @@ for week in WEEKS:
             stats = get_stats_from_game(link)
             if not stats.empty:
                 all_stats_raw.append(stats)
-            time.sleep(6)
+            time.sleep(6)  # Delay between games
     except Exception as e:
         print(f"❌ Error scraping week {week}: {e}")
 
@@ -102,13 +103,13 @@ if all_stats_raw:
     all_stats = pd.concat(all_stats_raw, ignore_index=True)
     all_stats = standardize_columns(all_stats)
     all_stats = all_stats[~all_stats['name'].astype(str).str.contains("Player|Cmp|Att|Yds|TD|Int|Sk|Rate", na=False)]
+    all_stats = all_stats[all_stats['name'].notna()].reset_index(drop=True)
     all_stats['game_date'] = pd.to_datetime(all_stats['game_date'], errors='coerce')
     all_stats = all_stats.loc[:, ~all_stats.columns.duplicated()]
     all_stats = all_stats.dropna(axis=1, how='all')
 
-    # Save all columns without filtering
-    all_stats = all_stats[all_stats['name'].notna()].reset_index(drop=True)
-    all_stats.to_csv("player_2025.csv", index=False)
-    print("\n✅ Data cleaned and saved as nfl_2024_stats_final_cleaned.csv")
+    # Save final cleaned stats
+    all_stats.to_csv("player_2026.csv", index=False)
+    print("\n✅ Data cleaned and saved as player_2026.csv")
 else:
     print("\n❌ No data scraped.")
