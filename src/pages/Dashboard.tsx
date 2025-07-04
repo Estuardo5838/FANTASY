@@ -13,7 +13,6 @@ import { PositionDistributionChart } from '../components/charts/PositionDistribu
 import { PlayerCard } from '../components/player/PlayerCard'
 import { formatNumber } from '../lib/utils'
 import type { Player } from '../types'
-import React from 'react'
 
 export function Dashboard() {
   const { 
