@@ -8,7 +8,6 @@ import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
 import { DataStatus } from '../components/ui/DataStatus'
 import { PlayerCard } from '../components/player/PlayerCard'
-import type { Player, TradeAnalysis } from '../types'
 
 export function TradeCenter() {
   const { 
