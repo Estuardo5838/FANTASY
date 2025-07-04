@@ -9,7 +9,10 @@ import {
   Shield,
   Users,
   Trophy,
-  BarChart3
+  BarChart3,
+  Wifi,
+  WifiOff,
+  Info
 } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/Card'
 import { Button } from '../ui/Button'
@@ -28,40 +31,26 @@ export function LeagueConnector({ onConnect }: LeagueConnectorProps) {
 
   const platforms = [
     {
-      id: 'nfl',
-      name: 'NFL Fantasy',
-      description: 'Connect to your NFL.com fantasy league',
-      icon: '🏈',
-      features: ['Real-time roster sync', 'Live scoring', 'Trade tracking', 'Waiver wire monitoring'],
-      instructions: 'Enter your NFL Fantasy League ID (found in your league URL)',
-      placeholder: 'League ID (e.g., 123456)'
-    },
-    {
       id: 'sleeper',
       name: 'Sleeper',
       description: 'Connect to your Sleeper fantasy league',
       icon: '😴',
-      features: ['Dynasty support', 'Advanced stats', 'Trade analyzer', 'Rookie draft tracking'],
-      instructions: 'Enter your Sleeper League ID (found in league settings)',
-      placeholder: 'League ID (e.g., 789012345678901234)'
+      features: ['Real-time roster sync', 'Live scoring', 'Trade tracking', 'Dynasty support'],
+      instructions: 'Enter your Sleeper League ID (found in league URL)',
+      placeholder: 'League ID (e.g., 789012345678901234)',
+      status: 'live',
+      color: 'from-purple-600 to-indigo-600'
     },
     {
-      id: 'espn',
-      name: 'ESPN Fantasy',
-      description: 'Connect to your ESPN fantasy league',
-      icon: '📺',
-      features: ['Matchup analysis', 'Player news', 'Injury reports', 'Schedule optimization'],
-      instructions: 'Enter your ESPN League ID (found in your league URL)',
-      placeholder: 'League ID (e.g., 987654)'
-    },
-    {
-      id: 'yahoo',
-      name: 'Yahoo Fantasy',
-      description: 'Connect to your Yahoo fantasy league',
-      icon: '🟣',
-      features: ['Weekly projections', 'Stat corrections', 'Trade proposals', 'Lineup optimization'],
-      instructions: 'Enter your Yahoo League ID (found in league settings)',
-      placeholder: 'League ID (e.g., 456789)'
+      id: 'nfl',
+      name: 'NFL Fantasy',
+      description: 'Connect to your NFL.com fantasy league',
+      icon: '🏈',
+      features: ['Demo data available', 'Player analysis', 'Trade insights', 'Draft assistance'],
+      instructions: 'Enter your NFL Fantasy League ID (found in league URL)',
+      placeholder: 'League ID (e.g., 123456)',
+      status: 'demo',
+      color: 'from-blue-600 to-cyan-600'
     }
   ]
 
@@ -135,14 +124,30 @@ export function LeagueConnector({ onConnect }: LeagueConnectorProps) {
             >
               <Card 
                 hover 
-                className="cursor-pointer h-full"
+                className="cursor-pointer h-full relative overflow-hidden"
                 onClick={() => setSelectedPlatform(platform.id)}
               >
-                <CardContent className="p-6">
+                {/* Background Gradient */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${platform.color} opacity-10`}></div>
+                
+                <CardContent className="p-6 relative z-10">
                   <div className="flex items-start space-x-4">
                     <div className="text-4xl">{platform.icon}</div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white mb-2">{platform.name}</h3>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <h3 className="text-xl font-bold text-white">{platform.name}</h3>
+                        {platform.status === 'live' ? (
+                          <Badge variant="success" size="sm" className="flex items-center space-x-1">
+                            <Wifi className="w-3 h-3" />
+                            <span>Live</span>
+                          </Badge>
+                        ) : (
+                          <Badge variant="warning" size="sm" className="flex items-center space-x-1">
+                            <WifiOff className="w-3 h-3" />
+                            <span>Demo</span>
+                          </Badge>
+                        )}
+                      </div>
                       <p className="text-gray-400 text-sm mb-4">{platform.description}</p>
                       
                       <div className="space-y-2">
@@ -153,6 +158,17 @@ export function LeagueConnector({ onConnect }: LeagueConnectorProps) {
                           </div>
                         ))}
                       </div>
+
+                      {platform.status === 'demo' && (
+                        <div className="mt-4 p-3 bg-warning-600/20 border border-warning-600 rounded-lg">
+                          <div className="flex items-center space-x-2">
+                            <Info className="w-4 h-4 text-warning-400" />
+                            <span className="text-xs text-warning-400">
+                              Shows demo data - NFL API requires authentication
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>
