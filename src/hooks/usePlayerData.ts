@@ -168,7 +168,7 @@ const DEMO_PLAYERS: Player[] = [
 const DEMO_INJURED_PLAYERS = ['Christian McCaffrey', 'Travis Kelce']
 
 // Set to demo mode - change this to your GitHub URL when ready
-const GITHUB_RAW_BASE = 'DEMO_MODE'
+const GITHUB_RAW_BASE = 'DEMO_MODE' // Always use demo mode for now
 
 export function usePlayerData() {
   const [players, setPlayers] = useState<Player[]>([])
@@ -187,19 +187,15 @@ export function usePlayerData() {
 
   const loadAllData = async () => {
     try {
-      setLoading(true)
       setError(null)
 
       // Check if GitHub is configured
-      if (GITHUB_RAW_BASE === 'DEMO_MODE' || GITHUB_RAW_BASE.includes('YOUR_USERNAME')) {
-        // Use demo data for fully functional demo
-        console.log('Using demo data - GitHub not configured')
-        setPlayers(DEMO_PLAYERS)
-        setInjuredPlayers(DEMO_INJURED_PLAYERS)
-        setLastUpdated(new Date())
-        setLoading(false)
-        return
-      }
+      console.log('Loading demo data...')
+      setPlayers(DEMO_PLAYERS)
+      setInjuredPlayers(DEMO_INJURED_PLAYERS)
+      setLastUpdated(new Date())
+      console.log('Demo data loaded:', DEMO_PLAYERS.length, 'players')
+      return
 
       // Load player data and injury data in parallel
       const [playerData, injuryData] = await Promise.all([
@@ -212,7 +208,7 @@ export function usePlayerData() {
       setLastUpdated(new Date())
     } catch (err) {
       console.error('Error loading data:', err)
-      setError('Failed to load data from GitHub - using demo data')
+      setError('Using demo data for demonstration')
       
       // Fallback to demo data
       setPlayers(DEMO_PLAYERS)

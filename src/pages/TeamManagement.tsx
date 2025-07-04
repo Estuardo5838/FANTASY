@@ -10,6 +10,7 @@ import { DataStatus } from '../components/ui/DataStatus'
 import { InjuryAlert } from '../components/player/InjuryAlert'
 import { PlayerCard } from '../components/player/PlayerCard'
 import type { Player } from '../types'
+import React from 'react'
 
 export function TeamManagement() {
   const { 

@@ -11,6 +11,7 @@ import { PlayerComparisonChart } from '../components/charts/PlayerComparisonChar
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
 import { PlayerCard } from '../components/player/PlayerCard'
 import type { Player } from '../types'
+import React from 'react'
 
 export function Analytics() {
   const { 

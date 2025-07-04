@@ -9,6 +9,7 @@ import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
 import { DataStatus } from '../components/ui/DataStatus'
 import { PlayerCard } from '../components/player/PlayerCard'
 import type { Player, DraftRecommendation } from '../types'
+import React from 'react'
 
 export function DraftAssistant() {
   const { 
