@@ -8,7 +8,6 @@ import { DataStatus } from '../components/ui/DataStatus'
 import { PlayerCard } from '../components/player/PlayerCard'
 import { PlayerSearch } from '../components/player/PlayerSearch'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
-import type { Player } from '../types'
 
 export function Players() {
   const { 
