@@ -1,6 +1,172 @@
 import { useState, useEffect } from 'react'
 import type { Player } from '../types'
 
+// Demo data for fully functional demo
+const DEMO_PLAYERS: Player[] = [
+  {
+    name: 'Josh Allen',
+    team: 'BUF',
+    position: 'QB',
+    total_fantasy_points: 387.2,
+    avg_fantasy_points: 22.8,
+    volatility: 0.15,
+    predicted_value: 95.5,
+    games_played: 17,
+    passing_yds_sum: 4306,
+    passing_td_sum: 29,
+    passing_int_sum: 18,
+    rushing_yds_sum: 524,
+    rushing_td_sum: 15,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'Christian McCaffrey',
+    team: 'SF',
+    position: 'RB',
+    total_fantasy_points: 342.8,
+    avg_fantasy_points: 20.2,
+    volatility: 0.12,
+    predicted_value: 92.3,
+    games_played: 17,
+    rushing_yds_sum: 1459,
+    rushing_td_sum: 14,
+    receiving_yds_sum: 564,
+    receiving_td_sum: 7,
+    receiving_rec_sum: 67,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'Tyreek Hill',
+    team: 'MIA',
+    position: 'WR',
+    total_fantasy_points: 298.4,
+    avg_fantasy_points: 17.6,
+    volatility: 0.22,
+    predicted_value: 88.7,
+    games_played: 17,
+    receiving_yds_sum: 1799,
+    receiving_td_sum: 13,
+    receiving_rec_sum: 119,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'Travis Kelce',
+    team: 'KC',
+    position: 'TE',
+    total_fantasy_points: 267.3,
+    avg_fantasy_points: 15.7,
+    volatility: 0.18,
+    predicted_value: 85.2,
+    games_played: 17,
+    receiving_yds_sum: 984,
+    receiving_td_sum: 5,
+    receiving_rec_sum: 93,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'Lamar Jackson',
+    team: 'BAL',
+    position: 'QB',
+    total_fantasy_points: 356.7,
+    avg_fantasy_points: 21.0,
+    volatility: 0.19,
+    predicted_value: 91.8,
+    games_played: 17,
+    passing_yds_sum: 3678,
+    passing_td_sum: 24,
+    passing_int_sum: 7,
+    rushing_yds_sum: 821,
+    rushing_td_sum: 5,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'Derrick Henry',
+    team: 'BAL',
+    position: 'RB',
+    total_fantasy_points: 289.6,
+    avg_fantasy_points: 17.0,
+    volatility: 0.16,
+    predicted_value: 82.4,
+    games_played: 17,
+    rushing_yds_sum: 1921,
+    rushing_td_sum: 16,
+    receiving_yds_sum: 169,
+    receiving_td_sum: 1,
+    receiving_rec_sum: 11,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'CeeDee Lamb',
+    team: 'DAL',
+    position: 'WR',
+    total_fantasy_points: 276.8,
+    avg_fantasy_points: 16.3,
+    volatility: 0.21,
+    predicted_value: 86.9,
+    games_played: 17,
+    receiving_yds_sum: 1749,
+    receiving_td_sum: 12,
+    receiving_rec_sum: 135,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'Amon-Ra St. Brown',
+    team: 'DET',
+    position: 'WR',
+    total_fantasy_points: 264.2,
+    avg_fantasy_points: 15.5,
+    volatility: 0.17,
+    predicted_value: 84.1,
+    games_played: 17,
+    receiving_yds_sum: 1515,
+    receiving_td_sum: 10,
+    receiving_rec_sum: 119,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'Saquon Barkley',
+    team: 'PHI',
+    position: 'RB',
+    total_fantasy_points: 378.9,
+    avg_fantasy_points: 22.3,
+    volatility: 0.14,
+    predicted_value: 94.7,
+    games_played: 17,
+    rushing_yds_sum: 2005,
+    rushing_td_sum: 13,
+    receiving_yds_sum: 278,
+    receiving_td_sum: 2,
+    receiving_rec_sum: 33,
+    season: 2024,
+    stat_type: 'offense'
+  },
+  {
+    name: 'George Kittle',
+    team: 'SF',
+    position: 'TE',
+    total_fantasy_points: 198.7,
+    avg_fantasy_points: 11.7,
+    volatility: 0.25,
+    predicted_value: 76.3,
+    games_played: 17,
+    receiving_yds_sum: 1106,
+    receiving_td_sum: 8,
+    receiving_rec_sum: 65,
+    season: 2024,
+    stat_type: 'offense'
+  }
+]
+
+const DEMO_INJURED_PLAYERS = ['Christian McCaffrey', 'Travis Kelce']
+
 const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main'
 
 export function usePlayerData() {
@@ -23,6 +189,17 @@ export function usePlayerData() {
       setLoading(true)
       setError(null)
 
+      // Check if GitHub is configured
+      if (GITHUB_RAW_BASE.includes('YOUR_USERNAME')) {
+        // Use demo data for fully functional demo
+        console.log('Using demo data - GitHub not configured')
+        setPlayers(DEMO_PLAYERS)
+        setInjuredPlayers(DEMO_INJURED_PLAYERS)
+        setLastUpdated(new Date())
+        setLoading(false)
+        return
+      }
+
       // Load player data and injury data in parallel
       const [playerData, injuryData] = await Promise.all([
         loadPlayerDataFromGitHub(),
@@ -34,9 +211,12 @@ export function usePlayerData() {
       setLastUpdated(new Date())
     } catch (err) {
       console.error('Error loading data:', err)
-      setError('Failed to load data from GitHub')
-      setPlayers([])
-      setInjuredPlayers([])
+      setError('Failed to load data from GitHub - using demo data')
+      
+      // Fallback to demo data
+      setPlayers(DEMO_PLAYERS)
+      setInjuredPlayers(DEMO_INJURED_PLAYERS)
+      setLastUpdated(new Date())
     } finally {
       setLoading(false)
     }
