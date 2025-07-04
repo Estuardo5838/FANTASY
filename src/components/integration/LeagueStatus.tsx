@@ -9,7 +9,12 @@ import {
   Calendar,
   Zap,
   Settings,
-  X
+  X,
+  AlertTriangle,
+  Wifi,
+  WifiOff,
+  Clock,
+  Activity
 } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/Card'
 import { Button } from '../ui/Button'
@@ -22,6 +27,45 @@ export function LeagueStatus() {
 
   if (connections.length === 0) {
     return null
+  }
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'connected':
+        return <Wifi className="w-4 h-4 text-success-400" />
+      case 'connecting':
+        return <RefreshCw className="w-4 h-4 text-warning-400 animate-spin" />
+      case 'error':
+        return <WifiOff className="w-4 h-4 text-error-400" />
+      default:
+        return <Clock className="w-4 h-4 text-gray-400" />
+    }
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'connected':
+        return 'text-success-400'
+      case 'connecting':
+        return 'text-warning-400'
+      case 'error':
+        return 'text-error-400'
+      default:
+        return 'text-gray-400'
+    }
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'connected':
+        return 'Connected'
+      case 'connecting':
+        return 'Connecting...'
+      case 'error':
+        return 'Error'
+      default:
+        return 'Disconnected'
+    }
   }
 
   return (
@@ -48,7 +92,13 @@ export function LeagueStatus() {
             animate={{ opacity: 1, y: 0 }}
             layout
           >
-            <Card className="border border-success-600/30 bg-success-600/5">
+            <Card className={`border ${
+              connection.connectionStatus === 'connected' 
+                ? 'border-success-600/30 bg-success-600/5'
+                : connection.connectionStatus === 'error'
+                ? 'border-error-600/30 bg-error-600/5'
+                : 'border-warning-600/30 bg-warning-600/5'
+            }`}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
@@ -62,13 +112,21 @@ export function LeagueStatus() {
                       <div>
                         <h4 className="font-semibold text-white">{connection.leagueName}</h4>
                         <div className="flex items-center space-x-2">
-                          <Badge variant="success" size="sm" className="flex items-center space-x-1">
-                            <CheckCircle className="w-3 h-3" />
-                            <span>Connected</span>
+                          <Badge 
+                            variant={connection.connectionStatus === 'connected' ? 'success' : 
+                                   connection.connectionStatus === 'error' ? 'error' : 'warning'} 
+                            size="sm" 
+                            className="flex items-center space-x-1"
+                          >
+                            {getStatusIcon(connection.connectionStatus)}
+                            <span>{getStatusText(connection.connectionStatus)}</span>
                           </Badge>
                           <span className="text-xs text-gray-400 capitalize">
                             {connection.platform}
                           </span>
+                          {connection.platform === 'nfl' && (
+                            <Badge variant="warning" size="sm">Demo</Badge>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -99,7 +157,7 @@ export function LeagueStatus() {
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    {connection.myRoster && (
+                    {connection.myRoster && connection.myRoster.length > 0 && (
                       <Badge variant="info" size="sm" className="flex items-center space-x-1">
                         <Users className="w-3 h-3" />
                         <span>{connection.myRoster.length} players</span>
@@ -139,23 +197,68 @@ export function LeagueStatus() {
                   </div>
                 </div>
 
+                {/* Error Message */}
+                {connection.errorMessage && (
+                  <div className="mt-3 pt-3 border-t border-gray-700">
+                    <div className="flex items-center space-x-2 p-2 bg-warning-600/20 border border-warning-600 rounded-lg">
+                      <AlertTriangle className="w-4 h-4 text-warning-400" />
+                      <span className="text-warning-400 text-sm">{connection.errorMessage}</span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Quick Actions */}
-                {connection.myRoster && connection.myRoster.length > 0 && (
+                {connection.connected && connection.connectionStatus === 'connected' && (
                   <div className="mt-3 pt-3 border-t border-gray-700">
                     <div className="flex items-center justify-between">
                       <div className="text-sm text-gray-400">
-                        My Team: {connection.myRoster.filter((p: any) => p.isStarter).length} starters, 
-                        {connection.myRoster.filter((p: any) => p.isInjured).length} injured
+                        {connection.myRoster && connection.myRoster.length > 0 ? (
+                          <>My Team: {connection.myRoster.length} players</>
+                        ) : (
+                          <>League data synced successfully</>
+                        )}
                       </div>
                       <div className="flex space-x-2">
                         <Button variant="ghost" size="sm" className="text-xs">
-                          <Trophy className="w-3 h-3 mr-1" />
-                          View Lineup
+                          <Activity className="w-3 h-3 mr-1" />
+                          View Data
                         </Button>
                         <Button variant="ghost" size="sm" className="text-xs">
                           <ExternalLink className="w-3 h-3 mr-1" />
                           Open League
                         </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Connection Details */}
+                {connection.connectionStatus === 'connected' && (
+                  <div className="mt-3 pt-3 border-t border-gray-700">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                      <div className="text-center">
+                        <div className="text-white font-semibold">
+                          {connection.trades?.length || 0}
+                        </div>
+                        <div className="text-gray-400">Trades</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-white font-semibold">
+                          {connection.waiverWire?.length || 0}
+                        </div>
+                        <div className="text-gray-400">Waivers</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-white font-semibold">
+                          {connection.users?.length || connection.teamCount}
+                        </div>
+                        <div className="text-gray-400">Managers</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-success-400 font-semibold">
+                          Live
+                        </div>
+                        <div className="text-gray-400">Status</div>
                       </div>
                     </div>
                   </div>

@@ -8,7 +8,10 @@ import {
   AlertCircle,
   Copy,
   Eye,
-  EyeOff
+  EyeOff,
+  Info,
+  Wifi,
+  WifiOff
 } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
@@ -29,20 +32,34 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
 
   const platforms = [
     {
-      id: 'nfl',
-      name: 'NFL Fantasy',
-      icon: '🏈',
-      color: 'bg-blue-600',
-      description: 'Connect your NFL.com league',
-      example: 'League ID: 123456'
-    },
-    {
       id: 'sleeper',
       name: 'Sleeper',
       icon: '😴',
       color: 'bg-purple-600',
       description: 'Connect your Sleeper league',
-      example: 'League ID: 789012345678901234'
+      example: 'League ID: 789012345678901234',
+      status: 'live',
+      instructions: [
+        'Go to your Sleeper league',
+        'Look at the URL: sleeper.app/leagues/[LEAGUE_ID]/team',
+        'Copy the League ID (long number)',
+        'Paste it below'
+      ]
+    },
+    {
+      id: 'nfl',
+      name: 'NFL Fantasy',
+      icon: '🏈',
+      color: 'bg-blue-600',
+      description: 'Connect your NFL.com league',
+      example: 'League ID: 123456',
+      status: 'demo',
+      instructions: [
+        'Go to your NFL Fantasy league',
+        'Look at the URL: fantasy.nfl.com/league/[LEAGUE_ID]',
+        'Copy the League ID (6-digit number)',
+        'Note: Currently shows demo data due to NFL API restrictions'
+      ]
     }
   ]
 
@@ -62,6 +79,8 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
     navigator.clipboard.writeText(id)
     setLeagueId(id)
   }
+
+  const selectedPlatformData = platforms.find(p => p.id === selectedPlatform)
 
   return (
     <div className="space-y-6">
@@ -85,18 +104,42 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
                 onClick={() => setSelectedPlatform(platform.id)}
               >
                 <div className="p-4">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 mb-3">
                     <div className={`w-12 h-12 ${platform.color} rounded-lg flex items-center justify-center text-2xl`}>
                       {platform.icon}
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-semibold text-white">{platform.name}</h4>
+                      <div className="flex items-center space-x-2">
+                        <h4 className="font-semibold text-white">{platform.name}</h4>
+                        {platform.status === 'live' ? (
+                          <Badge variant="success" size="sm" className="flex items-center space-x-1">
+                            <Wifi className="w-3 h-3" />
+                            <span>Live</span>
+                          </Badge>
+                        ) : (
+                          <Badge variant="warning" size="sm" className="flex items-center space-x-1">
+                            <WifiOff className="w-3 h-3" />
+                            <span>Demo</span>
+                          </Badge>
+                        )}
+                      </div>
                       <p className="text-sm text-gray-400">{platform.description}</p>
                     </div>
                     {selectedPlatform === platform.id && (
                       <CheckCircle className="w-5 h-5 text-success-400" />
                     )}
                   </div>
+                  
+                  {platform.status === 'demo' && (
+                    <div className="mt-3 p-2 bg-warning-600/20 border border-warning-600 rounded-lg">
+                      <div className="flex items-center space-x-2">
+                        <Info className="w-4 h-4 text-warning-400" />
+                        <span className="text-xs text-warning-400">
+                          Shows demo data - NFL API requires authentication
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </Card>
             </motion.div>
@@ -104,7 +147,7 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
         </div>
       </div>
 
-      {/* League ID Input */}
+      {/* Connection Form */}
       <AnimatePresence>
         {selectedPlatform && (
           <motion.div
@@ -113,6 +156,27 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
             exit={{ opacity: 0, height: 0 }}
             className="space-y-4"
           >
+            {/* Instructions */}
+            {selectedPlatformData && (
+              <div className="glass-effect rounded-lg p-4">
+                <h4 className="font-semibold text-white mb-3 flex items-center">
+                  <Info className="w-4 h-4 mr-2" />
+                  How to find your {selectedPlatformData.name} League ID
+                </h4>
+                <ol className="space-y-2">
+                  {selectedPlatformData.instructions.map((instruction, index) => (
+                    <li key={index} className="text-sm text-gray-300 flex items-start space-x-2">
+                      <span className="w-5 h-5 rounded-full bg-primary-600 text-white text-xs flex items-center justify-center mt-0.5 flex-shrink-0">
+                        {index + 1}
+                      </span>
+                      <span>{instruction}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {/* League ID Input */}
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="text-sm font-medium text-gray-300">
@@ -211,10 +275,13 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
               )}
             </Button>
 
-            {/* Help Text */}
+            {/* Status Info */}
             <div className="text-center">
               <p className="text-xs text-gray-500">
-                We only read your league data. We never make changes to your lineup or trades.
+                {selectedPlatformData?.status === 'live' 
+                  ? 'Real-time data will be synced automatically'
+                  : 'Demo mode - shows sample data for testing'
+                }
               </p>
             </div>
           </motion.div>
