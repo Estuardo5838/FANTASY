@@ -167,7 +167,8 @@ const DEMO_PLAYERS: Player[] = [
 
 const DEMO_INJURED_PLAYERS = ['Christian McCaffrey', 'Travis Kelce']
 
-const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main'
+// Set to demo mode - change this to your GitHub URL when ready
+const GITHUB_RAW_BASE = 'DEMO_MODE'
 
 export function usePlayerData() {
   const [players, setPlayers] = useState<Player[]>([])
@@ -190,7 +191,7 @@ export function usePlayerData() {
       setError(null)
 
       // Check if GitHub is configured
-      if (GITHUB_RAW_BASE.includes('YOUR_USERNAME')) {
+      if (GITHUB_RAW_BASE === 'DEMO_MODE' || GITHUB_RAW_BASE.includes('YOUR_USERNAME')) {
         // Use demo data for fully functional demo
         console.log('Using demo data - GitHub not configured')
         setPlayers(DEMO_PLAYERS)

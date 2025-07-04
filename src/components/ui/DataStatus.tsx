@@ -43,7 +43,9 @@ export function DataStatus({
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <Github className="w-5 h-5 text-gray-400" />
-            <span className="text-sm font-medium text-white">GitHub Data</span>
+            <span className="text-sm font-medium text-white">
+              {error?.includes('demo') ? 'Demo Data' : 'GitHub Data'}
+            </span>
           </div>
           
           <div className="flex items-center space-x-2">
@@ -60,7 +62,8 @@ export function DataStatus({
               loading ? 'text-warning-400' : 
               'text-success-400'
             }`}>
-              {error ? 'Error' : loading ? 'Loading...' : 'Connected'}
+              {error ? (error.includes('demo') ? 'Demo Mode' : 'Error') : 
+               loading ? 'Loading...' : 'Connected'}
             </span>
           </div>
         </div>
@@ -103,9 +106,11 @@ export function DataStatus({
       {error && (
         <div className="mt-3 p-3 bg-error-600/20 border border-error-600 rounded-lg">
           <p className="text-error-400 text-sm">{error}</p>
-          <p className="text-gray-400 text-xs mt-1">
-            Make sure your GitHub repository is public and contains the required CSV files.
-          </p>
+          {!error.includes('demo') && (
+            <p className="text-gray-400 text-xs mt-1">
+              Make sure your GitHub repository is public and contains the required CSV files.
+            </p>
+          )}
         </div>
       )}
     </div>
