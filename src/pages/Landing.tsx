@@ -1,42 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Zap, 
-  BarChart3, 
-  Users, 
-  Trophy, 
-  TrendingUp, 
-  Shield,
-  Star,
-  CheckCircle,
-  ArrowRight,
-  Play,
-  X,
-  Activity,
-  Target,
-  Brain,
-  Smartphone,
-  Monitor,
-  ArrowLeftRight,
-  AlertTriangle,
-  Sparkles,
-  Zap as ZapIcon,
-  ChevronRight,
-  ChevronLeft,
-  Key,
-  Gift,
-  Crown,
-  Rocket,
-  Lightning,
-  Globe,
-  Code,
-  Database,
-  Cpu,
-  Layers,
-  Hexagon,
-  Circle
-} from 'lucide-react'
+import { Zap, BarChart3, Users, Trophy, TrendingUp, Shield, Star, CheckCircle, ArrowRight, Play, X, Activity, Target, Brain, Smartphone, Monitor, ArrowLeftRight, AlertTriangle, Sparkles, Zap as ZapIcon, ChevronRight, ChevronLeft, Key, Gift, Crown, Rocket, CloudLightning as Lightning, Globe, Code, Database, Cpu, Layers, Hexagon, Circle } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
