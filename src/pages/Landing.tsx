@@ -15,9 +15,8 @@ import {
   Trophy,
   TrendingUp,
   ArrowRight,
-  Crown,
-  Wifi,
-  Activity
+  Activity,
+  Wifi
 } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
@@ -139,7 +138,7 @@ export function Landing() {
                     <span>{totalCodes} Access Codes</span>
                   </Badge>
                   <Badge variant="warning" size="lg" className="flex items-center space-x-2">
-                    <Crown className="w-4 h-4" />
+                    <Star className="w-4 h-4" />
                     <span>Full Features</span>
                   </Badge>
                 </div>

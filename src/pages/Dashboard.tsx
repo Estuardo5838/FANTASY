@@ -81,7 +81,6 @@ export function Dashboard() {
   }
 
   const handleSelectReplacement = (replacement: Player) => {
-    // Here you could implement logic to add the replacement to user's team
     console.log('Selected replacement:', replacement.name, 'for', selectedInjuredPlayer?.name)
     setShowReplacements(false)
     setSelectedInjuredPlayer(null)
@@ -117,12 +116,10 @@ export function Dashboard() {
             Here's your fantasy football command center
           </p>
         </div>
-        {getStoredCode() && (
-          <Badge variant="success" size="lg">
-            <Star className="w-4 h-4 mr-2" />
-            Premium Access
-          </Badge>
-        )}
+        <Badge variant="success" size="lg">
+          <Star className="w-4 h-4 mr-2" />
+          Full Access Active
+        </Badge>
       </div>
 
       {/* Stats Overview */}
@@ -338,8 +335,8 @@ export function Dashboard() {
                 <span className="font-bold text-white">{formatNumber(players.length)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-400">Last Updated</span>
-                <span className="font-bold text-success-400">Live</span>
+                <span className="text-gray-400">Access Level</span>
+                <span className="font-bold text-success-400">Full Premium</span>
               </div>
             </div>
           </CardContent>
