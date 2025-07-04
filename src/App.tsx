@@ -3,12 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useCodeAccess } from './hooks/useCodeAccess'
 import { Layout } from './components/layout/Layout'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
-import { CodeAccess } from './components/auth/CodeAccess'
 
 // Pages
 import { Landing } from './pages/Landing'
-import { Login } from './pages/Login'
-import { Signup } from './pages/Signup'
 import { Dashboard } from './pages/Dashboard'
 import { Players } from './pages/Players'
 import { Analytics } from './pages/Analytics'
@@ -27,15 +24,15 @@ function App() {
     )
   }
 
-  // Show code access screen if user doesn't have access
+  // Show landing page if no access
   if (!hasAccess) {
-    return <CodeAccess />
+    return <Landing />
   }
 
+  // Show main app with access
   return (
     <Router>
       <Routes>
-        {/* All routes are now accessible with valid code */}
         <Route path="/" element={<Navigate to="/dashboard" />} />
         <Route path="/*" element={
           <Layout>

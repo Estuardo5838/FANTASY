@@ -1,16 +1,13 @@
 import React from 'react'
-import { TrendingUp, Users, Trophy, Target, Star, Activity } from 'lucide-react'
+import { TrendingUp, Users, Trophy, Target, Activity, BarChart3 } from 'lucide-react'
 import { usePlayerData } from '../hooks/usePlayerData'
-import { useCodeAccess } from '../hooks/useCodeAccess'
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card'
-import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
 import { DataStatus } from '../components/ui/DataStatus'
 import { InjuryAlert } from '../components/player/InjuryAlert'
 import { ReplacementSuggestions } from '../components/player/ReplacementSuggestions'
 import { FantasyPointsChart } from '../components/charts/FantasyPointsChart'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
-import { PlayerCard } from '../components/player/PlayerCard'
 import { formatNumber } from '../lib/utils'
 import type { Player } from '../types'
 
@@ -25,7 +22,6 @@ export function Dashboard() {
     getReplacementSuggestions,
     refetch 
   } = usePlayerData()
-  const { getStoredCode } = useCodeAccess()
   const [selectedInjuredPlayer, setSelectedInjuredPlayer] = React.useState<Player | null>(null)
   const [showReplacements, setShowReplacements] = React.useState(false)
 
@@ -107,19 +103,13 @@ export function Dashboard() {
       )}
 
       {/* Welcome Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-        <div>
-          <h1 className="text-3xl font-bold text-white">
-            Welcome back, Fantasy Manager!
-          </h1>
-          <p className="text-gray-400 mt-2">
-            Here's your fantasy football command center
-          </p>
-        </div>
-        <Badge variant="success" size="lg">
-          <Star className="w-4 h-4 mr-2" />
-          Full Access Active
-        </Badge>
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-white mb-4">
+          Welcome to Fantasy Glitch
+        </h1>
+        <p className="text-gray-400 text-lg">
+          Your complete fantasy football analytics platform
+        </p>
       </div>
 
       {/* Stats Overview */}
@@ -284,64 +274,46 @@ export function Dashboard() {
         </Card>
       </div>
 
-      {/* Recent Activity / Quick Actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              <button className="p-4 glass-effect rounded-lg hover:bg-primary-600/20 transition-colors text-left">
-                <TrendingUp className="w-6 h-6 text-primary-500 mb-2" />
-                <div className="font-semibold text-white">Analyze Players</div>
-                <div className="text-sm text-gray-400">Compare stats & projections</div>
-              </button>
-              <button className="p-4 glass-effect rounded-lg hover:bg-success-600/20 transition-colors text-left">
-                <Users className="w-6 h-6 text-success-500 mb-2" />
-                <div className="font-semibold text-white">Trade Center</div>
-                <div className="text-sm text-gray-400">Find trade opportunities</div>
-              </button>
-              <button className="p-4 glass-effect rounded-lg hover:bg-warning-600/20 transition-colors text-left">
-                <Trophy className="w-6 h-6 text-warning-500 mb-2" />
-                <div className="font-semibold text-white">Draft Assistant</div>
-                <div className="text-sm text-gray-400">Get draft recommendations</div>
-              </button>
-              <button className="p-4 glass-effect rounded-lg hover:bg-secondary-600/20 transition-colors text-left">
-                <Target className="w-6 h-6 text-secondary-500 mb-2" />
-                <div className="font-semibold text-white">My Team</div>
-                <div className="text-sm text-gray-400">Manage your roster</div>
-              </button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Platform Stats</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Active Players Tracked</span>
-                <span className="font-bold text-white">{formatNumber(players.length)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Data Points Analyzed</span>
-                <span className="font-bold text-white">{formatNumber(players.length * 15)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Predictions Generated</span>
-                <span className="font-bold text-white">{formatNumber(players.length)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Access Level</span>
-                <span className="font-bold text-success-400">Full Premium</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Quick Actions */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <button className="p-4 glass-effect rounded-lg hover:bg-primary-600/20 transition-colors text-left">
+              <TrendingUp className="w-6 h-6 text-primary-500 mb-2" />
+              <div className="font-semibold text-white">Analytics</div>
+              <div className="text-sm text-gray-400">Player insights</div>
+            </button>
+            <button className="p-4 glass-effect rounded-lg hover:bg-success-600/20 transition-colors text-left">
+              <Users className="w-6 h-6 text-success-500 mb-2" />
+              <div className="font-semibold text-white">Trade Center</div>
+              <div className="text-sm text-gray-400">Find trades</div>
+            </button>
+            <button className="p-4 glass-effect rounded-lg hover:bg-warning-600/20 transition-colors text-left">
+              <Trophy className="w-6 h-6 text-warning-500 mb-2" />
+              <div className="font-semibold text-white">Draft Assistant</div>
+              <div className="text-sm text-gray-400">Draft help</div>
+            </button>
+            <button className="p-4 glass-effect rounded-lg hover:bg-secondary-600/20 transition-colors text-left">
+              <Target className="w-6 h-6 text-secondary-500 mb-2" />
+              <div className="font-semibold text-white">My Team</div>
+              <div className="text-sm text-gray-400">Manage roster</div>
+            </button>
+            <button className="p-4 glass-effect rounded-lg hover:bg-purple-600/20 transition-colors text-left">
+              <BarChart3 className="w-6 h-6 text-purple-500 mb-2" />
+              <div className="font-semibold text-white">Players</div>
+              <div className="text-sm text-gray-400">Player database</div>
+            </button>
+            <button className="p-4 glass-effect rounded-lg hover:bg-cyan-600/20 transition-colors text-left">
+              <Activity className="w-6 h-6 text-cyan-500 mb-2" />
+              <div className="font-semibold text-white">Live Data</div>
+              <div className="text-sm text-gray-400">Real-time updates</div>
+            </button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Replacement Suggestions Modal */}
       {showReplacements && selectedInjuredPlayer && (

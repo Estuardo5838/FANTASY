@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Zap, Settings, LogOut } from 'lucide-react'
+import { Menu, X, Zap, LogOut } from 'lucide-react'
 import { useCodeAccess } from '../../hooks/useCodeAccess'
 import { Button } from '../ui/Button'
-import { AccessStatus } from '../auth/AccessStatus'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isProfileOpen, setIsProfileOpen] = useState(false)
-  const { hasAccess, revokeAccess } = useCodeAccess()
+  const { revokeAccess } = useCodeAccess()
   const location = useLocation()
 
   const navigation = [
@@ -26,7 +24,6 @@ export function Header() {
     if (window.confirm('Sign out of Fantasy Glitch?')) {
       revokeAccess()
     }
-    setIsProfileOpen(false)
   }
 
   return (
@@ -52,35 +49,17 @@ export function Header() {
             ))}
           </nav>
 
-          {/* User Menu */}
+          {/* Sign Out Button */}
           <div className="flex items-center space-x-4">
-            {/* Access Status */}
-            <div className="hidden sm:block">
-              <AccessStatus />
-            </div>
-
-            {/* Profile Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <Settings className="w-6 h-6" />
-                <span className="hidden sm:block">Menu</span>
-              </button>
-
-              {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 glass-effect rounded-lg shadow-lg py-2 z-50">
-                  <button
-                    onClick={handleSignOut}
-                    className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-dark-700"
-                  >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
-                  </button>
-                </div>
-              )}
-            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSignOut}
+              className="hidden sm:flex items-center space-x-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out</span>
+            </Button>
 
             {/* Mobile Menu Button */}
             <button
@@ -108,12 +87,16 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
+              
+              {/* Mobile Sign Out */}
+              <button
+                onClick={handleSignOut}
+                className="flex items-center w-full px-4 py-2 text-gray-300 hover:text-white"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </button>
             </nav>
-            
-            {/* Mobile Access Status */}
-            <div className="mt-4 px-4">
-              <AccessStatus />
-            </div>
           </div>
         )}
       </div>
