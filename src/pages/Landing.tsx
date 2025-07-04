@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { 
   Zap, 
   BarChart3, 
@@ -9,12 +10,20 @@ import {
   Shield,
   Star,
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  Play,
+  X
 } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
+import { PlayerCard } from '../components/player/PlayerCard'
+import { FantasyPointsChart } from '../components/charts/FantasyPointsChart'
+import { usePlayerData } from '../hooks/usePlayerData'
 
 export function Landing() {
+  const [showDemo, setShowDemo] = useState(false)
+  const { players, loading } = usePlayerData()
+
   const features = [
     {
       icon: <BarChart3 className="w-8 h-8" />,
@@ -80,6 +89,8 @@ export function Landing() {
     '7-day free trial'
   ]
 
+  const topDemoPlayers = players.slice(0, 6)
+
   return (
     <div className="min-h-screen bg-dark-900">
       {/* Header */}
@@ -121,7 +132,13 @@ export function Landing() {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
-            <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+            <Button 
+              variant="secondary" 
+              size="lg" 
+              className="w-full sm:w-auto"
+              onClick={() => setShowDemo(true)}
+            >
+              <Play className="w-5 h-5 mr-2" />
               Watch Demo
             </Button>
           </div>
@@ -261,6 +278,155 @@ export function Landing() {
           </div>
         </div>
       </footer>
+
+      {/* Demo Modal */}
+      {showDemo && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="max-w-6xl w-full max-h-[90vh] overflow-y-auto bg-dark-900 rounded-xl border border-gray-700">
+            {/* Demo Header */}
+            <div className="flex justify-between items-center p-6 border-b border-gray-700">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Fantasy Glitch Demo</h2>
+                <p className="text-gray-400 mt-1">Experience the power of advanced fantasy analytics</p>
+              </div>
+              <button
+                onClick={() => setShowDemo(false)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-8">
+              {/* Demo Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <Card>
+                  <div className="text-center p-4">
+                    <div className="text-3xl font-bold text-primary-400 mb-2">{players.length}</div>
+                    <div className="text-gray-400">Active Players</div>
+                  </div>
+                </Card>
+                <Card>
+                  <div className="text-center p-4">
+                    <div className="text-3xl font-bold text-success-400 mb-2">95%</div>
+                    <div className="text-gray-400">Prediction Accuracy</div>
+                  </div>
+                </Card>
+                <Card>
+                  <div className="text-center p-4">
+                    <div className="text-3xl font-bold text-warning-400 mb-2">24/7</div>
+                    <div className="text-gray-400">Live Updates</div>
+                  </div>
+                </Card>
+                <Card>
+                  <div className="text-center p-4">
+                    <div className="text-3xl font-bold text-secondary-400 mb-2">AI</div>
+                    <div className="text-gray-400">Powered Analytics</div>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Demo Chart */}
+              <Card>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                    <TrendingUp className="w-5 h-5 mr-2" />
+                    Top Performers Analytics
+                  </h3>
+                  {!loading && players.length > 0 && (
+                    <FantasyPointsChart players={topDemoPlayers} type="area" />
+                  )}
+                </div>
+              </Card>
+
+              {/* Demo Players */}
+              <div>
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                  <Star className="w-5 h-5 mr-2" />
+                  Elite Player Analysis
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {topDemoPlayers.map((player) => (
+                    <PlayerCard key={player.name} player={player} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Demo Features */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <div className="p-6">
+                    <h4 className="text-lg font-bold text-white mb-3 flex items-center">
+                      <BarChart3 className="w-5 h-5 mr-2" />
+                      Advanced Analytics
+                    </h4>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-success-400 mr-2" />
+                        Volatility tracking and consistency scores
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-success-400 mr-2" />
+                        AI-powered performance predictions
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-success-400 mr-2" />
+                        Real-time market value analysis
+                      </li>
+                    </ul>
+                  </div>
+                </Card>
+
+                <Card>
+                  <div className="p-6">
+                    <h4 className="text-lg font-bold text-white mb-3 flex items-center">
+                      <Users className="w-5 h-5 mr-2" />
+                      Smart Tools
+                    </h4>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-success-400 mr-2" />
+                        Trade analyzer with confidence scores
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-success-400 mr-2" />
+                        Draft assistant with tier rankings
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-success-400 mr-2" />
+                        Injury tracking and replacements
+                      </li>
+                    </ul>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Demo CTA */}
+              <div className="text-center bg-gradient-to-r from-primary-600/20 to-secondary-600/20 rounded-lg p-8">
+                <h3 className="text-2xl font-bold text-white mb-4">Ready to Dominate Your League?</h3>
+                <p className="text-gray-300 mb-6">
+                  This is just a preview. Get full access to all features with your free trial.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link to="/signup">
+                    <Button size="lg" onClick={() => setShowDemo(false)}>
+                      Start Free Trial
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="secondary" 
+                    size="lg"
+                    onClick={() => setShowDemo(false)}
+                  >
+                    Close Demo
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
