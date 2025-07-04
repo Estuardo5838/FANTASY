@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Select } from '../components/ui/Input'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
+import { DataStatus } from '../components/ui/DataStatus'
 import { FantasyPointsChart } from '../components/charts/FantasyPointsChart'
 import { PlayerComparisonChart } from '../components/charts/PlayerComparisonChart'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
@@ -12,7 +13,15 @@ import { PlayerCard } from '../components/player/PlayerCard'
 import type { Player } from '../types'
 
 export function Analytics() {
-  const { players, loading } = usePlayerData()
+  const { 
+    players, 
+    loading, 
+    error, 
+    lastUpdated, 
+    getAvailablePlayers, 
+    getInjuredPlayers,
+    refetch 
+  } = usePlayerData()
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([])
   const [comparisonType, setComparisonType] = useState<'radar' | 'bar'>('radar')
   const [chartType, setChartType] = useState<'line' | 'area'>('area')
@@ -30,10 +39,12 @@ export function Analytics() {
     )
   }
 
+  const availablePlayers = getAvailablePlayers()
+  const injuredPlayers = getInjuredPlayers()
   const positions = [...new Set(players.map(p => p.position))].sort()
   const filteredPlayers = selectedPosition 
-    ? players.filter(p => p.position === selectedPosition)
-    : players
+    ? availablePlayers.filter(p => p.position === selectedPosition)
+    : availablePlayers
 
   const topPerformers = filteredPlayers
     .sort((a, b) => b.total_fantasy_points - a.total_fantasy_points)
@@ -51,7 +62,7 @@ export function Analytics() {
 
   const getPositionStats = () => {
     const stats = positions.map(position => {
-      const positionPlayers = players.filter(p => p.position === position)
+      const positionPlayers = availablePlayers.filter(p => p.position === position)
       return {
         position,
         count: positionPlayers.length,
@@ -66,6 +77,16 @@ export function Analytics() {
 
   return (
     <div className="space-y-8">
+      {/* Data Status */}
+      <DataStatus
+        loading={loading}
+        error={error}
+        lastUpdated={lastUpdated}
+        onRefresh={refetch}
+        totalPlayers={players.length}
+        injuredCount={injuredPlayers.length}
+      />
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
         <div>
