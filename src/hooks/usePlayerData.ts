@@ -167,8 +167,8 @@ const DEMO_PLAYERS: Player[] = [
 
 const DEMO_INJURED_PLAYERS = ['Christian McCaffrey', 'Travis Kelce']
 
-// Set to demo mode - change this to your GitHub URL when ready
-const GITHUB_RAW_BASE = 'DEMO_MODE' // Always use demo mode for now
+// GitHub Repository Configuration
+const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/Estuardo5838/FANTASY/main'
 
 export function usePlayerData() {
   const [players, setPlayers] = useState<Player[]>([])
@@ -189,13 +189,8 @@ export function usePlayerData() {
     try {
       setError(null)
 
-      // Check if GitHub is configured
-      console.log('Loading demo data...')
-      setPlayers(DEMO_PLAYERS)
-      setInjuredPlayers(DEMO_INJURED_PLAYERS)
-      setLastUpdated(new Date())
-      console.log('Demo data loaded:', DEMO_PLAYERS.length, 'players')
-      return
+      console.log('🔗 Loading data from GitHub repository...')
+      console.log('📂 Repository:', GITHUB_RAW_BASE)
 
       // Load player data and injury data in parallel
       const [playerData, injuryData] = await Promise.all([
@@ -206,11 +201,13 @@ export function usePlayerData() {
       setPlayers(playerData)
       setInjuredPlayers(injuryData)
       setLastUpdated(new Date())
+      console.log('✅ GitHub data loaded successfully:', playerData.length, 'players')
     } catch (err) {
       console.error('Error loading data:', err)
-      setError('Using demo data for demonstration')
+      setError('Failed to load GitHub data - using demo data as fallback')
       
       // Fallback to demo data
+      console.log('⚠️ Falling back to demo data...')
       setPlayers(DEMO_PLAYERS)
       setInjuredPlayers(DEMO_INJURED_PLAYERS)
       setLastUpdated(new Date())
@@ -222,19 +219,24 @@ export function usePlayerData() {
   const loadPlayerDataFromGitHub = async (): Promise<Player[]> => {
     try {
       // Try to load trade value CSV first (most complete data)
+      console.log('📊 Attempting to load player_trade_value.csv...')
       const tradeValueResponse = await fetch(`${GITHUB_RAW_BASE}/player_trade_value.csv`)
       if (tradeValueResponse.ok) {
         const csvText = await tradeValueResponse.text()
+        console.log('✅ Successfully loaded player_trade_value.csv')
         return parsePlayerCSV(csvText)
       }
 
       // Fallback to season files
+      console.log('📋 Trying season files as fallback...')
       const seasonFiles = ['player_2024.csv', 'player_2023.csv']
       for (const file of seasonFiles) {
         try {
+          console.log(`📄 Attempting to load ${file}...`)
           const response = await fetch(`${GITHUB_RAW_BASE}/${file}`)
           if (response.ok) {
             const csvText = await response.text()
+            console.log(`✅ Successfully loaded ${file}`)
             return parsePlayerCSV(csvText)
           }
         } catch (err) {
@@ -250,16 +252,18 @@ export function usePlayerData() {
 
   const loadInjuryDataFromGitHub = async (): Promise<string[]> => {
     try {
+      console.log('🏥 Attempting to load injured.csv...')
       const response = await fetch(`${GITHUB_RAW_BASE}/injured.csv`)
       if (!response.ok) {
-        console.warn('No injury data found')
+        console.warn('⚠️ No injury data found in repository')
         return []
       }
 
       const csvText = await response.text()
+      console.log('✅ Successfully loaded injury data')
       return parseInjuryCSV(csvText)
     } catch (err) {
-      console.warn('Failed to load injury data:', err)
+      console.warn('⚠️ Failed to load injury data:', err)
       return []
     }
   }

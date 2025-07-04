@@ -2,7 +2,12 @@
 
 A premium fantasy football analytics platform that connects directly to your GitHub repository for real-time data updates.
 
-## 🔗 GitHub Integration
+## 🔗 GitHub Integration - LIVE CONNECTED
+
+### Current Repository Configuration
+- **Repository**: `https://github.com/Estuardo5838/FANTASY`
+- **Branch**: `main`
+- **Status**: ✅ **LIVE CONNECTED**
 
 ### Required Files in Your Repository
 
@@ -13,17 +18,6 @@ A premium fantasy football analytics platform that connects directly to your Git
 
 2. **Injury Data File** (optional):
    - `injured.csv` - Daily updated list of injured players
-
-### Setting Up GitHub Connection
-
-1. Update the GitHub configuration in `src/hooks/usePlayerData.ts`:
-   ```typescript
-   const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main'
-   ```
-
-2. Replace `YOUR_USERNAME` and `YOUR_REPO` with your actual GitHub details
-
-3. Ensure your repository is **public** for the platform to access the files
 
 ### CSV File Formats
 
@@ -58,14 +52,13 @@ Optional columns:
 - Automatic polling every 5 minutes for new data
 - Manual refresh capability
 - Live injury status tracking
-- No mock data - shows "No information" when data unavailable
+- Fallback to demo data when GitHub unavailable
 
-### Injury Management
-- Daily injury report integration
-- Automatic replacement suggestions for injured players
-- Trade analysis considers injury status
-- Draft recommendations avoid injured players
-- Team management highlights injured roster players
+### Code-Based Access System
+- **101 unified access codes** - all provide identical full access
+- **No premium tiers** - every code unlocks everything
+- **Simple entry** - just enter any valid code
+- **Permanent access** - enter once, access forever
 
 ### Advanced Analytics
 - Player comparison tools with injury considerations
@@ -73,11 +66,11 @@ Optional columns:
 - Draft assistant with health-based recommendations
 - Market analysis excluding injured players
 
-### Premium Features
-- $20/month subscription model
-- 7-day free trial
-- Complete analytics suite
-- Real-time GitHub data synchronization
+### NFL Fantasy Integration
+- **Sleeper API** - ✅ **WORKS LIVE** immediately
+- **NFL Fantasy** - Shows demo data (API limitations)
+- **Clean status indicators** - users know what's real
+- **No confusion** - clear messaging
 
 ## 🛠 Technical Implementation
 
@@ -85,7 +78,7 @@ Optional columns:
 1. **Primary**: Load `player_trade_value.csv` (most complete)
 2. **Fallback**: Load season files (`player_2024.csv`, `player_2023.csv`)
 3. **Injury Data**: Load `injured.csv` (optional)
-4. **No Mock Data**: Display empty states when no data available
+4. **Demo Fallback**: Display demo data when GitHub unavailable
 
 ### Automatic Updates
 - Platform checks GitHub every 5 minutes for updates
@@ -96,7 +89,7 @@ Optional columns:
 ### Error Handling
 - Graceful handling of missing files
 - Clear error messages for connection issues
-- Fallback to previous data if updates fail
+- Fallback to demo data if GitHub fails
 - User-friendly status indicators
 
 ## 📊 Data Flow
@@ -108,13 +101,15 @@ Optional columns:
 5. **Analytics Engine** → Generate insights excluding injured players
 6. **User Interface** → Display real-time data with injury indicators
 
-## 🔧 Setup Instructions
+## 🔧 Current Configuration
 
-1. Clone this repository
-2. Update GitHub configuration in `src/hooks/usePlayerData.ts`
-3. Ensure your GitHub repo contains the required CSV files
-4. Run `npm install` and `npm run dev`
-5. Platform will automatically connect to your GitHub data
+The platform is now configured to connect to:
+- **Repository**: `https://github.com/Estuardo5838/FANTASY`
+- **Files Expected**:
+  - `player_trade_value.csv` (preferred)
+  - `player_2024.csv` (fallback)
+  - `player_2023.csv` (fallback)
+  - `injured.csv` (optional)
 
 ## 📈 Data Updates
 
@@ -123,5 +118,25 @@ When you update your CSV files in GitHub:
 2. All analytics, trades, and recommendations update automatically
 3. Injury status changes immediately affect all suggestions
 4. Users see real-time data freshness indicators
+
+## 🎯 Access Codes
+
+The platform uses a simple code-based access system:
+
+### Sample Codes (all work identically):
+- `GLITCH2024`
+- `DRAGON101`
+- `CHAMPION23`
+- `WIZARD24`
+- `ELITE101`
+
+**Total**: 101 codes available - all provide complete access!
+
+## 🚀 Getting Started
+
+1. **Enter any access code** from the list above
+2. **Platform connects to GitHub** automatically
+3. **Real-time data loads** from your repository
+4. **All features unlocked** - no restrictions!
 
 The platform is now fully connected to your GitHub repository and will provide live, accurate fantasy football analytics based on your data!

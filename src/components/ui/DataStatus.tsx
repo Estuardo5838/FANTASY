@@ -44,7 +44,7 @@ export function DataStatus({
           <div className="flex items-center space-x-2">
             <Github className="w-5 h-5 text-gray-400" />
             <span className="text-sm font-medium text-white">
-              {error?.includes('demo') ? 'Demo Data' : 'GitHub Data'}
+              {error?.includes('demo') ? 'Demo Data (Fallback)' : 'Live GitHub Data'}
             </span>
           </div>
           
@@ -62,7 +62,7 @@ export function DataStatus({
               loading ? 'text-warning-400' : 
               'text-success-400'
             }`}>
-              {error ? (error.includes('demo') ? 'Demo Mode' : 'Error') : 
+              {error ? (error.includes('demo') ? 'Fallback Mode' : 'Connection Error') : 
                loading ? 'Loading...' : 'Connected'}
             </span>
           </div>
@@ -108,7 +108,7 @@ export function DataStatus({
           <p className="text-error-400 text-sm">{error}</p>
           {!error.includes('demo') && (
             <p className="text-gray-400 text-xs mt-1">
-              Make sure your GitHub repository is public and contains the required CSV files.
+              Repository: https://github.com/Estuardo5838/FANTASY - Check if files exist and repo is public.
             </p>
           )}
         </div>
