@@ -99,6 +99,25 @@ export interface TradeAnalysis {
   confidence: number
 }
 
+export interface WeeklyOpportunity {
+  type: 'trending_up' | 'matchup' | 'injury_return' | 'waiver_target'
+  player: Player
+  reason: string
+  confidence: number
+  action: string
+  week?: number
+}
+
+export interface LeagueConnection {
+  platform: 'nfl' | 'sleeper' | 'espn' | 'yahoo'
+  leagueId: string
+  leagueName: string
+  connected: boolean
+  lastSync: Date
+  teamCount: number
+  scoringType: string
+}
+
 export interface DraftRecommendation {
   player: Player
   value: number

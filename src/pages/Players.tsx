@@ -5,9 +5,10 @@ import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
 import { DataStatus } from '../components/ui/DataStatus'
-import { PlayerCard } from '../components/player/PlayerCard'
+import { PlayerStatsCard } from '../components/player/PlayerStatsCard'
 import { PlayerSearch } from '../components/player/PlayerSearch'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
+import type { Player } from '../types'
 
 export function Players() {
   const { 
@@ -150,17 +151,13 @@ export function Players() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {displayedPlayers.map((player) => (
           <div key={player.name} className="relative">
-            <PlayerCard
+            <PlayerStatsCard
               player={player}
               onClick={() => setSelectedPlayer(player)}
+              isInjured={isPlayerInjured(player.name)}
+              showTrends={true}
+              animated={true}
             />
-            {isPlayerInjured(player.name) && (
-              <div className="absolute top-2 right-2">
-                <Badge variant="error" size="sm">
-                  Injured
-                </Badge>
-              </div>
-            )}
           </div>
         ))}
       </div>

@@ -28,7 +28,7 @@ import {
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
-import { PlayerCard } from '../components/player/PlayerCard'
+import { PlayerStatsCard } from '../components/player/PlayerStatsCard'
 import { FantasyPointsChart } from '../components/charts/FantasyPointsChart'
 import { PlayerComparisonChart } from '../components/charts/PlayerComparisonChart'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
@@ -227,7 +227,7 @@ export function Landing() {
               >
                 <h4 className="font-bold text-white mb-3">Your Player</h4>
                 {tradePlayer1 && (
-                  <PlayerCard player={tradePlayer1} showDetails={false} />
+                  <PlayerStatsCard player={tradePlayer1} showDetails={false} animated={true} />
                 )}
               </motion.div>
               
@@ -253,7 +253,7 @@ export function Landing() {
               >
                 <h4 className="font-bold text-white mb-3">Target Player</h4>
                 {tradePlayer2 && (
-                  <PlayerCard player={tradePlayer2} showDetails={false} />
+                  <PlayerStatsCard player={tradePlayer2} showDetails={false} animated={true} />
                 )}
               </motion.div>
             </div>
@@ -481,7 +481,7 @@ export function Landing() {
                   transition={{ delay: 0.4 + index * 0.2 }}
                   className="glass-effect rounded-lg p-4"
                 >
-                  <PlayerCard player={player} />
+                  <PlayerStatsCard player={player} animated={true} />
                 </motion.div>
               ))}
             </div>

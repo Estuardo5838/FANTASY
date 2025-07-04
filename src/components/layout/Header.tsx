@@ -13,10 +13,10 @@ export function Header() {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard' },
     { name: 'Players', href: '/players' },
+    { name: 'My Team', href: '/team' },
     { name: 'Analytics', href: '/analytics' },
     { name: 'Trade Center', href: '/trades' },
     { name: 'Draft Assistant', href: '/draft' },
-    { name: 'My Team', href: '/team' },
   ]
 
   const isActive = (href: string) => location.pathname === href
