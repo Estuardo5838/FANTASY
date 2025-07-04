@@ -32,6 +32,21 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
 
   const platforms = [
     {
+      id: 'nfl',
+      name: 'NFL Fantasy',
+      icon: '🏈',
+      color: 'bg-blue-600',
+      description: 'Connect your NFL.com league',
+      example: 'League ID: 123456',
+      status: 'live',
+      instructions: [
+        'Go to your NFL Fantasy league',
+        'Look at the URL: fantasy.nfl.com/league/[LEAGUE_ID]',
+        'Copy the League ID (6-digit number)',
+        'Paste it below for instant connection'
+      ]
+    },
+    {
       id: 'sleeper',
       name: 'Sleeper',
       icon: '😴',
@@ -44,21 +59,6 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
         'Look at the URL: sleeper.app/leagues/[LEAGUE_ID]/team',
         'Copy the League ID (long number)',
         'Paste it below'
-      ]
-    },
-    {
-      id: 'nfl',
-      name: 'NFL Fantasy',
-      icon: '🏈',
-      color: 'bg-blue-600',
-      description: 'Connect your NFL.com league',
-      example: 'League ID: 123456',
-      status: 'demo',
-      instructions: [
-        'Go to your NFL Fantasy league',
-        'Look at the URL: fantasy.nfl.com/league/[LEAGUE_ID]',
-        'Copy the League ID (6-digit number)',
-        'Note: Currently shows demo data due to NFL API restrictions'
       ]
     }
   ]
@@ -129,17 +129,6 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
                       <CheckCircle className="w-5 h-5 text-success-400" />
                     )}
                   </div>
-                  
-                  {platform.status === 'demo' && (
-                    <div className="mt-3 p-2 bg-warning-600/20 border border-warning-600 rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <Info className="w-4 h-4 text-warning-400" />
-                        <span className="text-xs text-warning-400">
-                          Shows demo data - NFL API requires authentication
-                        </span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </Card>
             </motion.div>

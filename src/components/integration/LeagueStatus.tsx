@@ -124,9 +124,6 @@ export function LeagueStatus() {
                           <span className="text-xs text-gray-400 capitalize">
                             {connection.platform}
                           </span>
-                          {connection.platform === 'nfl' && (
-                            <Badge variant="warning" size="sm">Demo</Badge>
-                          )}
                         </div>
                       </div>
                     </div>

@@ -31,6 +31,17 @@ export function LeagueConnector({ onConnect }: LeagueConnectorProps) {
 
   const platforms = [
     {
+      id: 'nfl',
+      name: 'NFL Fantasy',
+      description: 'Connect to your NFL.com fantasy league',
+      icon: '🏈',
+      features: ['Live roster sync', 'Real-time scoring', 'Trade tracking', 'Waiver wire monitoring'],
+      instructions: 'Enter your NFL Fantasy League ID (found in league URL)',
+      placeholder: 'League ID (e.g., 123456)',
+      status: 'live',
+      color: 'from-blue-600 to-cyan-600'
+    },
+    {
       id: 'sleeper',
       name: 'Sleeper',
       description: 'Connect to your Sleeper fantasy league',
@@ -40,17 +51,6 @@ export function LeagueConnector({ onConnect }: LeagueConnectorProps) {
       placeholder: 'League ID (e.g., 789012345678901234)',
       status: 'live',
       color: 'from-purple-600 to-indigo-600'
-    },
-    {
-      id: 'nfl',
-      name: 'NFL Fantasy',
-      description: 'Connect to your NFL.com fantasy league',
-      icon: '🏈',
-      features: ['Demo data available', 'Player analysis', 'Trade insights', 'Draft assistance'],
-      instructions: 'Enter your NFL Fantasy League ID (found in league URL)',
-      placeholder: 'League ID (e.g., 123456)',
-      status: 'demo',
-      color: 'from-blue-600 to-cyan-600'
     }
   ]
 
@@ -158,17 +158,6 @@ export function LeagueConnector({ onConnect }: LeagueConnectorProps) {
                           </div>
                         ))}
                       </div>
-
-                      {platform.status === 'demo' && (
-                        <div className="mt-4 p-3 bg-warning-600/20 border border-warning-600 rounded-lg">
-                          <div className="flex items-center space-x-2">
-                            <Info className="w-4 h-4 text-warning-400" />
-                            <span className="text-xs text-warning-400">
-                              Shows demo data - NFL API requires authentication
-                            </span>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </CardContent>

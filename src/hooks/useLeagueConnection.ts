@@ -83,7 +83,7 @@ export function useLeagueConnection() {
         case 'nfl':
           try {
             leagueData = await nflFantasyAPI.getLeague(leagueId)
-            console.log('✅ NFL Fantasy league connected:', leagueData)
+            console.log('✅ NFL Fantasy league connected:', leagueData.name, `(${leagueData.status})`)
             
             connection = {
               platform: 'nfl',
@@ -98,16 +98,8 @@ export function useLeagueConnection() {
               connectionStatus: 'connected'
             }
           } catch (nflError) {
-            console.error('❌ NFL Fantasy connection failed:', nflError)
-            connection = {
-              ...initialConnection,
-              leagueName: 'NFL Fantasy League (Demo Mode)',
-              connected: true, // Still show as connected but in demo mode
-              teamCount: 12,
-              scoringType: 'ppr',
-              connectionStatus: 'connected',
-              errorMessage: 'Using demo data - NFL Fantasy requires authentication'
-            }
+            console.error('❌ NFL Fantasy connection failed completely:', nflError)
+            throw new Error(`Failed to connect to NFL Fantasy league: ${nflError}`)
           }
           break
 
