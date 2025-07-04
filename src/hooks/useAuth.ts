@@ -112,15 +112,8 @@ export function useAuth() {
   }
 
   const isPremium = () => {
-    if (!profile) return false
-    
-    if (profile.subscription_status === 'premium') return true
-    
-    if (profile.subscription_status === 'trial' && profile.subscription_end) {
-      return new Date(profile.subscription_end) > new Date()
-    }
-    
-    return false
+    // Everyone with code access has premium features
+    return true
   }
 
   return {

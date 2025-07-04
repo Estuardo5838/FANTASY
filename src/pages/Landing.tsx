@@ -23,7 +23,9 @@ import {
   Sparkles,
   Zap as ZapIcon,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  Key,
+  Gift
 } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
@@ -104,9 +106,9 @@ export function Landing() {
     'Draft assistant with AI',
     'Team management tools',
     'Market trend analysis',
-    'Real-time notifications',
-    'Premium support',
-    '7-day free trial'
+    'League integration',
+    'Injury tracking',
+    'Player comparison tools'
   ]
 
   const topDemoPlayers = players.slice(0, 6)
@@ -611,26 +613,29 @@ export function Landing() {
       </section>
 
       {/* Pricing Section */}
+      {/* Access Section */}
       <section className="py-20 bg-dark-800/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
-            Simple, Transparent Pricing
+            100% Free Access
           </h2>
           <p className="text-xl text-gray-300 mb-12">
-            Get access to all premium features for one low monthly price
+            Get full access to all features with any valid access code
           </p>
           
           <Card className="max-w-md mx-auto" gradient>
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-white mb-2">Premium</h3>
-              <div className="text-5xl font-bold text-white mb-2">
-                $20
-                <span className="text-lg text-gray-300">/month</span>
+              <div className="w-16 h-16 bg-gradient-to-br from-success-500 to-primary-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Gift className="w-8 h-8 text-white" />
               </div>
-              <p className="text-gray-300 mb-6">7-day free trial included</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Full Access</h3>
+              <div className="text-5xl font-bold gradient-text mb-2">
+                FREE
+              </div>
+              <p className="text-gray-300 mb-6">101 access codes available</p>
               
               <div className="space-y-3 mb-8">
-                {pricingFeatures.map((feature, index) => (
+                {pricingFeatures.slice(0, 6).map((feature, index) => (
                   <div key={index} className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-success-400 mr-3" />
                     <span className="text-white">{feature}</span>
@@ -638,11 +643,23 @@ export function Landing() {
                 ))}
               </div>
               
-              <Link to="/signup">
-                <Button size="lg" className="w-full">
-                  Start Free Trial
+              <div className="space-y-4">
+                <div className="glass-effect rounded-lg p-4">
+                  <h4 className="font-semibold text-white mb-2">Try These Codes:</h4>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    {['GLITCH2024', 'DRAGON101', 'CHAMPION23', 'WIZARD24'].map(code => (
+                      <Badge key={code} variant="success" className="font-mono">
+                        {code}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                
+                <Button size="lg" className="w-full" onClick={() => setShowDemo(true)}>
+                  <Key className="w-4 h-4 mr-2" />
+                  Get Access Code
                 </Button>
-              </Link>
+              </div>
             </div>
           </Card>
         </div>
@@ -655,14 +672,27 @@ export function Landing() {
             Ready to Win Your League?
           </h2>
           <p className="text-xl text-gray-300 mb-8">
-            Join thousands of fantasy managers who trust Fantasy Glitch for their competitive edge
+            Join thousands of fantasy managers using Fantasy Glitch with free access codes
           </p>
-          <Link to="/signup">
-            <Button size="lg">
-              Get Started Now
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </Link>
+          <div className="space-y-4">
+            <div className="glass-effect rounded-lg p-6 max-w-md mx-auto">
+              <h3 className="text-xl font-bold text-white mb-4">Get Your Access Code</h3>
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {['GLITCH2024', 'FANTASY101', 'CHAMPION23', 'ELITE101'].map(code => (
+                  <Badge key={code} variant="success" className="font-mono text-center py-2">
+                    {code}
+                  </Badge>
+                ))}
+              </div>
+              <p className="text-sm text-gray-400 mb-4">
+                Use any of these codes for instant full access
+              </p>
+              <Button size="lg" className="w-full" onClick={() => window.location.href = '/dashboard'}>
+                <Key className="w-4 h-4 mr-2" />
+                Enter Platform
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
 
