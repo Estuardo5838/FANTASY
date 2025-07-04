@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, Zap, User, LogOut, Settings } from 'lucide-react'
-import { useAuth } from '../../hooks/useAuth'
+import { useCodeAccess } from '../../hooks/useCodeAccess'
 import { Button } from '../ui/Button'
+import { AccessStatus } from '../auth/AccessStatus'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
-  const { user, profile, signOut, isPremium } = useAuth()
+  const { hasAccess } = useCodeAccess()
   const location = useLocation()
 
   const navigation = [
@@ -20,35 +21,6 @@ export function Header() {
   ]
 
   const isActive = (href: string) => location.pathname === href
-
-  const handleSignOut = async () => {
-    await signOut()
-    setIsProfileOpen(false)
-  }
-
-  if (!user) {
-    return (
-      <header className="bg-dark-900/95 backdrop-blur-lg border-b border-gray-800 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex items-center space-x-2">
-              <Zap className="w-8 h-8 text-primary-500" />
-              <span className="text-2xl font-bold gradient-text">Fantasy Glitch</span>
-            </Link>
-            
-            <div className="flex items-center space-x-4">
-              <Link to="/login">
-                <Button variant="ghost" size="sm">Sign In</Button>
-              </Link>
-              <Link to="/signup">
-                <Button size="sm">Get Started</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
-    )
-  }
 
   return (
     <header className="bg-dark-900/95 backdrop-blur-lg border-b border-gray-800 sticky top-0 z-50">
@@ -75,44 +47,9 @@ export function Header() {
 
           {/* User Menu */}
           <div className="flex items-center space-x-4">
-            {/* Premium Badge */}
-            {isPremium && (
-              <div className="hidden sm:block">
-                <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-3 py-1 rounded-full text-xs font-bold">
-                  PREMIUM
-                </span>
-              </div>
-            )}
-
-            {/* Profile Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <User className="w-6 h-6" />
-                <span className="hidden sm:block">{profile?.full_name || user.email}</span>
-              </button>
-
-              {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 glass-effect rounded-lg shadow-lg py-2 z-50">
-                  <Link
-                    to="/profile"
-                    className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-dark-700"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    <Settings className="w-4 h-4 mr-2" />
-                    Profile Settings
-                  </Link>
-                  <button
-                    onClick={handleSignOut}
-                    className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-dark-700"
-                  >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
-                  </button>
-                </div>
-              )}
+            {/* Access Status */}
+            <div className="hidden sm:block">
+              <AccessStatus />
             </div>
 
             {/* Mobile Menu Button */}

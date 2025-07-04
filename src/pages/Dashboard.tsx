@@ -1,7 +1,7 @@
 import React from 'react'
 import { TrendingUp, Users, Trophy, Target, Star, Activity } from 'lucide-react'
 import { usePlayerData } from '../hooks/usePlayerData'
-import { useAuth } from '../hooks/useAuth'
+import { useCodeAccess } from '../hooks/useCodeAccess'
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
@@ -25,7 +25,7 @@ export function Dashboard() {
     getReplacementSuggestions,
     refetch 
   } = usePlayerData()
-  const { profile, isPremium } = useAuth()
+  const { getStoredCode } = useCodeAccess()
   const [selectedInjuredPlayer, setSelectedInjuredPlayer] = React.useState<Player | null>(null)
   const [showReplacements, setShowReplacements] = React.useState(false)
 
@@ -111,16 +111,16 @@ export function Dashboard() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
         <div>
           <h1 className="text-3xl font-bold text-white">
-            Welcome back, {profile?.full_name || 'Fantasy Manager'}!
+            Welcome back, Fantasy Manager!
           </h1>
           <p className="text-gray-400 mt-2">
             Here's your fantasy football command center
           </p>
         </div>
-        {isPremium && (
+        {getStoredCode() && (
           <Badge variant="success" size="lg">
             <Star className="w-4 h-4 mr-2" />
-            Premium Member
+            Premium Access
           </Badge>
         )}
       </div>
