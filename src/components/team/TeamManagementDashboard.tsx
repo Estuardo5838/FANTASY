@@ -24,6 +24,9 @@ import { Badge } from '../ui/Badge'
 import { Input, Select } from '../ui/Input'
 import { PlayerStatsCard } from '../player/PlayerStatsCard'
 import { usePlayerData } from '../../hooks/usePlayerData'
+import { QuickConnect } from '../integration/QuickConnect'
+import { LeagueStatus } from '../integration/LeagueStatus'
+import { useLeagueConnection } from '../../hooks/useLeagueConnection'
 import type { Player } from '../../types'
 
 interface TeamManagementDashboardProps {
@@ -46,6 +49,8 @@ export function TeamManagementDashboard({ onConnectLeague }: TeamManagementDashb
   const [selectedWeek, setSelectedWeek] = useState(1)
   const [showWaiverWire, setShowWaiverWire] = useState(false)
   const [opportunities, setOpportunities] = useState<any[]>([])
+  const [showConnector, setShowConnector] = useState(false)
+  const { connections, isConnected } = useLeagueConnection()
 
   // Simulate team data
   useEffect(() => {
@@ -126,82 +131,34 @@ export function TeamManagementDashboard({ onConnectLeague }: TeamManagementDashb
 
   return (
     <div className="space-y-8">
-      {/* League Connection Status */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass-effect rounded-lg p-6 border border-primary-600"
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <motion.div
-                animate={{ rotate: leagueConnected ? 0 : 360 }}
-                transition={{ duration: 2, repeat: leagueConnected ? 0 : Infinity, ease: "linear" }}
+      {/* League Connection */}
+      {isConnected() ? (
+        <LeagueStatus />
+      ) : (
+        <Card className="border border-primary-600">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center">
+                <Zap className="w-5 h-5 mr-2 text-primary-400" />
+                Connect Your Fantasy League
+              </CardTitle>
+              <Button
+                variant="primary"
+                onClick={() => setShowConnector(!showConnector)}
+                className="flex items-center space-x-2"
               >
-                <Zap className={`w-6 h-6 ${leagueConnected ? 'text-success-400' : 'text-warning-400'}`} />
-              </motion.div>
-              <div>
-                <h3 className="text-lg font-bold text-white">
-                  {leagueConnected ? 'League Connected' : 'Connect Your League'}
-                </h3>
-                <p className="text-gray-400 text-sm">
-                  {leagueConnected 
-                    ? 'Synced with "The Best" league • Last updated 2 min ago'
-                    : 'Connect to NFL Fantasy, Sleeper, or ESPN for real-time data'
-                  }
-                </p>
-              </div>
-            </div>
-            
-            {leagueConnected && (
-              <Badge variant="success" className="flex items-center space-x-1">
-                <CheckCircle className="w-3 h-3" />
-                <span>Live Sync</span>
-              </Badge>
-            )}
-          </div>
-          
-          <div className="flex items-center space-x-3">
-            {!leagueConnected ? (
-              <div className="flex space-x-2">
-                <Button 
-                  variant="secondary" 
-                  size="sm"
-                  onClick={() => setLeagueConnected(true)}
-                  className="flex items-center space-x-2"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  <span>NFL Fantasy</span>
-                </Button>
-                <Button 
-                  variant="secondary" 
-                  size="sm"
-                  onClick={() => setLeagueConnected(true)}
-                  className="flex items-center space-x-2"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  <span>Sleeper</span>
-                </Button>
-                <Button 
-                  variant="primary" 
-                  size="sm"
-                  onClick={() => setLeagueConnected(true)}
-                  className="flex items-center space-x-2"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Connect League</span>
-                </Button>
-              </div>
-            ) : (
-              <Button variant="ghost" size="sm" className="flex items-center space-x-2">
-                <RefreshCw className="w-4 h-4" />
-                <span>Sync Now</span>
+                <Plus className="w-4 h-4" />
+                <span>Connect Now</span>
               </Button>
-            )}
-          </div>
-        </div>
-      </motion.div>
+            </div>
+          </CardHeader>
+          {showConnector && (
+            <CardContent>
+              <QuickConnect onSuccess={() => setShowConnector(false)} />
+            </CardContent>
+          )}
+        </Card>
+      )}
 
       {/* Team Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

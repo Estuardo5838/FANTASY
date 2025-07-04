@@ -401,7 +401,7 @@ export function Landing() {
               >
                 <h4 className="font-bold text-white mb-4">My Team (4/15)</h4>
                 <div className="space-y-3">
-                  {demoTeam.map((player, index) => (
+                  {players.slice(0, 3).map((player, index) => (
                     <motion.div
                       key={player.name}
                       initial={{ y: 20, opacity: 0 }}
