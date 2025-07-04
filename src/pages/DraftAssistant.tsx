@@ -7,6 +7,7 @@ import { Select } from '../components/ui/Input'
 import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
 import { DataStatus } from '../components/ui/DataStatus'
+import { DataSourceInfo } from '../components/analytics/DataSourceInfo'
 import { PlayerCard } from '../components/player/PlayerCard'
 import type { Player, DraftRecommendation } from '../types'
 
@@ -19,7 +20,8 @@ export function DraftAssistant() {
     getAvailablePlayers, 
     getInjuredPlayers, 
     isPlayerInjured,
-    refetch 
+    refetch,
+    dataSource
   } = usePlayerData()
   const [currentPick, setCurrentPick] = useState(1)
   const [draftedPlayers, setDraftedPlayers] = useState<string[]>([])
@@ -189,13 +191,13 @@ export function DraftAssistant() {
   return (
     <div className="space-y-8">
       {/* Data Status */}
-      <DataStatus
+      <DataSourceInfo
+        dataSource={dataSource}
+        lastUpdated={lastUpdated}
         loading={loading}
         error={error}
-        lastUpdated={lastUpdated}
-        onRefresh={refetch}
         totalPlayers={players.length}
-        injuredCount={injuredPlayers.length}
+        onRefresh={refetch}
       />
 
       {/* Header */}

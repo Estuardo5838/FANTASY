@@ -1,5 +1,5 @@
 import React from 'react'
-import { RefreshCw, AlertCircle, CheckCircle, Clock, Github } from 'lucide-react'
+import { RefreshCw, AlertCircle, CheckCircle, Clock, Github, Database, Zap } from 'lucide-react'
 import { Button } from './Button'
 import { Badge } from './Badge'
 
@@ -106,11 +106,9 @@ export function DataStatus({
       {error && (
         <div className="mt-3 p-3 bg-error-600/20 border border-error-600 rounded-lg">
           <p className="text-error-400 text-sm">{error}</p>
-          {!error.includes('demo') && (
-            <p className="text-gray-400 text-xs mt-1">
-              Repository: https://github.com/Estuardo5838/FANTASY
-            </p>
-          )}
+          <p className="text-gray-400 text-xs mt-1">
+            Repository: https://github.com/Estuardo5838/FANTASY
+          </p>
         </div>
       )}
     </div>

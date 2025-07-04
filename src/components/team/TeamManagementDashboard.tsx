@@ -23,7 +23,7 @@ import { Button } from '../ui/Button'
 import { Badge } from '../ui/Badge'
 import { Input, Select } from '../ui/Input'
 import { PlayerStatsCard } from '../player/PlayerStatsCard'
-import { usePlayerData } from '../../hooks/usePlayerData'
+import { useGitHubData } from '../../hooks/useGitHubData'
 import { QuickConnect } from '../integration/QuickConnect'
 import { LeagueStatus } from '../integration/LeagueStatus'
 import { useLeagueConnection } from '../../hooks/useLeagueConnection'
@@ -41,7 +41,7 @@ export function TeamManagementDashboard() {
     getInjuredPlayers, 
     isPlayerInjured,
     getReplacementSuggestions 
-  } = usePlayerData()
+  } = useGitHubData()
   
   const [myTeam, setMyTeam] = useState<Player[]>([])
   const [teamName, setTeamName] = useState('My Fantasy Team')

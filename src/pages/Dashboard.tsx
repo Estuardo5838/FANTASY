@@ -8,6 +8,7 @@ import { InjuryAlert } from '../components/player/InjuryAlert'
 import { ReplacementSuggestions } from '../components/player/ReplacementSuggestions'
 import { FantasyPointsChart } from '../components/charts/FantasyPointsChart'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
+import { DataSourceInfo } from '../components/analytics/DataSourceInfo'
 import { formatNumber } from '../lib/utils'
 import type { Player } from '../types'
 
@@ -20,7 +21,8 @@ export function Dashboard() {
     getInjuredPlayers, 
     getAvailablePlayers,
     getReplacementSuggestions,
-    refetch 
+    refetch,
+    dataSource
   } = usePlayerData()
   const [selectedInjuredPlayer, setSelectedInjuredPlayer] = React.useState<Player | null>(null)
   const [showReplacements, setShowReplacements] = React.useState(false)
@@ -84,14 +86,14 @@ export function Dashboard() {
 
   return (
     <div className="space-y-8">
-      {/* Data Status */}
-      <DataStatus
+      {/* GitHub Data Source Info */}
+      <DataSourceInfo
+        dataSource={dataSource}
+        lastUpdated={lastUpdated}
         loading={loading}
         error={error}
-        lastUpdated={lastUpdated}
-        onRefresh={refetch}
         totalPlayers={players.length}
-        injuredCount={injuredPlayers.length}
+        onRefresh={refetch}
       />
 
       {/* Injury Alert */}

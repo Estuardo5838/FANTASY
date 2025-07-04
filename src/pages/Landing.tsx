@@ -9,6 +9,7 @@ import {
   Lock,
   Unlock,
   ArrowRight,
+  Github,
   BarChart3,
   Users,
   Trophy,
@@ -211,9 +212,13 @@ export function Landing() {
                       {totalCodes} codes available • All provide full access
                     </p>
                   </div>
+                  <p className="text-xs text-gray-400 mb-3">
+                    All codes provide identical full access
+                  </p>
                 </div>
-              </Card>
-            </div>
+                <p className="text-xs text-gray-500 text-center mt-4">
+                  <Github className="w-3 h-3 inline mr-1" />
+                  Connected to: <span className="text-primary-400">github.com/Estuardo5838/FANTASY</span>
           </motion.div>
         </div>
       </div>

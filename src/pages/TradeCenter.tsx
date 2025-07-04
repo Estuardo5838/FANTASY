@@ -7,6 +7,7 @@ import { Select } from '../components/ui/Input'
 import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
 import { DataStatus } from '../components/ui/DataStatus'
+import { DataSourceInfo } from '../components/analytics/DataSourceInfo'
 import { PlayerCard } from '../components/player/PlayerCard'
 
 export function TradeCenter() {
@@ -18,7 +19,8 @@ export function TradeCenter() {
     getAvailablePlayers, 
     getInjuredPlayers, 
     isPlayerInjured,
-    refetch 
+    refetch,
+    dataSource
   } = usePlayerData()
   const [selectedPlayer1, setSelectedPlayer1] = useState<Player | null>(null)
   const [selectedPlayer2, setSelectedPlayer2] = useState<Player | null>(null)
@@ -156,13 +158,13 @@ export function TradeCenter() {
   return (
     <div className="space-y-8">
       {/* Data Status */}
-      <DataStatus
+      <DataSourceInfo
+        dataSource={dataSource}
+        lastUpdated={lastUpdated}
         loading={loading}
         error={error}
-        lastUpdated={lastUpdated}
-        onRefresh={refetch}
         totalPlayers={players.length}
-        injuredCount={injuredPlayers.length}
+        onRefresh={refetch}
       />
 
       {/* Header */}

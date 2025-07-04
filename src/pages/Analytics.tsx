@@ -26,6 +26,7 @@ import { PositionDistributionChart } from '../components/charts/PositionDistribu
 import { SeasonComparisonChart } from '../components/charts/SeasonComparisonChart'
 import { AdvancedFilters } from '../components/analytics/AdvancedFilters'
 import { PlayerStatsCard } from '../components/player/PlayerStatsCard'
+import { DataSourceInfo } from '../components/analytics/DataSourceInfo'
 import type { Player } from '../types'
 
 export function Analytics() {
@@ -37,7 +38,8 @@ export function Analytics() {
     getAvailablePlayers, 
     getInjuredPlayers,
     isPlayerInjured,
-    refetch 
+    refetch,
+    dataSource
   } = usePlayerData()
 
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([])
@@ -181,13 +183,13 @@ export function Analytics() {
       </motion.div>
 
       {/* Data Status */}
-      <DataStatus
+      <DataSourceInfo
+        dataSource={dataSource}
+        lastUpdated={lastUpdated}
         loading={loading}
         error={error}
-        lastUpdated={lastUpdated}
-        onRefresh={refetch}
         totalPlayers={players.length}
-        injuredCount={injuredPlayers.length}
+        onRefresh={refetch}
       />
 
       {/* Advanced Filters */}

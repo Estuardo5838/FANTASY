@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
 import { DataStatus } from '../components/ui/DataStatus'
+import { DataSourceInfo } from '../components/analytics/DataSourceInfo'
 import { PlayerStatsCard } from '../components/player/PlayerStatsCard'
 import { PlayerSearch } from '../components/player/PlayerSearch'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
@@ -19,7 +20,8 @@ export function Players() {
     getAvailablePlayers, 
     getInjuredPlayers, 
     isPlayerInjured,
-    refetch 
+    refetch,
+    dataSource
   } = usePlayerData()
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([])
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
@@ -83,13 +85,13 @@ export function Players() {
       </div>
 
       {/* Data Status */}
-      <DataStatus
+      <DataSourceInfo
+        dataSource={dataSource}
+        lastUpdated={lastUpdated}
         loading={loading}
         error={error}
-        lastUpdated={lastUpdated}
-        onRefresh={refetch}
         totalPlayers={players.length}
-        injuredCount={injuredPlayers.length}
+        onRefresh={refetch}
       />
 
       {/* Search and Filters */}
