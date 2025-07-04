@@ -10,7 +10,16 @@ import { PlayerCard } from '../components/player/PlayerCard'
 import type { Player, TradeAnalysis } from '../types'
 
 export function TradeCenter() {
-  const { players, loading } = usePlayerData()
+  const { 
+    players, 
+    loading, 
+    error, 
+    lastUpdated, 
+    getAvailablePlayers, 
+    getInjuredPlayers, 
+    isPlayerInjured,
+    refetch 
+  } = usePlayerData()
   const [selectedPlayer1, setSelectedPlayer1] = useState<Player | null>(null)
   const [selectedPlayer2, setSelectedPlayer2] = useState<Player | null>(null)
   const [tradeAnalysis, setTradeAnalysis] = useState<TradeAnalysis | null>(null)
@@ -73,6 +82,22 @@ export function TradeCenter() {
     if (player1.position !== player2.position) {
       reasoning.push(`Consider positional needs: ${player1.position} vs ${player2.position}`)
     }
+    
+    // Injury status
+    const player1Injured = isPlayerInjured(player1.name)
+    const player2Injured = isPlayerInjured(player2.name)
+    
+    if (player1Injured && !player2Injured) {
+      reasoning.push(`⚠️ ${player1.name} is currently injured - high risk trade`)
+      confidence -= 20
+      recommendation = 'decline'
+    } else if (!player1Injured && player2Injured) {
+      reasoning.push(`✅ ${player2.name} is injured - potential buy-low opportunity`)
+      confidence += 10
+    } else if (player1Injured && player2Injured) {
+      reasoning.push(`⚠️ Both players are currently injured`)
+      confidence -= 10
+    }
 
     // Overall recommendation
     const totalAdvantage = valueDiff + (pointsDiff * 0.1) + (volatilityDiff * 50)
@@ -121,12 +146,25 @@ export function TradeCenter() {
     }
   }
 
+  const availablePlayers = getAvailablePlayers()
+  const injuredPlayers = getInjuredPlayers()
+  
   const topPlayers = players
     .sort((a, b) => b.total_fantasy_points - a.total_fantasy_points)
     .slice(0, 20)
 
   return (
     <div className="space-y-8">
+      {/* Data Status */}
+      <DataStatus
+        loading={loading}
+        error={error}
+        lastUpdated={lastUpdated}
+        onRefresh={refetch}
+        totalPlayers={players.length}
+        injuredCount={injuredPlayers.length}
+      />
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
         <div>
@@ -173,8 +211,14 @@ export function TradeCenter() {
                 >
                   <option value="">Choose player...</option>
                   {topPlayers.map(player => (
-                    <option key={player.name} value={player.name}>
-                      {player.name} ({player.position})
+                    <option 
+                      key={player.name} 
+                      value={player.name}
+                      style={{ 
+                        color: isPlayerInjured(player.name) ? '#ef4444' : 'inherit' 
+                      }}
+                    >
+                      {player.name} ({player.position}) {isPlayerInjured(player.name) ? '🤕' : ''}
                     </option>
                   ))}
                 </Select>
@@ -278,8 +322,14 @@ export function TradeCenter() {
                 >
                   <option value="">Choose player...</option>
                   {topPlayers.map(player => (
-                    <option key={player.name} value={player.name}>
-                      {player.name} ({player.position})
+                    <option 
+                      key={player.name} 
+                      value={player.name}
+                      style={{ 
+                        color: isPlayerInjured(player.name) ? '#ef4444' : 'inherit' 
+                      }}
+                    >
+                      {player.name} ({player.position}) {isPlayerInjured(player.name) ? '🤕' : ''}
                     </option>
                   ))}
                 </Select>
@@ -292,11 +342,11 @@ export function TradeCenter() {
       {/* Trade Suggestions */}
       <Card>
         <CardHeader>
-          <CardTitle>Trending Trade Targets</CardTitle>
+          <CardTitle>Trending Trade Targets (Available Players)</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {players
+            {availablePlayers
               .sort((a, b) => b.predicted_value - a.predicted_value)
               .slice(0, 8)
               .map((player) => (

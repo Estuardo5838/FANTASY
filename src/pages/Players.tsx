@@ -9,9 +9,19 @@ import { PositionDistributionChart } from '../components/charts/PositionDistribu
 import type { Player } from '../types'
 
 export function Players() {
-  const { players, loading } = usePlayerData()
+  const { 
+    players, 
+    loading, 
+    error, 
+    lastUpdated, 
+    getAvailablePlayers, 
+    getInjuredPlayers, 
+    isPlayerInjured,
+    refetch 
+  } = usePlayerData()
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([])
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
+  const [showInjuredOnly, setShowInjuredOnly] = useState(false)
 
   if (loading) {
     return (
@@ -31,7 +41,11 @@ export function Players() {
     )
   }
 
-  const displayedPlayers = filteredPlayers.length > 0 ? filteredPlayers : players
+  const availablePlayers = getAvailablePlayers()
+  const injuredPlayers = getInjuredPlayers()
+  
+  const basePlayerList = showInjuredOnly ? injuredPlayers : players
+  const displayedPlayers = filteredPlayers.length > 0 ? filteredPlayers : basePlayerList
 
   return (
     <div className="space-y-8">
@@ -46,12 +60,39 @@ export function Players() {
         <div className="flex items-center space-x-2 text-gray-400">
           <BarChart3 className="w-5 h-5" />
           <span>Advanced Analytics</span>
+          <div className="flex items-center space-x-2 ml-4">
+            <button
+              onClick={() => setShowInjuredOnly(!showInjuredOnly)}
+              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                showInjuredOnly 
+                  ? 'bg-error-600 text-white' 
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              {showInjuredOnly ? 'Showing Injured' : 'Show Injured Only'}
+            </button>
+            {injuredPlayers.length > 0 && (
+              <Badge variant="error" size="sm">
+                {injuredPlayers.length} injured
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
 
+      {/* Data Status */}
+      <DataStatus
+        loading={loading}
+        error={error}
+        lastUpdated={lastUpdated}
+        onRefresh={refetch}
+        totalPlayers={players.length}
+        injuredCount={injuredPlayers.length}
+      />
+
       {/* Search and Filters */}
       <PlayerSearch 
-        players={players} 
+        players={basePlayerList} 
         onFilteredPlayersChange={setFilteredPlayers}
       />
 
@@ -81,7 +122,10 @@ export function Players() {
               <div className="flex justify-between items-center">
                 <span className="text-gray-400">Avg Fantasy Points</span>
                 <span className="font-bold text-white">
-                  {(displayedPlayers.reduce((sum, p) => sum + p.total_fantasy_points, 0) / displayedPlayers.length).toFixed(1)}
+                  {displayedPlayers.length > 0 
+                    ? (displayedPlayers.reduce((sum, p) => sum + p.total_fantasy_points, 0) / displayedPlayers.length).toFixed(1)
+                    : '0.0'
+                  }
                 </span>
               </div>
               <div className="flex justify-between items-center">
@@ -104,11 +148,19 @@ export function Players() {
       {/* Player Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {displayedPlayers.map((player) => (
-          <PlayerCard
-            key={player.name}
-            player={player}
-            onClick={() => setSelectedPlayer(player)}
-          />
+          <div key={player.name} className="relative">
+            <PlayerCard
+              player={player}
+              onClick={() => setSelectedPlayer(player)}
+            />
+            {isPlayerInjured(player.name) && (
+              <div className="absolute top-2 right-2">
+                <Badge variant="error" size="sm">
+                  Injured
+                </Badge>
+              </div>
+            )}
+          </div>
         ))}
       </div>
 
@@ -173,6 +225,13 @@ export function Players() {
                       </div>
                       <div className="text-sm text-gray-400">Volatility</div>
                     </div>
+                    {isPlayerInjured(selectedPlayer.name) && (
+                      <div className="text-center">
+                        <Badge variant="error" size="lg">
+                          INJURED
+                        </Badge>
+                      </div>
+                    )}
                   </div>
 
                   {/* Detailed Stats */}

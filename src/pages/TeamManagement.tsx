@@ -10,11 +10,22 @@ import { PlayerCard } from '../components/player/PlayerCard'
 import type { Player } from '../types'
 
 export function TeamManagement() {
-  const { players, loading } = usePlayerData()
+  const { 
+    players, 
+    loading, 
+    error, 
+    lastUpdated, 
+    getAvailablePlayers, 
+    getInjuredPlayers, 
+    isPlayerInjured,
+    getReplacementSuggestions,
+    refetch 
+  } = usePlayerData()
   const [myRoster, setMyRoster] = useState<Player[]>([])
   const [teamName, setTeamName] = useState('My Fantasy Team')
   const [selectedPosition, setSelectedPosition] = useState('')
   const [showAddPlayer, setShowAddPlayer] = useState(false)
+  const [showInjuryAlert, setShowInjuryAlert] = useState(false)
 
   if (loading) {
     return (
@@ -37,6 +48,10 @@ export function TeamManagement() {
 
   const removePlayerFromRoster = (playerName: string) => {
     setMyRoster(myRoster.filter(p => p.name !== playerName))
+  }
+  
+  const getInjuredRosterPlayers = () => {
+    return myRoster.filter(player => isPlayerInjured(player.name))
   }
 
   const getPositionPlayers = (position: string) => {
@@ -68,7 +83,10 @@ export function TeamManagement() {
     return lineup
   }
 
-  const availablePlayers = players.filter(p => !myRoster.find(r => r.name === p.name))
+  const availablePlayers = getAvailablePlayers().filter(p => !myRoster.find(r => r.name === p.name))
+  const injuredPlayers = getInjuredPlayers()
+  const injuredRosterPlayers = getInjuredRosterPlayers()
+  
   const filteredAvailable = selectedPosition 
     ? availablePlayers.filter(p => p.position === selectedPosition)
     : availablePlayers
@@ -79,6 +97,27 @@ export function TeamManagement() {
 
   return (
     <div className="space-y-8">
+      {/* Data Status */}
+      <DataStatus
+        loading={loading}
+        error={error}
+        lastUpdated={lastUpdated}
+        onRefresh={refetch}
+        totalPlayers={players.length}
+        injuredCount={injuredPlayers.length}
+      />
+
+      {/* Injury Alert for Roster */}
+      {injuredRosterPlayers.length > 0 && (
+        <InjuryAlert
+          injuredPlayers={injuredRosterPlayers}
+          onViewReplacements={(player) => {
+            // Auto-suggest replacements for injured roster players
+            console.log('Finding replacements for injured roster player:', player.name)
+          }}
+        />
+      )}
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
         <div>
@@ -208,7 +247,12 @@ export function TeamManagement() {
                     .map((player) => (
                       <div key={player.name} className="flex items-center justify-between glass-effect rounded-lg p-3">
                         <div className="flex-1">
-                          <div className="font-semibold text-white">{player.name}</div>
+                          <div className="flex items-center space-x-2">
+                            <span className="font-semibold text-white">{player.name}</span>
+                            {isPlayerInjured(player.name) && (
+                              <Badge variant="error" size="sm">Injured</Badge>
+                            )}
+                          </div>
                           <div className="text-sm text-gray-400">{player.team}</div>
                           <div className="text-sm text-primary-400">
                             {player.total_fantasy_points.toFixed(1)} pts
@@ -284,6 +328,11 @@ export function TeamManagement() {
                           onClick={() => addPlayerToRoster(player)}
                           showDetails={false}
                         />
+                        {isPlayerInjured(player.name) && (
+                          <div className="absolute top-2 right-2">
+                            <Badge variant="error" size="sm">Injured</Badge>
+                          </div>
+                        )}
                       </div>
                     ))}
                 </div>
@@ -323,6 +372,16 @@ export function TeamManagement() {
             <div>
               <h4 className="font-semibold text-white mb-4">Areas for Improvement</h4>
               <div className="space-y-2">
+                {/* Show injured players first */}
+                {injuredRosterPlayers.map(player => (
+                  <div key={`injured-${player.name}`} className="flex items-center space-x-2">
+                    <Badge variant="error" size="sm">INJURED</Badge>
+                    <span className="text-sm text-gray-300">
+                      {player.name} ({player.position}) needs replacement
+                    </span>
+                  </div>
+                ))}
+                
                 {positions.map(position => {
                   const posPlayers = getPositionPlayers(position)
                   const avgPoints = posPlayers.reduce((sum, p) => sum + p.avg_fantasy_points, 0) / (posPlayers.length || 1)

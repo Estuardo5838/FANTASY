@@ -1,60 +1,110 @@
 import { useState, useEffect } from 'react'
 import type { Player } from '../types'
 
+const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main'
+
 export function usePlayerData() {
   const [players, setPlayers] = useState<Player[]>([])
+  const [injuredPlayers, setInjuredPlayers] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
   useEffect(() => {
-    loadPlayerData()
+    loadAllData()
+    
+    // Set up polling for updates every 5 minutes
+    const interval = setInterval(loadAllData, 5 * 60 * 1000)
+    return () => clearInterval(interval)
   }, [])
 
-  const loadPlayerData = async () => {
+  const loadAllData = async () => {
     try {
       setLoading(true)
       setError(null)
 
-      // Try to load from trade value CSV first
-      const tradeValueResponse = await fetch('/player_trade_value.csv')
-      if (tradeValueResponse.ok) {
-        const csvText = await tradeValueResponse.text()
-        const parsedPlayers = parseCSV(csvText)
-        setPlayers(parsedPlayers)
-        setLoading(false)
-        return
-      }
+      // Load player data and injury data in parallel
+      const [playerData, injuryData] = await Promise.all([
+        loadPlayerDataFromGitHub(),
+        loadInjuryDataFromGitHub()
+      ])
 
-      // Fallback to mock data if CSV not available
-      const mockPlayers = generateMockPlayers()
-      setPlayers(mockPlayers)
-      setLoading(false)
+      setPlayers(playerData)
+      setInjuredPlayers(injuryData)
+      setLastUpdated(new Date())
     } catch (err) {
-      console.error('Error loading player data:', err)
-      setError('Failed to load player data')
-      
-      // Use mock data as fallback
-      const mockPlayers = generateMockPlayers()
-      setPlayers(mockPlayers)
+      console.error('Error loading data:', err)
+      setError('Failed to load data from GitHub')
+      setPlayers([])
+      setInjuredPlayers([])
+    } finally {
       setLoading(false)
     }
   }
 
-  const parseCSV = (csvText: string): Player[] => {
-    const lines = csvText.split('\n')
-    const headers = lines[0].split(',').map(h => h.trim())
+  const loadPlayerDataFromGitHub = async (): Promise<Player[]> => {
+    try {
+      // Try to load trade value CSV first (most complete data)
+      const tradeValueResponse = await fetch(`${GITHUB_RAW_BASE}/player_trade_value.csv`)
+      if (tradeValueResponse.ok) {
+        const csvText = await tradeValueResponse.text()
+        return parsePlayerCSV(csvText)
+      }
+
+      // Fallback to season files
+      const seasonFiles = ['player_2024.csv', 'player_2023.csv']
+      for (const file of seasonFiles) {
+        try {
+          const response = await fetch(`${GITHUB_RAW_BASE}/${file}`)
+          if (response.ok) {
+            const csvText = await response.text()
+            return parsePlayerCSV(csvText)
+          }
+        } catch (err) {
+          console.warn(`Failed to load ${file}:`, err)
+        }
+      }
+
+      throw new Error('No player data files found')
+    } catch (err) {
+      throw new Error(`Failed to load player data: ${err}`)
+    }
+  }
+
+  const loadInjuryDataFromGitHub = async (): Promise<string[]> => {
+    try {
+      const response = await fetch(`${GITHUB_RAW_BASE}/injured.csv`)
+      if (!response.ok) {
+        console.warn('No injury data found')
+        return []
+      }
+
+      const csvText = await response.text()
+      return parseInjuryCSV(csvText)
+    } catch (err) {
+      console.warn('Failed to load injury data:', err)
+      return []
+    }
+  }
+
+  const parsePlayerCSV = (csvText: string): Player[] => {
+    const lines = csvText.split('\n').filter(line => line.trim())
+    if (lines.length === 0) return []
+
+    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''))
     
     return lines.slice(1)
-      .filter(line => line.trim())
       .map(line => {
-        const values = line.split(',').map(v => v.trim())
+        const values = parseCSVLine(line)
         const player: any = {}
         
         headers.forEach((header, index) => {
-          const value = values[index]
-          if (value && value !== 'undefined' && value !== 'null') {
+          const value = values[index]?.replace(/"/g, '').trim()
+          if (value && value !== 'undefined' && value !== 'null' && value !== '') {
             // Convert numeric fields
             if (['total_fantasy_points', 'avg_fantasy_points', 'volatility', 'predicted_value', 'games_played', 'season'].includes(header)) {
+              player[header] = parseFloat(value) || 0
+            } else if (header.includes('_sum') || header.includes('_td') || header.includes('_int') || header.includes('_yds')) {
               player[header] = parseFloat(value) || 0
             } else {
               player[header] = value
@@ -64,55 +114,74 @@ export function usePlayerData() {
         
         return player as Player
       })
-      .filter(player => player.name && player.position)
+      .filter(player => player.name && player.position && player.team)
   }
 
-  const generateMockPlayers = (): Player[] => {
-    const positions = ['QB', 'RB', 'WR', 'TE']
-    const teams = ['KC', 'BUF', 'CIN', 'DAL', 'SF', 'PHI', 'MIA', 'LAC']
-    const names = [
-      'Patrick Mahomes', 'Josh Allen', 'Joe Burrow', 'Dak Prescott',
-      'Christian McCaffrey', 'Austin Ekeler', 'Derrick Henry', 'Nick Chubb',
-      'Cooper Kupp', 'Davante Adams', 'Tyreek Hill', 'Stefon Diggs',
-      'Travis Kelce', 'Mark Andrews', 'George Kittle', 'T.J. Hockenson'
-    ]
+  const parseInjuryCSV = (csvText: string): string[] => {
+    const lines = csvText.split('\n').filter(line => line.trim())
+    if (lines.length === 0) return []
 
-    return names.map((name, index) => ({
-      name,
-      team: teams[index % teams.length],
-      position: positions[index % positions.length],
-      total_fantasy_points: Math.random() * 300 + 150,
-      avg_fantasy_points: Math.random() * 20 + 10,
-      volatility: Math.random() * 0.3 + 0.1,
-      predicted_value: Math.random() * 100 + 50,
-      games_played: Math.floor(Math.random() * 17) + 1,
-      season: 2024,
-      stat_type: 'offense' as const,
-      passing_yds_sum: positions[index % positions.length] === 'QB' ? Math.random() * 4000 + 2000 : 0,
-      passing_td_sum: positions[index % positions.length] === 'QB' ? Math.random() * 30 + 15 : 0,
-      rushing_yds_sum: ['RB', 'QB'].includes(positions[index % positions.length]) ? Math.random() * 1500 + 500 : 0,
-      rushing_td_sum: ['RB', 'QB'].includes(positions[index % positions.length]) ? Math.random() * 15 + 5 : 0,
-      receiving_yds_sum: ['WR', 'TE', 'RB'].includes(positions[index % positions.length]) ? Math.random() * 1200 + 400 : 0,
-      receiving_td_sum: ['WR', 'TE', 'RB'].includes(positions[index % positions.length]) ? Math.random() * 12 + 3 : 0,
-      receiving_rec_sum: ['WR', 'TE', 'RB'].includes(positions[index % positions.length]) ? Math.random() * 80 + 20 : 0,
-    }))
+    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''))
+    const nameIndex = headers.findIndex(h => h.toLowerCase().includes('name') || h.toLowerCase().includes('player'))
+    
+    if (nameIndex === -1) return []
+
+    return lines.slice(1)
+      .map(line => {
+        const values = parseCSVLine(line)
+        return values[nameIndex]?.replace(/"/g, '').trim()
+      })
+      .filter(name => name && name !== '')
   }
 
-  const getPlayersByPosition = (position: string) => {
-    return players.filter(player => player.position === position)
+  const parseCSVLine = (line: string): string[] => {
+    const result = []
+    let current = ''
+    let inQuotes = false
+    
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i]
+      
+      if (char === '"') {
+        inQuotes = !inQuotes
+      } else if (char === ',' && !inQuotes) {
+        result.push(current)
+        current = ''
+      } else {
+        current += char
+      }
+    }
+    
+    result.push(current)
+    return result
   }
 
-  const getTopPlayers = (limit: number = 10) => {
-    return [...players]
+  const getAvailablePlayers = () => {
+    return players.filter(player => !injuredPlayers.includes(player.name))
+  }
+
+  const getInjuredPlayers = () => {
+    return players.filter(player => injuredPlayers.includes(player.name))
+  }
+
+  const getPlayersByPosition = (position: string, includeInjured: boolean = true) => {
+    const filteredPlayers = includeInjured ? players : getAvailablePlayers()
+    return filteredPlayers.filter(player => player.position === position)
+  }
+
+  const getTopPlayers = (limit: number = 10, includeInjured: boolean = true) => {
+    const filteredPlayers = includeInjured ? players : getAvailablePlayers()
+    return [...filteredPlayers]
       .sort((a, b) => b.total_fantasy_points - a.total_fantasy_points)
       .slice(0, limit)
   }
 
-  const searchPlayers = (query: string) => {
-    if (!query.trim()) return players
+  const searchPlayers = (query: string, includeInjured: boolean = true) => {
+    if (!query.trim()) return includeInjured ? players : getAvailablePlayers()
     
+    const filteredPlayers = includeInjured ? players : getAvailablePlayers()
     const lowercaseQuery = query.toLowerCase()
-    return players.filter(player =>
+    return filteredPlayers.filter(player =>
       player.name.toLowerCase().includes(lowercaseQuery) ||
       player.team.toLowerCase().includes(lowercaseQuery) ||
       player.position.toLowerCase().includes(lowercaseQuery)
@@ -123,14 +192,37 @@ export function usePlayerData() {
     return players.find(player => player.name === name)
   }
 
+  const isPlayerInjured = (playerName: string) => {
+    return injuredPlayers.includes(playerName)
+  }
+
+  const getReplacementSuggestions = (injuredPlayerName: string) => {
+    const injuredPlayer = getPlayerByName(injuredPlayerName)
+    if (!injuredPlayer) return []
+
+    return getAvailablePlayers()
+      .filter(player => 
+        player.position === injuredPlayer.position &&
+        player.name !== injuredPlayerName
+      )
+      .sort((a, b) => b.predicted_value - a.predicted_value)
+      .slice(0, 5)
+  }
+
   return {
     players,
+    injuredPlayers,
     loading,
     error,
+    lastUpdated,
+    getAvailablePlayers,
+    getInjuredPlayers,
     getPlayersByPosition,
     getTopPlayers,
     searchPlayers,
     getPlayerByName,
-    refetch: loadPlayerData,
+    isPlayerInjured,
+    getReplacementSuggestions,
+    refetch: loadAllData,
   }
 }

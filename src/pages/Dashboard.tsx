@@ -5,14 +5,29 @@ import { useAuth } from '../hooks/useAuth'
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner, SkeletonCard } from '../components/ui/LoadingSpinner'
+import { DataStatus } from '../components/ui/DataStatus'
+import { InjuryAlert } from '../components/player/InjuryAlert'
+import { ReplacementSuggestions } from '../components/player/ReplacementSuggestions'
 import { FantasyPointsChart } from '../components/charts/FantasyPointsChart'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
 import { PlayerCard } from '../components/player/PlayerCard'
 import { formatNumber } from '../lib/utils'
+import type { Player } from '../types'
 
 export function Dashboard() {
-  const { players, loading } = usePlayerData()
+  const { 
+    players, 
+    loading, 
+    error, 
+    lastUpdated, 
+    getInjuredPlayers, 
+    getAvailablePlayers,
+    getReplacementSuggestions,
+    refetch 
+  } = usePlayerData()
   const { profile, isPremium } = useAuth()
+  const [selectedInjuredPlayer, setSelectedInjuredPlayer] = React.useState<Player | null>(null)
+  const [showReplacements, setShowReplacements] = React.useState(false)
 
   if (loading) {
     return (
@@ -31,34 +46,67 @@ export function Dashboard() {
     )
   }
 
-  const topPlayers = players
+  const availablePlayers = getAvailablePlayers()
+  const injuredPlayers = getInjuredPlayers()
+  
+  const topPlayers = availablePlayers
     .sort((a, b) => b.total_fantasy_points - a.total_fantasy_points)
     .slice(0, 5)
 
-  const topQBs = players
+  const topQBs = availablePlayers
     .filter(p => p.position === 'QB')
     .sort((a, b) => b.total_fantasy_points - a.total_fantasy_points)
     .slice(0, 3)
 
-  const topRBs = players
+  const topRBs = availablePlayers
     .filter(p => p.position === 'RB')
     .sort((a, b) => b.total_fantasy_points - a.total_fantasy_points)
     .slice(0, 3)
 
-  const topWRs = players
+  const topWRs = availablePlayers
     .filter(p => p.position === 'WR')
     .sort((a, b) => b.total_fantasy_points - a.total_fantasy_points)
     .slice(0, 3)
 
   const stats = {
-    totalPlayers: players.length,
-    avgPoints: players.reduce((sum, p) => sum + p.total_fantasy_points, 0) / players.length,
+    totalPlayers: availablePlayers.length,
+    avgPoints: availablePlayers.reduce((sum, p) => sum + p.total_fantasy_points, 0) / (availablePlayers.length || 1),
     topPerformer: topPlayers[0],
-    positions: [...new Set(players.map(p => p.position))].length
+    positions: [...new Set(availablePlayers.map(p => p.position))].length
+  }
+
+  const handleViewReplacements = (player: Player) => {
+    setSelectedInjuredPlayer(player)
+    setShowReplacements(true)
+  }
+
+  const handleSelectReplacement = (replacement: Player) => {
+    // Here you could implement logic to add the replacement to user's team
+    console.log('Selected replacement:', replacement.name, 'for', selectedInjuredPlayer?.name)
+    setShowReplacements(false)
+    setSelectedInjuredPlayer(null)
   }
 
   return (
     <div className="space-y-8">
+      {/* Data Status */}
+      <DataStatus
+        loading={loading}
+        error={error}
+        lastUpdated={lastUpdated}
+        onRefresh={refetch}
+        totalPlayers={players.length}
+        injuredCount={injuredPlayers.length}
+      />
+
+      {/* Injury Alert */}
+      {injuredPlayers.length > 0 && (
+        <InjuryAlert
+          injuredPlayers={injuredPlayers}
+          onViewReplacements={handleViewReplacements}
+        />
+      )}
+
       {/* Welcome Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
         <div>
@@ -297,6 +345,19 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Replacement Suggestions Modal */}
+      {showReplacements && selectedInjuredPlayer && (
+        <ReplacementSuggestions
+          injuredPlayer={selectedInjuredPlayer}
+          suggestions={getReplacementSuggestions(selectedInjuredPlayer.name)}
+          onSelectReplacement={handleSelectReplacement}
+          onClose={() => {
+            setShowReplacements(false)
+            setSelectedInjuredPlayer(null)
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -10,7 +10,16 @@ import { PlayerCard } from '../components/player/PlayerCard'
 import type { Player, DraftRecommendation } from '../types'
 
 export function DraftAssistant() {
-  const { players, loading } = usePlayerData()
+  const { 
+    players, 
+    loading, 
+    error, 
+    lastUpdated, 
+    getAvailablePlayers, 
+    getInjuredPlayers, 
+    isPlayerInjured,
+    refetch 
+  } = usePlayerData()
   const [currentPick, setCurrentPick] = useState(1)
   const [draftedPlayers, setDraftedPlayers] = useState<string[]>([])
   const [teamSize, setTeamSize] = useState(12)
@@ -29,7 +38,9 @@ export function DraftAssistant() {
     )
   }
 
-  const availablePlayers = players.filter(p => !draftedPlayers.includes(p.name))
+  const healthyPlayers = getAvailablePlayers()
+  const injuredPlayers = getInjuredPlayers()
+  const availablePlayers = healthyPlayers.filter(p => !draftedPlayers.includes(p.name))
 
   const generateDraftRecommendations = (): DraftRecommendation[] => {
     const positionNeeds = getPositionNeeds()
@@ -54,10 +65,17 @@ export function DraftAssistant() {
         const tier = getTier(player, position)
         
         const reasoning = generateReasoning(player, positionNeeds, tier, positionRank)
+        
+        // Adjust value for injury status
+        let adjustedValue = value
+        if (isPlayerInjured(player.name)) {
+          adjustedValue *= 0.5 // Heavily penalize injured players
+          reasoning.push(`⚠️ Currently injured - high risk pick`)
+        }
 
         recommendations.push({
           player,
-          value,
+          value: adjustedValue,
           tier,
           position_rank: positionRank,
           overall_rank: overallRank,
@@ -169,6 +187,16 @@ export function DraftAssistant() {
 
   return (
     <div className="space-y-8">
+      {/* Data Status */}
+      <DataStatus
+        loading={loading}
+        error={error}
+        lastUpdated={lastUpdated}
+        onRefresh={refetch}
+        totalPlayers={players.length}
+        injuredCount={injuredPlayers.length}
+      />
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
         <div>
@@ -374,9 +402,16 @@ export function DraftAssistant() {
                     .sort((a, b) => b.total_fantasy_points - a.total_fantasy_points)
                     .slice(0, 5)
                     .map((player, index) => (
-                      <div key={player.name} className="glass-effect rounded-lg p-3">
+                      <div key={player.name} className={`glass-effect rounded-lg p-3 ${
+                        isPlayerInjured(player.name) ? 'border border-error-600' : ''
+                      }`}>
                         <div className="flex items-center justify-between mb-2">
-                          <span className="font-medium text-white">{player.name}</span>
+                          <div className="flex items-center space-x-2">
+                            <span className="font-medium text-white">{player.name}</span>
+                            {isPlayerInjured(player.name) && (
+                              <Badge variant="error" size="sm">Injured</Badge>
+                            )}
+                          </div>
                           <span className="text-xs text-gray-400">#{index + 1}</span>
                         </div>
                         <div className="flex justify-between text-sm">
