@@ -219,6 +219,9 @@ export function Landing() {
                 <p className="text-xs text-gray-500 text-center mt-4">
                   <Github className="w-3 h-3 inline mr-1" />
                   Connected to: <span className="text-primary-400">github.com/Estuardo5838/FANTASY</span>
+                </p>
+              </Card>
+            </div>
           </motion.div>
         </div>
       </div>
