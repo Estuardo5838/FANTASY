@@ -9,7 +9,6 @@ import { PlayerCard } from '../components/player/PlayerCard'
 import { PlayerSearch } from '../components/player/PlayerSearch'
 import { PositionDistributionChart } from '../components/charts/PositionDistributionChart'
 import type { Player } from '../types'
-import React from 'react'
 
 export function Players() {
   const { 
