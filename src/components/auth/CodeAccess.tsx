@@ -19,7 +19,7 @@ import { useCodeAccess } from '../../hooks/useCodeAccess'
 export function CodeAccess() {
   const [code, setCode] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { submitCode, error } = useCodeAccess()
+  const { submitCode, error, totalCodes } = useCodeAccess()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -74,10 +74,10 @@ export function CodeAccess() {
               <div className="text-center mb-6">
                 <div className="flex items-center justify-center space-x-2 mb-3">
                   <Gift className="w-5 h-5 text-primary-400" />
-                  <span className="text-primary-400 font-semibold">100% FREE ACCESS</span>
+                  <span className="text-primary-400 font-semibold">100% FREE • {totalCodes} CODES</span>
                 </div>
                 <p className="text-sm text-gray-300">
-                  No subscription required • Full premium features included
+                  Any valid code unlocks all features • No tiers or restrictions
                 </p>
               </div>
 
@@ -106,7 +106,7 @@ export function CodeAccess() {
                 
                 <div className="text-center">
                   <p className="text-xs text-gray-500">
-                    Access codes are case-insensitive and contain letters/numbers only
+                    All {totalCodes} codes provide identical full access • Case-insensitive
                   </p>
                 </div>
               </div>
@@ -171,7 +171,7 @@ export function CodeAccess() {
           className="text-center"
         >
           <p className="text-xs text-gray-500">
-            Don't have an access code? Contact us for exclusive access to Fantasy Glitch
+            Try: GLITCH2024, DRAGON101, CHAMPION23, or any of the {totalCodes} valid codes
           </p>
         </motion.div>
       </div>

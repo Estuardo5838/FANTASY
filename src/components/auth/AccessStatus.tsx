@@ -76,9 +76,9 @@ export function AccessStatus() {
                   
                   <div className="flex items-center justify-between">
                     <span className="text-gray-400 text-sm">Plan:</span>
-                    <Badge variant="warning" className="flex items-center space-x-1">
+                    <Badge variant="success" className="flex items-center space-x-1">
                       <Gift className="w-3 h-3" />
-                      <span>100% Free</span>
+                      <span>Full Access</span>
                     </Badge>
                   </div>
                 </div>
@@ -92,7 +92,7 @@ export function AccessStatus() {
                       'Draft Assistant',
                       'Team Management',
                       'League Integration',
-                      'Real-time Data'
+                      'All Premium Features'
                     ].map((feature, index) => (
                       <div key={index} className="flex items-center space-x-2">
                         <Sparkles className="w-3 h-3 text-primary-400" />
