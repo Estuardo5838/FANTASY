@@ -3,9 +3,15 @@ import { motion } from 'framer-motion'
 import { Zap, Users, Trophy } from 'lucide-react'
 import { TeamManagementDashboard } from '../components/team/TeamManagementDashboard'
 import { useLeagueConnection } from '../hooks/useLeagueConnection'
+import { LeagueConnector } from '../components/integration/LeagueConnector'
 
 export function TeamManagement() {
-  const { isConnected } = useLeagueConnection()
+  const { isConnected, connectLeague } = useLeagueConnection()
+  
+  const handleConnectLeague = async (platform: string, leagueId: string) => {
+    console.log(`🔗 Team Management connecting to ${platform} league: ${leagueId}`)
+    await connectLeague(platform, leagueId)
+  }
 
   return (
     <div className="space-y-8">
@@ -39,7 +45,13 @@ export function TeamManagement() {
         </div>
       </motion.div>
 
-      <TeamManagementDashboard />
+      {isConnected() ? (
+        <TeamManagementDashboard />
+      ) : (
+        <div className="max-w-4xl mx-auto">
+          <LeagueConnector onConnect={handleConnectLeague} />
+        </div>
+      )}
     </div>
   )
 }

@@ -66,37 +66,38 @@ class NFLFantasyAPI {
   private backupProxy = 'https://cors-anywhere.herokuapp.com/'
   
   async getLeague(leagueId: string): Promise<NFLLeague> {
-    console.log(`🏈 Connecting to NFL Fantasy League: ${leagueId}`)
+    console.log(`🏈 Attempting NFL Fantasy API connection for league: ${leagueId}`)
     
     try {
       // Try multiple connection methods
       const league = await this.tryMultipleConnections(leagueId)
-      console.log('✅ NFL Fantasy league connected successfully:', league.name)
+      console.log('✅ NFL Fantasy API connection successful:', league.name, `(${league.status})`)
       return league
     } catch (error) {
-      console.warn('⚠️ NFL API connection failed, using enhanced live demo mode')
+      console.warn('⚠️ All NFL API connection methods failed, using enhanced demo mode')
       return this.getEnhancedLiveLeague(leagueId)
     }
   }
 
   private async tryMultipleConnections(leagueId: string): Promise<NFLLeague> {
     const connectionMethods = [
-      () => this.directAPICall(leagueId),
-      () => this.proxyAPICall(leagueId),
-      () => this.alternativeAPICall(leagueId),
-      () => this.scrapingAPICall(leagueId)
+      { name: 'Direct API', method: () => this.directAPICall(leagueId) },
+      { name: 'Proxy API', method: () => this.proxyAPICall(leagueId) },
+      { name: 'Alternative API', method: () => this.alternativeAPICall(leagueId) },
+      { name: 'Web Scraping', method: () => this.scrapingAPICall(leagueId) }
     ]
 
-    for (const method of connectionMethods) {
+    for (const { name, method } of connectionMethods) {
       try {
+        console.log(`🔄 Trying ${name} connection...`)
         const result = await method()
         if (result) return result
       } catch (error) {
-        console.log('Connection method failed, trying next...')
+        console.log(`❌ ${name} failed, trying next method...`)
       }
     }
 
-    throw new Error('All connection methods failed')
+    throw new Error('All NFL Fantasy connection methods failed')
   }
 
   private async directAPICall(leagueId: string): Promise<NFLLeague> {

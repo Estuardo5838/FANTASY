@@ -44,10 +44,10 @@ class SleeperAPI {
 
   async getLeague(leagueId: string): Promise<SleeperLeague> {
     try {
-      console.log(`😴 Fetching Sleeper league: ${leagueId}`)
+      console.log(`😴 Making API call to Sleeper for league: ${leagueId}`)
       
       const response = await axios.get(`${this.baseURL}/league/${leagueId}`)
-      console.log('✅ Sleeper league data received:', response.data)
+      console.log('✅ Sleeper API response received successfully')
       
       return {
         league_id: response.data.league_id,
@@ -65,8 +65,16 @@ class SleeperAPI {
         throw new Error(`League ${leagueId} not found. Please check the League ID.`)
       }
       
+      if (axios.isAxiosError(error) && error.response?.status === 429) {
+        throw new Error('Rate limit exceeded. Please try again in a moment.')
+      }
+      
+      if (axios.isAxiosError(error) && !error.response) {
+        throw new Error('Network error. Please check your connection.')
+      }
+      
       // Fallback to enhanced mock data
-      console.log('⚠️ Using enhanced mock data for Sleeper...')
+      console.log('⚠️ API failed, using enhanced demo data for Sleeper...')
       return this.getEnhancedMockLeague(leagueId)
     }
   }

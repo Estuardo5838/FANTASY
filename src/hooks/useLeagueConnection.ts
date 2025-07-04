@@ -55,6 +55,8 @@ export function useLeagueConnection() {
   const connectLeague = async (platform: string, leagueId: string, teamId?: string) => {
     setLoading(true)
     setError(null)
+    
+    console.log(`🚀 Starting connection process for ${platform} league: ${leagueId}`)
 
     // Create initial connection object
     const initialConnection: LeagueConnection = {
@@ -77,7 +79,7 @@ export function useLeagueConnection() {
       let leagueData: any
       let connection: LeagueConnection
 
-      console.log(`🔗 Connecting to ${platform} league: ${leagueId}`)
+      console.log(`🔗 Fetching league data from ${platform} API...`)
 
       switch (platform) {
         case 'nfl':
@@ -104,9 +106,10 @@ export function useLeagueConnection() {
           break
 
         case 'sleeper':
+          console.log('😴 Connecting to Sleeper API...')
           try {
             leagueData = await sleeperAPI.getLeague(leagueId)
-            console.log('✅ Sleeper league connected:', leagueData)
+            console.log('✅ Sleeper league data received:', leagueData.name)
             
             connection = {
               platform: 'sleeper',
@@ -131,14 +134,15 @@ export function useLeagueConnection() {
       }
 
       // Sync initial data
+      console.log('🔄 Syncing initial league data...')
       await syncLeagueData(connection)
 
       setConnections(prev => [...prev.filter(c => c.leagueId !== leagueId), connection])
       
-      console.log(`🎉 Successfully connected to ${platform} league: ${connection.leagueName}`)
+      console.log(`🎉 Successfully connected and synced ${platform} league: ${connection.leagueName}`)
       return connection
     } catch (err) {
-      console.error('❌ League connection failed:', err)
+      console.error('❌ League connection process failed:', err)
       const errorMessage = err instanceof Error ? err.message : 'Failed to connect league'
       setError(errorMessage)
       
@@ -158,9 +162,10 @@ export function useLeagueConnection() {
   const syncLeagueData = async (connection: LeagueConnection) => {
     setSyncing(true)
     setError(null)
+    
+    console.log(`🔄 Starting data sync for ${connection.platform} league...`)
 
     try {
-      console.log(`🔄 Syncing data for ${connection.platform} league: ${connection.leagueName}`)
       let updatedConnection = { ...connection }
 
       switch (connection.platform) {
@@ -184,7 +189,7 @@ export function useLeagueConnection() {
             console.log('✅ NFL Fantasy data synced successfully')
           } catch (nflSyncError) {
             console.warn('⚠️ NFL Fantasy sync partially failed, using available data:', nflSyncError)
-            updatedConnection.errorMessage = 'Some data unavailable - using demo mode'
+            updatedConnection.errorMessage = 'Partial sync - some data in demo mode'
           }
           break
 
@@ -215,8 +220,8 @@ export function useLeagueConnection() {
             
             console.log('✅ Sleeper data synced successfully')
           } catch (sleeperSyncError) {
-            console.error('❌ Sleeper sync failed:', sleeperSyncError)
-            throw sleeperSyncError
+            console.warn('⚠️ Sleeper sync partially failed:', sleeperSyncError)
+            updatedConnection.errorMessage = 'Partial sync - some data unavailable'
           }
           break
       }
@@ -227,7 +232,7 @@ export function useLeagueConnection() {
 
       return updatedConnection
     } catch (err) {
-      console.error('❌ Sync failed:', err)
+      console.error('❌ Data sync failed:', err)
       const errorMessage = err instanceof Error ? err.message : 'Failed to sync league data'
       setError(errorMessage)
       

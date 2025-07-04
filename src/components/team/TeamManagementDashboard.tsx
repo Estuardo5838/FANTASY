@@ -30,10 +30,10 @@ import { useLeagueConnection } from '../../hooks/useLeagueConnection'
 import type { Player } from '../../types'
 
 interface TeamManagementDashboardProps {
-  onConnectLeague?: () => void
+  // Remove unused prop
 }
 
-export function TeamManagementDashboard({ onConnectLeague }: TeamManagementDashboardProps) {
+export function TeamManagementDashboard() {
   const { 
     players, 
     loading, 
@@ -135,29 +135,13 @@ export function TeamManagementDashboard({ onConnectLeague }: TeamManagementDashb
       {isConnected() ? (
         <LeagueStatus />
       ) : (
-        <Card className="border border-primary-600">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center">
-                <Zap className="w-5 h-5 mr-2 text-primary-400" />
-                Connect Your Fantasy League
-              </CardTitle>
-              <Button
-                variant="primary"
-                onClick={() => setShowConnector(!showConnector)}
-                className="flex items-center space-x-2"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Connect Now</span>
-              </Button>
-            </div>
-          </CardHeader>
-          {showConnector && (
-            <CardContent>
-              <QuickConnect onSuccess={() => setShowConnector(false)} />
-            </CardContent>
-          )}
-        </Card>
+        <div className="text-center py-12">
+          <Zap className="w-16 h-16 text-primary-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-white mb-2">No Leagues Connected</h2>
+          <p className="text-gray-400 mb-6">
+            Connect your fantasy league to access team management features
+          </p>
+        </div>
       )}
 
       {/* Team Overview Stats */}

@@ -57,14 +57,20 @@ export function LeagueConnector({ onConnect }: LeagueConnectorProps) {
   const handleConnect = async () => {
     if (!selectedPlatform || !leagueId) return
     
+    console.log(`🎯 User initiated connection: ${selectedPlatform} league ${leagueId}`)
     setConnecting(true)
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setConnected(true)
-    setConnecting(false)
-    onConnect(selectedPlatform, leagueId)
+    try {
+      // Call the actual connection function
+      await onConnect(selectedPlatform, leagueId)
+      console.log('✅ Connection completed successfully')
+      setConnected(true)
+    } catch (error) {
+      console.error('❌ Connection failed:', error)
+      // Error will be shown by the parent component
+    } finally {
+      setConnecting(false)
+    }
   }
 
   if (connected) {

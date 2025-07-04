@@ -67,10 +67,13 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
     if (!selectedPlatform || !leagueId) return
 
     try {
+      console.log(`🔗 Attempting to connect ${selectedPlatform} league: ${leagueId}`)
       await connectLeague(selectedPlatform, leagueId, teamId || undefined)
+      console.log('✅ Connection successful!')
       onSuccess?.()
     } catch (err) {
-      // Error is handled by the hook
+      console.error('❌ Connection failed:', err)
+      // Error is handled by the hook and displayed in UI
     }
   }
 
@@ -254,12 +257,12 @@ export function QuickConnect({ onSuccess }: QuickConnectProps) {
               {loading ? (
                 <>
                   <Loader className="w-4 h-4 mr-2 animate-spin" />
-                  Connecting...
+                  Connecting to {selectedPlatformData?.name}...
                 </>
               ) : (
                 <>
                   <Zap className="w-4 h-4 mr-2" />
-                  Connect League
+                  Connect {selectedPlatformData?.name} League
                 </>
               )}
             </Button>
